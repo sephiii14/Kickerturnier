@@ -116,6 +116,46 @@
   .logo-preview{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;
                 padding:24px;background:#020914dd}
   .logo-preview[hidden]{display:none}
+  [data-match]{cursor:pointer}
+  .match-details-button{border:1px solid var(--line);border-radius:8px;background:#07152866;color:inherit;padding:8px 12px;font:inherit;cursor:pointer}
+  .match-details-button small{display:block;color:var(--accent);font-size:11px;font-weight:600;margin-top:4px}
+  .match-details-button:hover,.match-details-button:focus-visible{border-color:var(--accent);background:#1f8bff18}
+  .story-modal{width:min(1000px,calc(100% - 24px));max-height:90vh;padding:0;color:var(--txt);background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:auto;box-shadow:0 24px 80px #0009}
+  .story-modal::backdrop{background:#020914cc}
+  .story-summary{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;text-align:center}
+  .story-team{min-width:0;font-weight:700}
+  .story-team img{display:block;width:64px;height:64px;object-fit:contain;margin:0 auto 8px}
+  .story-score{font-size:36px;font-weight:800;color:var(--gold);white-space:nowrap}
+  .story-score small{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+  .story-meta,.story-hint{color:var(--muted);font-size:12px;text-align:center}
+  .story-legend{display:flex;justify-content:space-between;gap:12px;margin-top:24px;font-size:12px;font-weight:600}
+  .story-home{color:#72bdff}.story-away{color:#72e5b3}
+  .story-scroll{overflow-x:auto;scroll-snap-type:x proximity;padding:0 8px;overscroll-behavior-x:contain}
+  .story-track{display:flex;position:relative;width:max-content;min-width:100%;height:250px;align-items:center;padding:0 16px}
+  .story-track::before{content:"";position:absolute;left:16px;right:16px;top:124px;height:2px;background:linear-gradient(90deg,#72bdff,#72e5b3)}
+  .story-goal{position:relative;flex:0 0 78px;height:250px;padding:0;border:0;background:none;color:#72bdff;font:inherit;cursor:pointer;scroll-snap-align:center}
+  .story-goal.away{color:#72e5b3}
+  .story-goal::before{content:"";position:absolute;left:50%;top:76px;height:49px;border-left:1px solid currentColor;opacity:.5}
+  .story-goal.away::before{top:125px}
+  .story-ball{position:absolute;top:57px;left:calc(50% - 18px);display:grid;place-items:center;width:36px;height:36px;border:2px solid currentColor;border-radius:50%;background:#102c4e;font-size:20px;transition:transform .15s,box-shadow .15s}
+  .story-goal.away .story-ball{top:157px}
+  .story-goal-score{position:absolute;top:28px;left:0;right:0;font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
+  .story-goal.away .story-goal-score{top:199px}
+  .story-scorer{position:absolute;top:4px;left:0;right:0;color:var(--txt);font-size:12px;opacity:0;transition:opacity .15s}
+  .story-goal.away .story-scorer{top:225px}
+  .story-number{position:absolute;top:115px;left:calc(50% - 10px);width:20px;background:var(--card);font-size:10px;color:var(--muted)}
+  .story-goal:hover .story-scorer,.story-goal:focus-visible .story-scorer,.story-goal[aria-pressed="true"] .story-scorer{opacity:1}
+  .story-goal:hover .story-ball,.story-goal[aria-pressed="true"] .story-ball{transform:scale(1.14);box-shadow:0 0 18px #ffffff25}
+  .story-goal:focus-visible{outline:2px solid var(--accent);outline-offset:-3px;border-radius:8px}
+  .story-goal.winner{color:var(--gold)}
+  .story-goal.winner .story-ball{width:42px;height:42px;margin:-3px}
+  .story-selection{padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:#07152866;min-height:60px}
+  .story-selection strong{color:var(--gold);margin-right:12px}
+  .story-selection span{color:var(--muted);font-size:12px}
+  .story-scorers{display:flex;flex-wrap:wrap;gap:8px}
+  .story-scorers div{padding:8px 12px;border-radius:8px;background:#102c4e;font-size:13px}
+  .story-scorers b{margin-left:10px;color:var(--gold)}
+  @media(max-width:560px){.story-summary{gap:8px;font-size:12px}.story-score{font-size:28px}.story-team img{width:48px;height:48px}.story-legend{font-size:10px}.story-modal .detail-body{padding:16px 12px}}
   .logo-preview img{width:min(680px,90vw);height:min(680px,85vh);object-fit:contain;
                     border-radius:12px;background:#ffffff14;cursor:zoom-out}
   @media(max-width:560px){.detail-stats{grid-template-columns:repeat(3,1fr)}.detail-modal{max-height:94vh}.prediction{white-space:normal}}
@@ -258,6 +298,14 @@
 
 <footer>Ergebnisse im &lt;script&gt;-Block dieser Datei pflegen.</footer>
 
+<dialog class="story-modal" id="match-story" aria-labelledby="story-title">
+  <div class="detail-head">
+    <div><h3 id="story-title">Match Story</h3><div class="players">Tor für Tor zum Endstand</div></div>
+    <button class="detail-close" id="story-close" type="button" aria-label="Spieldetails schließen" autofocus>&times;</button>
+  </div>
+  <div class="detail-body" id="story-body"></div>
+</dialog>
+
 <script>
 /* =========================================================================
    1) TEAMS  –  logo = Dateiname im selben Ordner; fehlt die Datei => default.png
@@ -284,9 +332,9 @@ const SPIELE = [
   { tag:"Mittwoch",   datum:"07.10.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"Merge Conflict",                      t1:6, t2:10, gespielt:true  },
   { tag:"Donnerstag", datum:"08.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Sgladschdglei",                       t1:10, t2:6,  gespielt:true },
   { tag:"Dienstag",   datum:"13.10.2026 12:30", phase:"Gruppe A", a:"Tomvoll Attack",  b:"Hopfentornado",                       t1:3, t2:10,  gespielt:true },
-   { tag:"Mittwoch",  datum:"14.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Ministerium für geheime Tätigkeiten", t1:10, t2:0,  gespielt:true },
-  { tag:"DOnnerstag", datum:"15.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Aus Versehen",                        t1:10, t2:2,  gespielt:true },
-  { tag:"Dienstag",   datum:"20.10.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"Hopfentornado",                       t1:9, t2:10,  gespielt:true },
+  { tag:"Mittwoch",	  datum:"14.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Ministerium für geheime Tätigkeiten", t1:10, t2:0,  gespielt:true },
+  { tag:"Donnerstag", datum:"15.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Aus Versehen",                        t1:10, t2:2,  gespielt:true },
+  { tag:"Dienstag",   datum:"20.10.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"Hopfentornado",                      t1:9, t2:10,  gespielt:true },
   { tag:"Mittwoch",   datum:"21.10.2026 12:30", phase:"Gruppe A", a:"RosaSee",         b:"Tomvoll Attack",                      t1:0, t2:0,  gespielt:false },
   { tag:"Donnerstag", datum:"22.10.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"Tomvoll Attack",                      t1:0, t2:0,  gespielt:false },
   { tag:"Dienstag",   datum:"27.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
@@ -316,6 +364,16 @@ const KO = {
 /* ======================= ab hier nichts mehr ändern ====================== */
 
 const DEFAULT_LOGO = "default.png";
+// Chronologische Tore: Seite a = Fußballhörnchen, Seite b = Hopfentornado.
+const MATCH_STORIES = [{
+  datum:"20.10.2026 12:30", a:"Fußballhörnchen", b:"Hopfentornado",
+  goals:[
+    ["a","Tobi"],["b","Viktor"],["a","Micha"],["b","Andreas"],["b","Viktor"],
+    ["a","Tobi"],["b","Andreas"],["b","Viktor"],["b","Viktor"],["a","Tobi"],
+    ["a","Tobi"],["a","Micha"],["b","Viktor"],["a","Tobi"],["b","Andreas"],
+    ["a","Tobi"],["b","Viktor"],["a","Tobi"],["b","Viktor"]
+  ]
+}];
 // Spielplan-CSV enthielt Soft Hyphens in Teamnamen - daher beim Abgleich entfernen
 const norm = s => (s||"").replace(/\u00ad/g,"").trim().toLowerCase();
 const byName = new Map(TEAMS.map(t => [norm(t.name), t]));
@@ -325,6 +383,65 @@ const esc = s => String(s).replace(/[&<>"']/g, c =>
 function logoSrc(name){
   const t = byName.get(norm(name));
   return t && t.logo ? t.logo : DEFAULT_LOGO;
+}
+function matchStory(spiel){
+  return MATCH_STORIES.find(story => story.datum === spiel.datum &&
+    norm(story.a) === norm(spiel.a) && norm(story.b) === norm(spiel.b));
+}
+
+function openMatchStory(index){
+  const spiel = SPIELE[index];
+  const story = spiel && matchStory(spiel);
+  if (!story) return;
+  let a = 0, b = 0;
+  const scorers = new Map();
+  const goals = story.goals.map(([side, scorer], i) => {
+    if (side === "a") a++; else b++;
+    const key = side + ":" + scorer;
+    const entry = scorers.get(key) || {side, scorer, goals:0};
+    entry.goals++;
+    scorers.set(key, entry);
+    return {side, scorer, a, b, number:i+1};
+  });
+  const finalGoal = goals[goals.length-1];
+  const winningSide = spiel.t1 > spiel.t2 ? "a" : spiel.t2 > spiel.t1 ? "b" : null;
+  const isWinningGoal = goal => goal === finalGoal && goal.side === winningSide &&
+    goal.a === spiel.t1 && goal.b === spiel.t2;
+  const dialog = document.getElementById("match-story");
+  document.getElementById("story-body").innerHTML = `
+    <div class="story-summary">
+      <div class="story-team">${logoImg(spiel.a)}${esc(spiel.a)}</div>
+      <div class="story-score">${spiel.t1} : ${spiel.t2}<small>Endstand</small></div>
+      <div class="story-team">${logoImg(spiel.b)}${esc(spiel.b)}</div>
+    </div>
+    <p class="story-meta">${esc(spiel.tag)} · ${esc(spiel.datum)} · ${esc(spiel.phase)}</p>
+    <div class="story-legend"><span class="story-home">↑ ${esc(spiel.a)}</span><span class="story-away">${esc(spiel.b)} ↓</span></div>
+    <p class="story-hint">Torfolge ohne Zeitangaben · Seitlich scrollen · Ball antippen für Details</p>
+    <div class="story-scroll" role="region" aria-label="Horizontaler Torverlauf">
+      <div class="story-track">${goals.map((goal,i) => `
+        <button type="button" class="story-goal ${goal.side === "b" ? "away" : ""} ${isWinningGoal(goal) ? "winner" : ""}"
+          data-goal="${i}" aria-pressed="${i === 0}" aria-label="${goal.number}. Tor: ${esc(goal.scorer)}, ${goal.a} zu ${goal.b}${isWinningGoal(goal) ? ", Siegtor" : ""}">
+          <span class="story-scorer">${esc(goal.scorer)}</span><span class="story-goal-score">${goal.a}:${goal.b}</span>
+          <span class="story-ball" aria-hidden="true">⚽</span><span class="story-number" aria-hidden="true">${goal.number}</span>
+        </button>`).join("")}</div>
+    </div>
+    <div class="story-selection" id="story-selection" aria-live="polite"></div>
+    <h4>Torschützen</h4>
+    <div class="story-scorers">${[...scorers.values()].sort((x,y) => y.goals-x.goals).map(entry =>
+      `<div class="${entry.side === "a" ? "story-home" : "story-away"}">${esc(entry.scorer)}<b>${entry.goals}</b></div>`).join("")}</div>`;
+  const selectGoal = index => {
+    const goal = goals[index];
+    document.querySelectorAll("[data-goal]").forEach(button => {
+      button.setAttribute("aria-pressed", Number(button.dataset.goal) === index ? "true" : "false");
+    });
+    document.getElementById("story-selection").innerHTML = `<strong>${goal.a} : ${goal.b}</strong>
+      ${esc(goal.scorer)} <span>· ${esc(goal.side === "a" ? spiel.a : spiel.b)} · ${goal.number}. Tor${isWinningGoal(goal) ? " · Siegtor!" : ""}</span>`;
+  };
+  document.querySelectorAll("[data-goal]").forEach(button => {
+    button.addEventListener("click", () => selectGoal(Number(button.dataset.goal)));
+  });
+  selectGoal(0);
+  dialog.showModal();
 }
 function logoImg(name){
   return `<img src="${esc(logoSrc(name))}" alt="" loading="lazy"
@@ -559,11 +676,13 @@ function renderMatchday(heute = new Date()){
     const players = details ? `<div class="players">${esc(details.p1)} &amp; ${esc(details.p2)}</div>` : "";
     return `<button class="matchday-team" type="button" data-team="${esc(name)}">${logoImg(name)}<div><span class="team-name">${esc(name)}</span>${players}</div></button>`;
   };
-  document.getElementById("matchday").innerHTML = `<div class="matchday-card">
+  const storyIndex = matchStory(spiel) ? SPIELE.indexOf(spiel) : -1;
+  const score = spiel.gespielt ? `${spiel.t1} : ${spiel.t2}` : "– : –";
+  document.getElementById("matchday").innerHTML = `<div class="matchday-card" ${storyIndex >= 0 ? `data-match="${storyIndex}"` : ""}>
     <div class="matchday-meta">${esc(spiel.tag)} · ${esc(spiel.datum)} · ${esc(spiel.phase)}</div>
     <div class="matchday-game">
       ${team(spiel.a)}
-      <div class="matchday-score"><strong>${spiel.gespielt ? `${spiel.t1} : ${spiel.t2}` : "– : –"}</strong>${prognose}</div>
+      <div class="matchday-score">${storyIndex >= 0 ? `<button class="match-details-button" type="button" data-match="${storyIndex}" aria-label="Spieldetails ${esc(spiel.a)} gegen ${esc(spiel.b)}"><strong>${score}</strong><small>Match Story ansehen ↗</small></button>` : `<strong>${score}</strong>`}${prognose}</div>
       ${team(spiel.b)}
     </div>
   </div>`;
@@ -646,9 +765,10 @@ function renderSpielplan(){
   const all = alleSpiele();
 
   document.getElementById("spielplan").innerHTML = all.map(m => {
+    const storyIndex = matchStory(m) ? SPIELE.indexOf(m) : -1;
     const cls = (x,y) => m.gespielt ? (x > y ? "win" : x < y ? "lose" : "") : "";
     const prediction = !m.gespielt && byName.has(norm(m.a)) && byName.has(norm(m.b)) ? prognoseMarkup(m.a,m.b) : "";
-    return `<tr class="${m.gespielt ? "" : "open"}">
+    return `<tr class="${m.gespielt ? "" : "open"}" ${storyIndex >= 0 ? `data-match="${storyIndex}"` : ""}>
       <td><strong>${esc(m.tag)}</strong><br><span class="players">${esc(m.datum)}</span></td>
       <td><span class="tag ${m.isKo ? "ko" : ""}">${esc(m.phase)}</span></td>
       <td><div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
@@ -656,7 +776,7 @@ function renderSpielplan(){
             <span style="color:var(--muted)">vs.</span>
             <span class="${cls(m.t2,m.t1)}">${teamCell(m.b,false)}</span>
           </div></td>
-      <td class="sc">${m.gespielt ? m.t1 + " : " + m.t2 : "– : –"}${prediction}</td>
+      <td class="sc">${storyIndex >= 0 ? `<button class="match-details-button" type="button" data-match="${storyIndex}" aria-label="Spieldetails ${esc(m.a)} gegen ${esc(m.b)}">${m.t1} : ${m.t2}<small>Match Story ↗</small></button>` : m.gespielt ? m.t1 + " : " + m.t2 : "– : –"}${prediction}</td>
     </tr>`;
   }).join("");
 }
@@ -669,6 +789,8 @@ document.addEventListener("click", event => {
   }
   const teamButton = event.target.closest("[data-team]");
   if (teamButton) renderTeamDetail(teamButton.dataset.team);
+  const matchButton = event.target.closest("[data-match]");
+  if (matchButton && !teamButton) openMatchStory(Number(matchButton.dataset.match));
   if (event.target.id === "detail-logo") {
     document.getElementById("preview-logo").src = event.target.src;
     document.getElementById("logo-preview").hidden = false;
@@ -680,9 +802,16 @@ document.addEventListener("click", event => {
     document.getElementById("team-detail").hidden = true;
   }
 });
+document.getElementById("story-close").addEventListener("click", () => document.getElementById("match-story").close());
+document.getElementById("match-story").addEventListener("click", event => {
+  if (event.target !== event.currentTarget) return;
+  const bounds = event.currentTarget.getBoundingClientRect();
+  if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) event.currentTarget.close();
+});
 document.getElementById("calculator-group").addEventListener("change", renderCalculator);
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") {
+    document.getElementById("match-story").close();
     document.getElementById("logo-preview").hidden = true;
     document.getElementById("team-detail").hidden = true;
     document.getElementById("calculator").hidden = true;
