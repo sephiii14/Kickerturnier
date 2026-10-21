@@ -335,7 +335,7 @@ const SPIELE = [
   { tag:"Mittwoch",	  datum:"14.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Ministerium für geheime Tätigkeiten", t1:10, t2:0,  gespielt:true },
   { tag:"Donnerstag", datum:"15.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Aus Versehen",                        t1:10, t2:2,  gespielt:true },
   { tag:"Dienstag",   datum:"20.10.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"Hopfentornado",                      t1:9, t2:10,  gespielt:true },
-  { tag:"Mittwoch",   datum:"21.10.2026 12:30", phase:"Gruppe A", a:"RosaSee",         b:"Tomvoll Attack",                      t1:0, t2:0,  gespielt:false },
+  { tag:"Mittwoch",   datum:"21.10.2026 12:30", phase:"Gruppe A", a:"RosaSee",         b:"Tomvoll Attack",                      t1:10, t2:6,  gespielt:true },
   { tag:"Donnerstag", datum:"22.10.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"Tomvoll Attack",                      t1:0, t2:0,  gespielt:false },
   { tag:"Dienstag",   datum:"27.10.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"28.10.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Ministerium für geheime Tätigkeiten", t1:0, t2:0,  gespielt:false },
@@ -364,7 +364,7 @@ const KO = {
 /* ======================= ab hier nichts mehr ändern ====================== */
 
 const DEFAULT_LOGO = "default.png";
-// Chronologische Tore: Seite a = Fußballhörnchen, Seite b = Hopfentornado.
+// Chronologische Tore: Seite a = Heimteam (a), Seite b = Gastteam (b) des jeweiligen Spiels.
 const MATCH_STORIES = [{
   datum:"20.10.2026 12:30", a:"Fußballhörnchen", b:"Hopfentornado",
   goals:[
@@ -372,6 +372,14 @@ const MATCH_STORIES = [{
     ["a","Tobi"],["b","Andreas"],["b","Viktor"],["b","Viktor"],["a","Tobi"],
     ["a","Tobi"],["a","Micha"],["b","Viktor"],["a","Tobi"],["b","Andreas"],
     ["a","Tobi"],["b","Viktor"],["a","Tobi"],["b","Viktor"]
+  ]
+},{
+  datum:"21.10.2026 12:30", a:"RosaSee", b:"Tomvoll Attack",
+  goals:[
+    ["b","Michi"],["a","Kevin"],["b","Michi"],["a","Julia"],["a","Kevin"],
+    ["a","Kevin"],["a","Kevin"],["b","Michi"],["a","Kevin"],["a","Kevin"],
+    ["b","Michi"],["a","Julia"],["b","Michi"],["a","Julia"],["b","Stummi"],
+    ["a","Kevin"]
   ]
 }];
 // Spielplan-CSV enthielt Soft Hyphens in Teamnamen - daher beim Abgleich entfernen
