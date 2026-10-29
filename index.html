@@ -130,9 +130,9 @@
   .story-meta,.story-hint{color:var(--muted);font-size:12px;text-align:center}
   .story-legend{display:flex;justify-content:space-between;gap:12px;margin-top:24px;font-size:12px;font-weight:600}
   .story-home{color:#72bdff}.story-away{color:#72e5b3}
-  .story-scroll{overflow-x:auto;scroll-snap-type:x proximity;padding:0 8px;overscroll-behavior-x:contain}
-  .story-track{position:relative;min-width:100%;height:250px}
-  .story-track::before{content:"";position:absolute;left:16px;right:16px;top:124px;height:2px;background:linear-gradient(90deg,#72bdff,#72e5b3)}
+  .story-scroll{overflow:hidden}
+  .story-track{position:relative;width:calc(100% - 78px);height:250px;margin:0 39px}
+  .story-track::before{content:"";position:absolute;left:0;right:0;top:124px;height:2px;background:linear-gradient(90deg,#72bdff,#72e5b3)}
   .story-goal{position:absolute;top:0;width:78px;height:250px;padding:0;border:0;background:none;color:#72bdff;font:inherit;cursor:pointer;scroll-snap-align:center;transform:translateX(-50%)}
   .story-goal.away{color:#72e5b3}
   .story-goal::before{content:"";position:absolute;left:50%;top:111px;height:13px;border-left:1px solid currentColor;opacity:.5}
@@ -339,7 +339,7 @@ const SPIELE = [
   { tag:"Donnerstag", datum:"22.10.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"Tomvoll Attack",                      t1:10, t2:4,  gespielt:true },
   { tag:"Dienstag",   datum:"27.10.2026 12:30", phase:"Gruppe B", a:"Kickstarter",     b:"Sgladschdglei",                       t1:7, t2:10, gespielt:true  },
   { tag:"Mittwoch",   datum:"28.10.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Ministerium für geheime Tätigkeiten", t1:10, t2:3, gespielt:true  },
-  { tag:"Donnerstag", datum:"29.10.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Kickstarter",     t1:0, t2:0,  gespielt:false },
+  { tag:"Donnerstag", datum:"29.10.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Kickstarter",     t1:1, t2:10, gespielt:true  },
   { tag:"Dienstag",   datum:"03.11.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"RosaSee",                             t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"04.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"RosaSee",                             t1:0, t2:0,  gespielt:false },
   { tag:"Donnerstag", datum:"05.11.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei",   t1:0, t2:0,  gespielt:false },
@@ -397,6 +397,14 @@ const MATCH_STORIES = [{
     ["b","Phillip",5],["a","Inka",5],["a","Inka",6],["b","Benjamin",7],
     ["a","Inka",7]
   ]
+},{
+  datum:"29.10.2026 12:30", a:"Ministerium für geheime Tätigkeiten", b:"Kickstarter", duration:4 + 38 / 60,
+  goals:[
+    ["b","Michi","0:05"],["b","Philemon","0:35"],["b","Philemon","0:58"],
+    ["b","Philemon","1:24"],["b","Philemon","1:54"],["b","Philemon","2:21"],
+    ["a","Benjamin","2:43"],["b","Philemon","3:30"],["b","Michi","3:48"],
+    ["b","Philemon","4:20"],["b","Philemon","4:38"]
+  ]
 }];
 // Spielplan-CSV enthielt Soft Hyphens in Teamnamen - daher beim Abgleich entfernen
 const norm = s => (s||"").replace(/\u00ad/g,"").trim().toLowerCase();
@@ -417,6 +425,10 @@ function formatDuration(duration){
   const seconds = Math.round(duration * 60);
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2,"0")} Min.`;
 }
+function parseTimestamp(timestamp){
+  const match = /^(\d+):(\d{2})$/.exec(timestamp);
+  return match ? Number(match[1]) * 60 + Number(match[2]) : null;
+}
 
 function openMatchStory(index){
   const spiel = SPIELE[index];
@@ -430,11 +442,14 @@ function openMatchStory(index){
     const entry = scorers.get(key) || {side, scorer, ownGoal, goals:0};
     entry.goals++;
     scorers.set(key, entry);
-    return {side, scorer, minute, ownGoal, a, b, number:i+1};
+    const seconds = typeof minute === "string" ? parseTimestamp(minute) : null;
+    return {side, scorer, minute, ownGoal, seconds, timeLabel:seconds === null ? "" : minute, a, b, number:i+1};
   });
   const goalsByMinute = new Map();
   goals.forEach(goal => {
-    if (goal.minute) goalsByMinute.set(goal.minute, [...(goalsByMinute.get(goal.minute) || []), goal]);
+    if (typeof goal.minute === "number") {
+      goalsByMinute.set(goal.minute, [...(goalsByMinute.get(goal.minute) || []), goal]);
+    }
   });
   goalsByMinute.forEach((minuteGoals, minute) => minuteGoals.forEach((goal, position) => {
     goal.seconds = minute * 60 + (position * 60 / minuteGoals.length);
@@ -442,12 +457,10 @@ function openMatchStory(index){
   }));
   const durationSeconds = story.duration ? story.duration * 60 : null;
   const durationLabel = formatDuration(story.duration);
-  const timelineWidth = durationSeconds ? Math.max(640, story.duration * 110 + 32) : goals.length * 78 + 32;
-  const timelineRange = timelineWidth - 32;
   goals.forEach((goal, index) => {
     goal.position = durationSeconds && goal.seconds !== undefined ?
-      16 + Math.min(goal.seconds, durationSeconds) / durationSeconds * timelineRange :
-      16 + (index + 1) / (goals.length + 1) * timelineRange;
+      Math.min(goal.seconds, durationSeconds) / durationSeconds * 100 :
+      (index + 1) / (goals.length + 1) * 100;
   });
   const finalGoal = goals[goals.length-1];
   const winningSide = spiel.t1 > spiel.t2 ? "a" : spiel.t2 > spiel.t1 ? "b" : null;
@@ -464,8 +477,8 @@ function openMatchStory(index){
     <div class="story-legend"><span class="story-home">↑ ${esc(spiel.a)}</span><span class="story-away">${esc(spiel.b)} ↓</span></div>
     <p class="story-hint">Torfolge${durationLabel ? ` · Spieldauer ${durationLabel}` : ""} · Seitlich scrollen · Ball antippen für Details</p>
     <div class="story-scroll" role="region" aria-label="Horizontaler Torverlauf">
-      <div class="story-track" style="width:max(100%, ${timelineWidth}px)">${goals.map((goal,i) => `
-        <button type="button" class="story-goal ${goal.side === "b" ? "away" : ""} ${isWinningGoal(goal) ? "winner" : ""}" style="left:${goal.position}px"
+      <div class="story-track">${goals.map((goal,i) => `
+        <button type="button" class="story-goal ${goal.side === "b" ? "away" : ""} ${isWinningGoal(goal) ? "winner" : ""}" style="left:${goal.position}%"
           data-goal="${i}" aria-pressed="${i === 0}" aria-label="${goal.number}. Tor: ${esc(goal.scorer)}${goal.ownGoal ? " (Eigentor)" : ""}, ${goal.a} zu ${goal.b}${goal.timeLabel ? `, ${goal.timeLabel}` : ""}${isWinningGoal(goal) ? ", Siegtor" : ""}">
           <span class="story-scorer">${esc(goal.scorer)}${goal.ownGoal ? " (Eigentor)" : ""}</span><span class="story-goal-score">${goal.a}:${goal.b}${goal.timeLabel ? `<span class="story-goal-minute">${goal.timeLabel}</span>` : ""}</span>
           <span class="story-ball" aria-hidden="true">⚽</span>
