@@ -6,39 +6,60 @@
 <title>roXtra Tischkickerturnier 2026</title>
 <style>
   :root{
+    color-scheme:light;
     --blue:#0066cc; --blue-ink:#004c99; --navy:#071d36; --ink:#14314c;
     --muted:#526a80; --line:#d5e2ec; --paper:#f4f8fc;
     --gold:#a9780c; --gold-line:#e3b23c; --green:#1b8f5a; --red:#cc2f3e;
+    --teal:#0e8f74;
+    --bg:#ffffff; --surface:#ffffff; --surface-2:#ebf3fb; --surface-3:#dbe9f7;
+    --header-bg:#ffffffed; --hero-bg:#0066cc; --on-blue:#ffffff;
+    --logo-bg:#f4f8fc; --row-accent:#0066cc0a; --gold-bg:linear-gradient(#fffdf6,#fff);
+    --overlay:#071d3680; --shadow-sm:#071d360a; --shadow-lg:#071d3650; --shadow-card:#0066cc26;
+    --select-bg:#b6dcff; --select-ink:#071d36;
     --font:'Segoe UI Variable Display','Segoe UI',Arial,sans-serif;
     --mono:'Cascadia Code',Consolas,monospace;
     --header:72px;
   }
+  html[data-theme="dark"]{
+    color-scheme:dark;
+    --blue:#4ea3ff; --blue-ink:#7cc0ff; --navy:#040c17; --ink:#e3edf8;
+    --muted:#92a8be; --line:#24405a; --paper:#152838;
+    --gold:#e8bd5e; --gold-line:#8a6a24; --green:#45d195; --red:#ff6f7d;
+    --teal:#3fc3a6;
+    --bg:#081524; --surface:#0f1f31; --surface-2:#172b3e; --surface-3:#203951;
+    --header-bg:#081524ee; --hero-bg:#0b2947; --on-blue:#05121f;
+    --logo-bg:#e9eff6; --row-accent:#4ea3ff14; --gold-bg:linear-gradient(#1d1c12,#141f2e);
+    --overlay:#020812b8; --shadow-sm:#0004; --shadow-lg:#00000080; --shadow-card:#00000059;
+    --select-bg:#1d4b78; --select-ink:#eaf4ff;
+  }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;scroll-padding-top:var(--header)}
-  body{margin:0;background:#fff;color:var(--ink);font-family:var(--font);
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);
        line-height:1.5;-webkit-font-smoothing:antialiased}
   button{font:inherit;cursor:pointer}
   a{color:inherit;text-decoration:none}
   section[hidden]{display:none}
-  ::selection{background:#b6dcff;color:var(--navy)}
+  ::selection{background:var(--select-bg);color:var(--select-ink)}
   a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{
     outline:3px solid #ffcc4d;outline-offset:3px}
 
   /* Kopfzeile */
   .site-header{position:fixed;inset:0 0 auto;z-index:30;height:var(--header);
                display:flex;align-items:center;justify-content:space-between;gap:16px;
-               padding:0 4vw;background:#ffffffed;backdrop-filter:blur(20px);
+               padding:0 4vw;background:var(--header-bg);backdrop-filter:blur(20px);
                border-bottom:2px solid var(--blue)}
   .header-title{display:flex;align-items:center;gap:12px;color:var(--muted);
                 font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}  .header-title span{opacity:.6}
   .header-actions{display:flex;align-items:center;gap:10px}
   .header-button{display:inline-flex;align-items:center;min-height:40px;padding:9px 15px;
-                 border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);
+                 border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);
                  font-size:13px;font-weight:600}
-  .header-button:hover{background:#ebf3fb;border-color:#b9d4ea}
+  .header-button:hover{background:var(--surface-2);border-color:var(--blue)}
+  .theme-toggle{gap:8px;padding:9px 13px}
+  .theme-toggle i{font-style:normal;font-size:15px;line-height:1}
 
   /* Titelfläche */
-  .hero{position:relative;overflow:hidden;background:var(--blue);color:#fff;
+  .hero{position:relative;overflow:hidden;background:var(--hero-bg);color:#fff;
         padding:calc(var(--header) + 44px) 7.5vw 40px}
   .hero::before{content:"";position:absolute;width:520px;height:520px;border:1px solid #ffffff18;
                 border-radius:50%;right:-165px;top:40px;pointer-events:none;
@@ -74,8 +95,8 @@
   h2{margin:18px 0 0;padding:0;border:0;font-size:clamp(32px,4.2vw,58px);
      font-weight:620;letter-spacing:-.055em;line-height:1.04}
   .grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr))}
-  .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-        box-shadow:0 6px 24px #071d360a}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+        box-shadow:0 6px 24px var(--shadow-sm)}
   .schedule-card{overflow-x:auto}
   .card h3{margin:0;padding:16px 20px;background:var(--paper);color:var(--blue);
            border-top:2px solid var(--blue);border-bottom:1px solid var(--line);
@@ -83,7 +104,7 @@
 
   table{width:100%;border-collapse:collapse;font-size:14px}
   th,td{padding:11px 12px;text-align:center;border-bottom:1px solid var(--line)}
-  th{background:#fff;color:var(--muted);font-weight:600;font-size:10px;
+  th{background:var(--surface);color:var(--muted);font-weight:600;font-size:10px;
      text-transform:uppercase;letter-spacing:.14em}
   tbody tr:last-child td{border-bottom:none}
   td.team{text-align:left}
@@ -92,20 +113,20 @@
              text-align:left;cursor:pointer;font:inherit}
   .team-link:hover .tname,.team-link:focus-visible .tname{color:var(--blue);text-decoration:underline}
   .teamcell img{width:36px;height:36px;object-fit:contain;border-radius:7px;
-                background:var(--paper);flex:0 0 auto}
+                background:var(--logo-bg);flex:0 0 auto}
   .tname{font-weight:600}
   .players{font-size:11.5px;color:var(--muted)}
   .pts{font-weight:700;color:var(--blue)}
   .pos{width:30px;color:var(--muted);font-family:var(--mono);font-size:12px}
   tr.q1 .pos,tr.q2 .pos{color:var(--blue);font-weight:700}
-  tr.q1,tr.q2{background:#0066cc0a}
+  tr.q1,tr.q2{background:var(--row-accent)}
   .sched td{text-align:left}
   .sched td.sc{text-align:center;font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
   .sched tr.open td.sc{color:var(--muted);font-weight:400}
   .tag{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--paper);
        border:1px solid var(--line);color:var(--muted);font-size:10px;font-weight:600;
        letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
-  .tag.ko{background:var(--blue);border-color:var(--blue);color:#fff}
+  .tag.ko{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
   .win{color:var(--green)} .lose{color:var(--red)}
   .prediction{display:block;margin-top:4px;font-size:11px;color:var(--muted);
               font-weight:400;white-space:nowrap}
@@ -114,8 +135,8 @@
   .prediction .worse{color:var(--red)}
 
   /* Matchday */
-  .matchday-card{position:relative;overflow:hidden;background:var(--blue);color:#fff;
-                 border-radius:16px;padding:26px 28px;box-shadow:0 18px 44px #0066cc26}
+  .matchday-card{position:relative;overflow:hidden;background:var(--hero-bg);color:#fff;
+                 border-radius:16px;padding:26px 28px;box-shadow:0 18px 44px var(--shadow-card)}
   .matchday-card::before{content:"";position:absolute;width:420px;height:420px;
                          border:1px solid #ffffff20;border-radius:50%;right:-150px;top:-120px;
                          box-shadow:0 0 0 70px #ffffff05;pointer-events:none}
@@ -140,55 +161,55 @@
   .matchday-score .prediction .worse{color:#ffb3bb}
 
   [data-match]{cursor:pointer}
-  .match-details-button{border:1px solid var(--line);border-radius:9px;background:#fff;
+  .match-details-button{border:1px solid var(--line);border-radius:9px;background:var(--surface);
                         color:inherit;padding:9px 13px;font:inherit;font-weight:700;cursor:pointer}
   .match-details-button small{display:block;margin-top:4px;color:var(--blue);font-size:10px;
                               font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-  .match-details-button:hover,.match-details-button:focus-visible{border-color:var(--blue);background:#ebf3fb}
+  .match-details-button:hover,.match-details-button:focus-visible{border-color:var(--blue);background:var(--surface-2)}
   .matchday-score .match-details-button{border-color:#ffffff50;background:#ffffff14;color:#fff}
   .matchday-score .match-details-button small{color:#c3e2ff}
   .matchday-score .match-details-button:hover{background:#ffffff26;border-color:#fff}
 
   /* Dialoge */
   .detail-backdrop{position:fixed;inset:0;z-index:40;display:flex;align-items:center;
-                   justify-content:center;padding:16px;background:#071d3680;backdrop-filter:blur(8px)}
+                   justify-content:center;padding:16px;background:var(--overlay);backdrop-filter:blur(8px)}
   .detail-backdrop[hidden]{display:none}
-  .detail-modal{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;
-                border:1px solid var(--line);border-radius:16px;box-shadow:0 40px 120px #071d3650}
+  .detail-modal{width:min(680px,100%);max-height:90vh;overflow:auto;background:var(--surface);
+                border:1px solid var(--line);border-radius:16px;box-shadow:0 40px 120px var(--shadow-lg)}
   .detail-head{display:flex;align-items:center;gap:16px;padding:20px 24px;border-bottom:1px solid var(--line)}
   .detail-head img{width:54px;height:54px;object-fit:contain;border-radius:9px;
-                   background:var(--paper);cursor:zoom-in}
+                   background:var(--logo-bg);cursor:zoom-in}
   .detail-head h3{margin:0;font-size:24px;font-weight:620;letter-spacing:-.04em}
   .detail-head .players{margin-top:3px}
   .detail-close{margin-left:auto;width:40px;height:40px;display:grid;place-items:center;
-                border:0;border-radius:50%;background:#edf4fb;color:var(--ink);font-size:24px;cursor:pointer}
-  .detail-close:hover,.detail-close:focus-visible{background:#dbe9f7;color:var(--blue)}
+                border:0;border-radius:50%;background:var(--surface-2);color:var(--ink);font-size:24px;cursor:pointer}
+  .detail-close:hover,.detail-close:focus-visible{background:var(--surface-3);color:var(--blue)}
   .detail-body{padding:22px 24px 26px}
   .calculator-modal{width:min(980px,100%)}
   .calculator-controls{display:flex;align-items:end;gap:12px;margin-bottom:20px;flex-wrap:wrap}
   .calculator-controls label{display:grid;gap:6px;color:var(--muted);font-size:10px;
                              font-weight:600;letter-spacing:.14em;text-transform:uppercase}
   .calculator-controls select{min-width:140px;padding:9px 11px;border:1px solid var(--line);
-                              border-radius:8px;background:#fff;color:var(--ink);font:inherit}
+                              border-radius:8px;background:var(--surface);color:var(--ink);font:inherit}
   .calculator-refresh{padding:10px 16px;border:1px solid var(--blue);border-radius:8px;
-                      background:var(--blue);color:#fff;font:inherit;font-weight:650;cursor:pointer}
+                      background:var(--blue);color:var(--on-blue);font:inherit;font-weight:650;cursor:pointer}
   .calculator-refresh:hover,.calculator-refresh:focus-visible{background:var(--blue-ink);border-color:var(--blue-ink)}
   .calculator-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
   .calculator-table td:first-child{text-align:left;font-weight:600}
   .calculator-table-team{display:flex;align-items:center;gap:9px;min-width:150px}
   .calculator-table-team img{width:28px;height:28px;object-fit:contain;border-radius:6px;
-                             background:var(--paper);flex:0 0 auto}
+                             background:var(--logo-bg);flex:0 0 auto}
   .calculator-games{display:grid;gap:9px;margin-top:9px}
   .calculator-game{display:grid;grid-template-columns:minmax(150px,1fr) 56px 18px 56px minmax(150px,1fr);
                    align-items:center;gap:9px;padding:12px;background:var(--paper);
                    border:1px solid var(--line);border-radius:10px}
   .calculator-game-team{display:flex;align-items:center;gap:9px;min-width:0}
   .calculator-game-team img{width:34px;height:34px;object-fit:contain;border-radius:6px;
-                            background:#fff;flex:0 0 auto}
+                            background:var(--logo-bg);flex:0 0 auto}
   .calculator-game-team span{overflow-wrap:anywhere}
   .calculator-game-team.away{flex-direction:row-reverse;text-align:right}
   .calculator-game input{width:56px;padding:8px 4px;border:1px solid var(--line);border-radius:7px;
-                         background:#fff;color:var(--ink);font:inherit;font-weight:700;text-align:center}
+                         background:var(--surface);color:var(--ink);font:inherit;font-weight:700;text-align:center}
   .calculator-game input:focus{outline:2px solid var(--blue);border-color:transparent}
   .calculator-game-date{grid-column:2/5;text-align:center;color:var(--muted);
                         font-family:var(--mono);font-size:10px;white-space:nowrap}
@@ -208,16 +229,16 @@
   .detail-games tr:last-child td{border-bottom:0}
   .rating-note{color:var(--muted);font-size:11px;margin-top:16px}
   .logo-preview{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
-                padding:24px;background:#071d36e0;backdrop-filter:blur(8px)}
+                padding:24px;background:var(--overlay);backdrop-filter:blur(8px)}
   .logo-preview[hidden]{display:none}
   .logo-preview img{width:min(680px,90vw);height:min(680px,85vh);object-fit:contain;
                     border-radius:14px;background:#fff;cursor:zoom-out}
 
   /* Match Story */
   .story-modal{width:min(1000px,calc(100% - 24px));max-height:90vh;padding:0;color:var(--ink);
-               background:#fff;border:1px solid var(--line);border-radius:16px;overflow:auto;
-               box-shadow:0 40px 120px #071d3650}
-  .story-modal::backdrop{background:#071d3680;backdrop-filter:blur(8px)}
+               background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:auto;
+               box-shadow:0 40px 120px var(--shadow-lg)}
+  .story-modal::backdrop{background:var(--overlay);backdrop-filter:blur(8px)}
   .story-summary{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;text-align:center}
   .story-team{min-width:0;font-weight:650;letter-spacing:-.025em}
   .story-team img{display:block;width:66px;height:66px;object-fit:contain;margin:0 auto 10px}
@@ -227,19 +248,19 @@
   .story-meta,.story-hint{color:var(--muted);font-size:12px;text-align:center}
   .story-legend{display:flex;justify-content:space-between;gap:12px;margin-top:26px;
                 font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-  .story-home{color:var(--blue)}.story-away{color:#0e8f74}
+  .story-home{color:var(--blue)}.story-away{color:var(--teal)}
   .story-scroll{overflow:hidden}
   .story-track{position:relative;width:calc(100% - 78px);height:266px;margin:0 39px}
   .story-track::before{content:"";position:absolute;left:0;right:0;top:124px;height:2px;
-                       background:linear-gradient(90deg,var(--blue),#0e8f74)}
+                       background:linear-gradient(90deg,var(--blue),var(--teal))}
   .story-goal{position:absolute;top:0;width:78px;height:266px;padding:0;border:0;background:none;
               color:var(--blue);font:inherit;cursor:pointer;transform:translateX(-50%)}
-  .story-goal.away{color:#0e8f74}
+  .story-goal.away{color:var(--teal)}
   .story-goal::before{content:"";position:absolute;left:50%;top:111px;height:13px;
                       border-left:1px solid currentColor;opacity:.5}
   .story-goal.away::before{top:125px}
   .story-ball{position:absolute;top:75px;left:calc(50% - 18px);display:grid;place-items:center;
-              width:36px;height:36px;border:2px solid currentColor;border-radius:50%;background:#fff;
+              width:36px;height:36px;border:2px solid currentColor;border-radius:50%;background:var(--surface);
               font-size:20px;transition:transform .15s,box-shadow .15s}
   .story-goal.away .story-ball{top:140px}
   .story-goal-score{position:absolute;top:24px;left:0;right:0;font-weight:700;font-size:16px;
@@ -253,7 +274,7 @@
   .story-goal:hover .story-scorer,.story-goal:focus-visible .story-scorer,
   .story-goal[aria-pressed="true"] .story-scorer{opacity:1}
   .story-goal:hover .story-ball,.story-goal[aria-pressed="true"] .story-ball{
-    transform:scale(1.14);box-shadow:0 0 0 6px #0066cc1a}
+    transform:scale(1.14);box-shadow:0 0 0 6px var(--row-accent)}
   .story-goal:focus-visible{outline:3px solid #ffcc4d;outline-offset:-3px;border-radius:10px}
   .story-goal.winner{color:var(--gold)}
   .story-goal.winner .story-ball{width:42px;height:42px;margin:-3px}
@@ -278,19 +299,19 @@
   .link::after{content:"";position:absolute;left:50%;right:0;top:50%;
                border-top:2px solid var(--line)}
   .p3{max-width:420px;margin:28px auto 0}
-  .match{background:#fff;border:1px solid var(--line);border-top:2px solid var(--blue);
-         border-radius:12px;padding:16px 18px;box-shadow:0 6px 24px #071d360a}
+  .match{background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--blue);
+         border-radius:12px;padding:16px 18px;box-shadow:0 6px 24px var(--shadow-sm)}
   .match h4{margin:0 0 12px;color:var(--muted);font-size:10px;font-weight:700;
             letter-spacing:.14em;text-transform:uppercase}
   .match .row{display:flex;align-items:center;gap:10px;padding:7px 0}
-  .match .row img{width:32px;height:32px;object-fit:contain;border-radius:7px;background:var(--paper)}
+  .match .row img{width:32px;height:32px;object-fit:contain;border-radius:7px;background:var(--logo-bg)}
   .match .row .team-link{display:flex;align-items:center;gap:10px}
   .match .row .n{flex:1}
   .match .row .g{min-width:26px;text-align:right;font-size:19px;font-weight:700;
                  font-variant-numeric:tabular-nums}
   .mdate{margin-top:10px;text-align:right;color:var(--muted);font-family:var(--mono);font-size:11px}
-  .match.final{border:2px solid var(--gold-line);background:linear-gradient(#fffdf6,#fff);
-               padding:22px 24px;box-shadow:0 0 0 6px #e3b23c1a,0 14px 40px #071d3614}
+  .match.final{border:2px solid var(--gold-line);background:var(--gold-bg);
+               padding:22px 24px;box-shadow:0 0 0 6px #e3b23c1a,0 14px 40px var(--shadow-sm)}
   .match.final h4{color:var(--gold);font-size:11px;letter-spacing:.2em}
   .match.final .row{padding:10px 0}
   .match.final .row img{width:42px;height:42px}
@@ -304,7 +325,7 @@
   /* Statistiken */
   .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
   .stat-card{position:relative;overflow:hidden;padding:20px 22px 22px;border:1px solid var(--line);
-             border-radius:14px;background:#fff;box-shadow:0 1px 2px #0b3a6b0a}
+             border-radius:14px;background:var(--surface);box-shadow:0 1px 2px var(--shadow-sm)}
   .stat-card::before{content:"";position:absolute;left:0;top:0;width:3px;height:100%;background:var(--blue)}
   .stat-card.is-gold::before{background:var(--gold)}
   .stat-label{display:flex;align-items:center;gap:10px;color:var(--muted);
@@ -312,14 +333,14 @@
   .stat-icon{font-size:13px}
   .stat-logos{display:flex;align-items:center;gap:8px;margin-top:14px}
   .stat-logo{width:34px;height:34px;object-fit:contain;border-radius:8px;
-             background:var(--paper);padding:3px;border:1px solid var(--line)}
+             background:var(--logo-bg);padding:3px;border:1px solid var(--line)}
   .stat-value{margin-top:12px;color:var(--blue);font-size:30px;font-weight:350;
               letter-spacing:-.04em;line-height:1.1;font-variant-numeric:tabular-nums}
   .stat-card.is-gold .stat-value{color:var(--gold)}
   .stat-name{margin-top:8px;color:var(--ink);font-size:15px;font-weight:620;letter-spacing:-.01em}
   .stat-meta{margin-top:6px;color:var(--muted);font-size:12px;line-height:1.5}
   .stats-lists{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:18px;margin-top:18px}
-  .rank-card{padding:22px;border:1px solid var(--line);border-radius:14px;background:#fff}
+  .rank-card{padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
   .rank-head{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.17em;text-transform:uppercase}
   .rank-sub{margin-top:6px;color:var(--muted);font-size:12px}
   .rank-row{display:grid;grid-template-columns:26px 34px 1fr auto;gap:12px;align-items:center;
@@ -334,6 +355,24 @@
   .rank-bar{grid-column:3/5;height:4px;margin-top:-4px;border-radius:999px;background:var(--paper)}
   .rank-bar i{display:block;height:100%;border-radius:999px;background:var(--blue)}
   .stats-note{margin-top:18px;color:var(--muted);font-size:11px}
+
+  /* Tipprunde */
+  .tipp-intro{display:flex;align-items:center;justify-content:space-between;gap:20px;
+              flex-wrap:wrap;margin-bottom:22px}
+  .tipp-text{margin:0;max-width:62ch;color:var(--muted);font-size:14px}
+  .tipp-link{display:inline-flex;align-items:center;padding:11px 18px;border:1px solid var(--blue);
+             border-radius:9px;background:var(--blue);color:var(--on-blue);
+             font-size:14px;font-weight:650;white-space:nowrap}
+  .tipp-link:hover,.tipp-link:focus-visible{background:var(--blue-ink);border-color:var(--blue-ink)}
+  .tipp-table td:nth-child(2){text-align:left}
+  .tipp-table .tipp-pos{width:46px;color:var(--muted);font-family:var(--mono);font-size:12px}
+  .tipp-table .tipp-name{font-weight:600}
+  .tipp-table .tipp-day{color:var(--muted);font-variant-numeric:tabular-nums}
+  .tipp-table .tipp-day.has-points{color:var(--ink)}
+  .tipp-table .tipp-wins{font-variant-numeric:tabular-nums}
+  .tipp-table .tipp-points{font-weight:700;color:var(--blue);font-variant-numeric:tabular-nums}
+  .tipp-table tr.top1{background:var(--row-accent)}
+  .tipp-table tr.top1 .tipp-pos{color:var(--gold);font-weight:700}
 
   footer{margin:76px 7.5vw 0;padding:26px 0 40px;border-top:1px solid var(--line);         color:var(--muted);font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-align:center}
 
@@ -386,12 +425,23 @@
     *,*::before,*::after{animation:none!important;transition:none!important}
   }
 </style>
+<script>
+  (function(){
+    var gespeichert=null;
+    try{gespeichert=localStorage.getItem("kicker-theme");}catch(e){}
+    var dunkel=gespeichert?gespeichert==="dark"
+      :window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme=dunkel?"dark":"light";
+  })();
+</script>
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-title">Tischkicker <span>Gruppenphase · Halbfinale · Finale</span></div>
   <div class="header-actions">
+    <button class="header-button theme-toggle" id="theme-toggle" type="button"
+            aria-pressed="false" title="Dunkles Design umschalten"><i aria-hidden="true">🌙</i><span>Dunkel</span></button>
     <button class="header-button" id="calculator-open" type="button">Tabellenrechner</button>
   </div>
 </header>
@@ -409,6 +459,7 @@
           <a class="route-link" href="#turnierbaum-section"><span class="route-number">02</span><strong>Turnierbaum</strong><span>&rarr;</span></a>
           <a class="route-link" href="#spielplan-section"><span class="route-number">03</span><strong>Spielplan</strong><span>&rarr;</span></a>
           <a class="route-link" href="#statistik-section"><span class="route-number">04</span><strong>Statistiken</strong><span>&rarr;</span></a>
+          <a class="route-link" href="#tipprunde-section"><span class="route-number">05</span><strong>Tipprunde</strong><span>&rarr;</span></a>
         </nav>
       </div>
     </div>
@@ -474,6 +525,25 @@
     <div class="stats-grid" id="stats-grid"></div>
     <div class="stats-lists" id="stats-lists"></div>
     <div class="stats-note">Zeitbezogene Rekorde berücksichtigen nur Spiele, zu denen Torzeiten erfasst sind.</div>
+  </section>
+
+  <section class="block" id="tipprunde-section">
+    <div class="section-head">
+      <div class="eyebrow"><span class="chapter-index">05</span>Wer tippt am besten?</div>
+      <h2>Tipprunde</h2>
+    </div>
+    <div class="tipp-intro">
+      <p class="tipp-text">Parallel zum Turnier läuft unsere Kicktipp-Runde. Tipps abgeben,
+         Punkte sammeln und die Tabelle unten im Blick behalten.</p>
+      <a class="tipp-link" id="tipp-link" href="#" target="_blank" rel="noopener noreferrer">Zur Tipprunde ↗</a>
+    </div>
+    <div class="card schedule-card">
+      <table class="tipp-table">
+        <thead><tr id="tipp-head"></tr></thead>
+        <tbody id="tipp-body"></tbody>
+      </table>
+    </div>
+    <div class="stats-note" id="tipp-stand"></div>
   </section>
 </main>
 
@@ -576,6 +646,31 @@ const KO = {
   hf2:    { tag:"Dienstag",   datum:"08.12.2026 12:30", titel:"Halbfinale 2 · Sieger B – Zweiter A", t1:0, t2:0, gespielt:false },
   platz3: { tag:"Mittwoch",   datum:"09.12.2026 12:30", titel:"Spiel um Platz 3",                    t1:0, t2:0, gespielt:false },
   finale: { tag:"Donnerstag", datum:"10.12.2026 12:30", titel:"Finale",                              t1:0, t2:0, gespielt:false },
+};
+
+/* =========================================================================
+   4) TIPPRUNDE  –  Stand aus der Kicktipp-Gesamtübersicht abgetippt.
+      Nach jedem Spieltag: "stand" aktualisieren, neuen Spieltag in
+      "spieltage" ergänzen und je Tipper einen Wert an "punkte" anhängen.
+      Quelle: https://www.kicktipp.de/roxtra-kickerturnier-2026/gesamtuebersicht
+   ========================================================================= */
+const KICKTIPP = {
+  url: "https://www.kicktipp.de/roxtra-kickerturnier-2026/tippuebersicht",
+  stand: "29.10.2026",
+  spieltage: ["KW 41","KW 42","KW 43","KW 44"],
+  tipper: [
+    { pos:1, name:"AKo",              punkte:[4,4,8,6], siege:1.0,  gesamt:22 },
+    { pos:2, name:"micha_schwammer",  punkte:[6,6,4,6], siege:0.7,  gesamt:22 },
+    { pos:3, name:"MB14",             punkte:[6,6,4,4], siege:0.7,  gesamt:20 },
+    { pos:4, name:"JB",               punkte:[4,4,2,8], siege:1.0,  gesamt:18 },
+    { pos:5, name:"Inka",             punkte:[2,6,0,4], siege:0.2,  gesamt:12 },
+    { pos:6, name:"TJ",               punkte:[0,6,2,2], siege:0.2,  gesamt:10 },
+    { pos:7, name:"JRR",              punkte:[2,6,0,0], siege:0.2,  gesamt:8  },
+    { pos:8, name:"MH",               punkte:[2,0,0,0], siege:0,    gesamt:2  },
+    { pos:9, name:"bc",               punkte:[0,0,0,0], siege:0,    gesamt:0  },
+    { pos:9, name:"Kevin",            punkte:[0,0,0,0], siege:0,    gesamt:0  },
+    { pos:9, name:"PW",               punkte:[0,0,0,0], siege:0,    gesamt:0  },
+  ],
 };
 
 /* ======================= ab hier nichts mehr ändern ====================== */
@@ -1334,7 +1429,64 @@ document.addEventListener("keydown", event => {
   if (event.key === "Enter" && event.target.matches("[data-calculator-index]")) recalculateCalculator();
 });
 
-renderHeroMetrics(); renderMatchday(); renderTabellen(); renderKo(); renderSpielplan(); renderStatistiken();
+function themeAnwenden(modus, speichern){
+  document.documentElement.dataset.theme = modus;
+  const dunkel = modus === "dark";
+  const schalter = document.getElementById("theme-toggle");
+  if(schalter){
+    schalter.setAttribute("aria-pressed", dunkel ? "true" : "false");
+    schalter.title = dunkel ? "Helles Design umschalten" : "Dunkles Design umschalten";
+    schalter.querySelector("i").textContent = dunkel ? "☀️" : "🌙";
+    schalter.querySelector("span").textContent = dunkel ? "Hell" : "Dunkel";
+  }
+  if(speichern){ try{ localStorage.setItem("kicker-theme", modus); }catch(e){} }
+}
+
+function initTheme(){
+  themeAnwenden(document.documentElement.dataset.theme === "dark" ? "dark" : "light", false);
+  const schalter = document.getElementById("theme-toggle");
+  if(schalter) schalter.addEventListener("click", () => {
+    themeAnwenden(document.documentElement.dataset.theme === "dark" ? "light" : "dark", true);
+  });
+  const system = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  if(system) system.addEventListener("change", event => {
+    let gespeichert = null;
+    try{ gespeichert = localStorage.getItem("kicker-theme"); }catch(e){}
+    if(!gespeichert) themeAnwenden(event.matches ? "dark" : "light", false);
+  });
+}
+
+function renderTipprunde(){
+  const link = document.getElementById("tipp-link");
+  link.href = KICKTIPP.url;
+
+  document.getElementById("tipp-head").innerHTML =
+    `<th style="text-align:left">Pos</th><th style="text-align:left">Tipper</th>`
+    + KICKTIPP.spieltage.map(tag => `<th>${esc(tag)}</th>`).join("")
+    + `<th>Siege</th><th>Punkte</th>`;
+
+  document.getElementById("tipp-body").innerHTML = KICKTIPP.tipper.map(t => {
+    const tage = KICKTIPP.spieltage.map((_, i) => {
+      const wert = t.punkte[i];
+      if (wert === undefined || wert === null) return `<td class="tipp-day">–</td>`;
+      return `<td class="tipp-day${wert > 0 ? " has-points" : ""}">${wert}</td>`;
+    }).join("");
+    const siege = t.siege ? t.siege.toLocaleString("de-DE", { minimumFractionDigits:2, maximumFractionDigits:2 }) : "–";
+    return `<tr class="${t.pos === 1 ? "top1" : ""}">
+      <td class="tipp-pos">${t.pos}.</td>
+      <td class="tipp-name">${esc(t.name)}</td>
+      ${tage}
+      <td class="tipp-wins">${siege}</td>
+      <td class="tipp-points">${t.gesamt}</td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("tipp-stand").textContent =
+    `Stand: ${KICKTIPP.stand} · Spieltagssiege werden bei Gleichstand geteilt · `
+    + `Maßgeblich ist immer die Tabelle auf kicktipp.de.`;
+}
+
+initTheme(); renderHeroMetrics(); renderMatchday(); renderTabellen(); renderKo(); renderSpielplan(); renderStatistiken(); renderTipprunde();
 </script>
 </body>
 </html>
