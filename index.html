@@ -135,6 +135,7 @@
   .prediction .worse{color:var(--red)}
 
   /* Matchday */
+  #matchday{display:grid;gap:18px}
   .matchday-card{position:relative;overflow:hidden;background:var(--hero-bg);color:#fff;
                  border-radius:16px;padding:26px 28px;box-shadow:0 18px 44px var(--shadow-card)}
   .matchday-card::before{content:"";position:absolute;width:420px;height:420px;
@@ -627,7 +628,7 @@ const SPIELE = [
   { tag:"Dienstag",   datum:"27.10.2026 12:30", phase:"Gruppe B", a:"Kickstarter",     b:"Sgladschdglei",                       t1:7, t2:10, gespielt:true  },
   { tag:"Mittwoch",   datum:"28.10.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Ministerium für geheime Tätigkeiten", t1:10, t2:3, gespielt:true  },
   { tag:"Donnerstag", datum:"29.10.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Kickstarter",     t1:1, t2:10, gespielt:true  },
-  { tag:"Donnerstag", datum:"05.11.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei",   t1:0, t2:0,  gespielt:false },
+  { tag:"Dienstag",   datum:"10.11.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei",   t1:0, t2:0,  gespielt:false },
   { tag:"Dienstag",   datum:"10.11.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"11.11.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"18.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"Tomvoll Attack",                      t1:0, t2:0,  gespielt:false },
@@ -1269,24 +1270,26 @@ function renderStatistiken(){
 
 function renderMatchday(heute = new Date()){
   const datum = `${String(heute.getDate()).padStart(2,"0")}.${String(heute.getMonth()+1).padStart(2,"0")}.${heute.getFullYear()}`;
-  const spiel = alleSpiele().find(m => m.datum.startsWith(datum + " "));
+  const spiele = alleSpiele().filter(m => m.datum.startsWith(datum + " "));
   const section = document.getElementById("matchday-section");
-  if (!spiel) {
+  if (!spiele.length) {
+    document.getElementById("matchday").innerHTML = "";
     section.hidden = true;
     return;
   }
-  const p = spiel.gespielt ? gewinnchanceVorSpiel(spiel) : gewinnchance(spiel.a, spiel.b);
-  const prognose = p ? `<span class="prediction">${spiel.gespielt ? "Prognose vor dem Spiel" : "Prognose"}: ${prozent(p.a)} (${quote(p.a)}) · ${prozent(p.b)} (${quote(p.b)})</span>` : "";
   const team = (name) => {
     const details = byName.get(norm(name));
     const players = details ? `<div class="players">${esc(details.p1)} &amp; ${esc(details.p2)}</div>` : "";
     return `<button class="matchday-team" type="button" data-team="${esc(name)}">${logoImg(name)}<div><span class="team-name">${esc(name)}</span>${players}</div></button>`;
   };
+  document.getElementById("matchday").innerHTML = spiele.map(spiel => {
+  const p = spiel.gespielt ? gewinnchanceVorSpiel(spiel) : gewinnchance(spiel.a, spiel.b);
+  const prognose = p ? `<span class="prediction">${spiel.gespielt ? "Prognose vor dem Spiel" : "Prognose"}: ${prozent(p.a)} (${quote(p.a)}) · ${prozent(p.b)} (${quote(p.b)})</span>` : "";
   const story = matchStory(spiel);
   const storyIndex = story ? SPIELE.indexOf(spiel) : -1;
   const duration = story ? formatDuration(story.duration) : "";
   const score = spiel.gespielt ? `${spiel.t1} : ${spiel.t2}` : "– : –";
-  document.getElementById("matchday").innerHTML = `<div class="matchday-card" ${storyIndex >= 0 ? `data-match="${storyIndex}"` : ""}>
+  return `<div class="matchday-card" ${storyIndex >= 0 ? `data-match="${storyIndex}"` : ""}>
     <div class="matchday-meta">${esc(spiel.tag)} · ${esc(spiel.datum)} · ${esc(spiel.phase)}</div>
     <div class="matchday-game">
       ${team(spiel.a)}
@@ -1294,6 +1297,7 @@ function renderMatchday(heute = new Date()){
       ${team(spiel.b)}
     </div>
   </div>`;
+  }).join("");
   section.hidden = false;
 }
 
