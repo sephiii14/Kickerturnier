@@ -628,9 +628,9 @@ const SPIELE = [
   { tag:"Dienstag",   datum:"27.10.2026 12:30", phase:"Gruppe B", a:"Kickstarter",     b:"Sgladschdglei",                       t1:7, t2:10, gespielt:true  },
   { tag:"Mittwoch",   datum:"28.10.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Ministerium für geheime Tätigkeiten", t1:10, t2:3, gespielt:true  },
   { tag:"Donnerstag", datum:"29.10.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Kickstarter",     t1:1, t2:10, gespielt:true  },
-  { tag:"Dienstag",   datum:"10.11.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei",   t1:0, t2:0,  gespielt:false },
-  { tag:"Dienstag",   datum:"10.11.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
-  { tag:"Mittwoch",   datum:"11.11.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
+  { tag:"Verschoben", datum:"Ersatztermin offen", urspruenglicherTermin:"10.11.2026 12:30", verschoben:true, phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei", t1:0, t2:0, gespielt:false },
+  { tag:"Dienstag",   datum:"10.11.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Kickstarter",                         t1:10, t2:4, gespielt:true },
+  { tag:"Donnerstag", datum:"12.11.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"18.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"Tomvoll Attack",                      t1:0, t2:0,  gespielt:false },
   { tag:"Donnerstag", datum:"19.11.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"RosaSee",                             t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"25.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"RosaSee",                             t1:0, t2:0,  gespielt:false },
@@ -650,28 +650,178 @@ const KO = {
 };
 
 /* =========================================================================
-   4) TIPPRUNDE  –  Stand aus der Kicktipp-Gesamtübersicht abgetippt.
+   4) TIPPRUNDE  –  Stand aus der öffentlichen Kicktipp-Gesamtübersicht übernommen.
       Nach jedem Spieltag: "stand" aktualisieren, neuen Spieltag in
       "spieltage" ergänzen und je Tipper einen Wert an "punkte" anhängen.
       Quelle: https://www.kicktipp.de/roxtra-kickerturnier-2026/gesamtuebersicht
    ========================================================================= */
 const KICKTIPP = {
-  url: "https://www.kicktipp.de/roxtra-kickerturnier-2026/tippuebersicht",
-  stand: "29.10.2026",
-  spieltage: ["KW 41","KW 42","KW 43","KW 44"],
-  tipper: [
-    { pos:1, name:"AKo",              punkte:[4,4,8,6], siege:1.0,  gesamt:22 },
-    { pos:2, name:"micha_schwammer",  punkte:[6,6,4,6], siege:0.7,  gesamt:22 },
-    { pos:3, name:"MB14",             punkte:[6,6,4,4], siege:0.7,  gesamt:20 },
-    { pos:4, name:"JB",               punkte:[4,4,2,8], siege:1.0,  gesamt:18 },
-    { pos:5, name:"Inka",             punkte:[2,6,0,4], siege:0.2,  gesamt:12 },
-    { pos:6, name:"TJ",               punkte:[0,6,2,2], siege:0.2,  gesamt:10 },
-    { pos:7, name:"JRR",              punkte:[2,6,0,0], siege:0.2,  gesamt:8  },
-    { pos:8, name:"MH",               punkte:[2,0,0,0], siege:0,    gesamt:2  },
-    { pos:9, name:"bc",               punkte:[0,0,0,0], siege:0,    gesamt:0  },
-    { pos:9, name:"Kevin",            punkte:[0,0,0,0], siege:0,    gesamt:0  },
-    { pos:9, name:"PW",               punkte:[0,0,0,0], siege:0,    gesamt:0  },
+  "url": "https://www.kicktipp.de/roxtra-kickerturnier-2026/tippuebersicht",
+  "stand": "10.11.2026",
+  "spieltage": [
+    "KW 41",
+    "KW 42",
+    "KW 43",
+    "KW 44",
+    "KW 45",
+    "KW 46"
   ],
+  "tipper": [
+    {
+      "pos": 1,
+      "name": "AKo",
+      "punkte": [
+        4,
+        4,
+        8,
+        8,
+        0,
+        2
+      ],
+      "siege": 1.17,
+      "gesamt": 26
+    },
+    {
+      "pos": 2,
+      "name": "micha_schwammer",
+      "punkte": [
+        6,
+        6,
+        4,
+        8,
+        0,
+        2
+      ],
+      "siege": 0.87,
+      "gesamt": 26
+    },
+    {
+      "pos": 3,
+      "name": "MB14",
+      "punkte": [
+        6,
+        6,
+        4,
+        6,
+        0,
+        2
+      ],
+      "siege": 0.87,
+      "gesamt": 24
+    },
+    {
+      "pos": 4,
+      "name": "JB",
+      "punkte": [
+        4,
+        4,
+        2,
+        10,
+        0,
+        2
+      ],
+      "siege": 1.17,
+      "gesamt": 22
+    },
+    {
+      "pos": 5,
+      "name": "Inka",
+      "punkte": [
+        2,
+        6,
+        0,
+        8,
+        0,
+        2
+      ],
+      "siege": 0.37,
+      "gesamt": 18
+    },
+    {
+      "pos": 6,
+      "name": "TJ",
+      "punkte": [
+        0,
+        6,
+        2,
+        4,
+        0,
+        2
+      ],
+      "siege": 0.37,
+      "gesamt": 14
+    },
+    {
+      "pos": 7,
+      "name": "JRR",
+      "punkte": [
+        2,
+        6,
+        0,
+        0,
+        0,
+        0
+      ],
+      "siege": 0.2,
+      "gesamt": 8
+    },
+    {
+      "pos": 8,
+      "name": "MH",
+      "punkte": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "siege": 0,
+      "gesamt": 2
+    },
+    {
+      "pos": 9,
+      "name": "bc",
+      "punkte": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "siege": 0,
+      "gesamt": 0
+    },
+    {
+      "pos": 9,
+      "name": "Kevin",
+      "punkte": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "siege": 0,
+      "gesamt": 0
+    },
+    {
+      "pos": 9,
+      "name": "PW",
+      "punkte": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "siege": 0,
+      "gesamt": 0
+    }
+  ]
 };
 
 /* ======================= ab hier nichts mehr ändern ====================== */
@@ -718,6 +868,16 @@ const MATCH_STORIES = [{
     ["a","Benjamin","2:43"],["b","Philemon","3:30"],["b","Michi","3:48"],
     ["b","Philemon","4:20"],["b","Philemon","4:38"]
   ]
+},{
+  datum:"10.11.2026 12:30", a:"Alpha & Omega", b:"Kickstarter",
+  // Torschützen von Alpha & Omega abwechselnd eingetragen, beginnend mit Alex.
+  goals:[
+    ["a","Alex",1],["a","Otto",1],["a","Alex",2],
+    ["b","Philemon",3],["b","Michi",3],["a","Otto",3],
+    ["b","Alex",4,true],["a","Alex",4],["a","Otto",5],
+    ["a","Alex",6],["a","Otto",6],["b","Philemon",6],
+    ["a","Alex",7],["a","Otto",7]
+  ]
 }];
 // Spielplan-CSV enthielt Soft Hyphens in Teamnamen - daher beim Abgleich entfernen
 const norm = s => (s||"").replace(/\u00ad/g,"").trim().toLowerCase();
@@ -761,7 +921,10 @@ function storyGoals(story){
     goal.seconds = minute * 60 + (position * 60 / minuteGoals.length);
     goal.timeLabel = `${minute}:${String(Math.round(position * 60 / minuteGoals.length)).padStart(2,"0")}`;
   }));
-  const durationSeconds = story.duration ? story.duration * 60 : null;
+  // Ohne gemeldete Spieldauer endet die Zeitachse an der nächsten vollen Minute.
+  const lastSeconds = Math.max(...goals.map(goal => goal.seconds ?? 0));
+  const durationSeconds = story.duration ? story.duration * 60 :
+    (lastSeconds > 0 ? (Math.floor(lastSeconds / 60) + 1) * 60 : null);
   goals.forEach((goal, index) => {
     goal.position = durationSeconds && goal.seconds !== null ?
       Math.min(goal.seconds, durationSeconds) / durationSeconds * 100 :
@@ -1270,7 +1433,7 @@ function renderStatistiken(){
 
 function renderMatchday(heute = new Date()){
   const datum = `${String(heute.getDate()).padStart(2,"0")}.${String(heute.getMonth()+1).padStart(2,"0")}.${heute.getFullYear()}`;
-  const spiele = alleSpiele().filter(m => m.datum.startsWith(datum + " "));
+  const spiele = alleSpiele().filter(m => !m.verschoben && m.datum.startsWith(datum + " "));
   const section = document.getElementById("matchday-section");
   if (!spiele.length) {
     document.getElementById("matchday").innerHTML = "";
