@@ -425,6 +425,13 @@
     html{scroll-behavior:auto}
     *,*::before,*::after{animation:none!important;transition:none!important}
   }
+  .stats-more{display:block;margin-top:14px;padding:0;border:0;background:none;color:var(--blue);font:inherit;font-size:12px;text-decoration:underline;cursor:pointer}
+  .stats-dialog{width:min(720px,calc(100% - 32px));max-height:85vh;padding:0;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);overflow:hidden}
+  .stats-dialog::backdrop{background:var(--overlay);backdrop-filter:blur(6px)}
+  .stats-dialog .detail-head{justify-content:space-between}.stats-dialog h3{margin:0;font-size:20px}
+  .stats-dialog-list{max-height:60vh;overflow-y:auto;overscroll-behavior:contain;padding:0 24px 20px}
+  .stats-dialog-row{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .stats-dialog-row small{display:block;margin-top:5px;color:var(--muted)}
 </style>
 <script>
   (function(){
@@ -525,7 +532,7 @@
     </div>
     <div class="stats-grid" id="stats-grid"></div>
     <div class="stats-lists" id="stats-lists"></div>
-    <div class="stats-note">Zeitbezogene Rekorde berücksichtigen nur Spiele, zu denen Torzeiten erfasst sind.</div>
+    <div class="stats-note" id="stats-coverage"></div>
   </section>
 
   <section class="block" id="tipprunde-section">
@@ -870,13 +877,449 @@ const MATCH_STORIES = [{
   ]
 },{
   datum:"10.11.2026 12:30", a:"Alpha & Omega", b:"Kickstarter",
-  // Torschützen von Alpha & Omega abwechselnd eingetragen, beginnend mit Alex.
+  // Gemeldete Summen: Otto 6, Alex 4; Zuordnung zu einzelnen Toren beispielhaft.
   goals:[
     ["a","Alex",1],["a","Otto",1],["a","Alex",2],
     ["b","Philemon",3],["b","Michi",3],["a","Otto",3],
     ["b","Alex",4,true],["a","Alex",4],["a","Otto",5],
     ["a","Alex",6],["a","Otto",6],["b","Philemon",6],
-    ["a","Alex",7],["a","Otto",7]
+    ["a","Otto",7],["a","Otto",7]
+  ]
+},
+{
+  "datum": "06.10.2026 12:30",
+  "a": "RosaSee",
+  "b": "Hopfentornado",
+  "estimated": true,
+  "goals": [
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "b",
+      "Viktor"
+    ],
+    [
+      "a",
+      "Kevin"
+    ],
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "b",
+      "Viktor"
+    ],
+    [
+      "a",
+      "Julia"
+    ],
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "b",
+      "Viktor"
+    ],
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "a",
+      "Kevin"
+    ],
+    [
+      "b",
+      "Viktor"
+    ],
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "a",
+      "Julia"
+    ],
+    [
+      "b",
+      "Viktor"
+    ]
+  ]
+},
+{
+  "datum": "07.10.2026 12:30",
+  "a": "Fußballhörnchen",
+  "b": "Merge Conflict",
+  "estimated": true,
+  "goals": [
+    [
+      "b",
+      "Tim"
+    ],
+    [
+      "a",
+      "Tobi"
+    ],
+    [
+      "b",
+      "Matze"
+    ],
+    [
+      "b",
+      "Tim"
+    ],
+    [
+      "a",
+      "Micha"
+    ],
+    [
+      "b",
+      "Matze"
+    ],
+    [
+      "a",
+      "Tobi"
+    ],
+    [
+      "b",
+      "Tim"
+    ],
+    [
+      "b",
+      "Matze"
+    ],
+    [
+      "a",
+      "Micha"
+    ],
+    [
+      "b",
+      "Tim"
+    ],
+    [
+      "b",
+      "Matze"
+    ],
+    [
+      "a",
+      "Tobi"
+    ],
+    [
+      "b",
+      "Tim"
+    ],
+    [
+      "a",
+      "Micha"
+    ],
+    [
+      "b",
+      "Matze"
+    ]
+  ]
+},
+{
+  "datum": "08.10.2026 12:30",
+  "a": "Alpha & Omega",
+  "b": "Sgladschdglei",
+  "estimated": true,
+  "goals": [
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "b",
+      "Steffen"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "b",
+      "Luca"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "b",
+      "Steffen"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "b",
+      "Luca"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "b",
+      "Steffen"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "b",
+      "Luca"
+    ],
+    [
+      "a",
+      "Alex"
+    ]
+  ]
+},
+{
+  "datum": "13.10.2026 12:30",
+  "a": "Tomvoll Attack",
+  "b": "Hopfentornado",
+  "estimated": true,
+  "goals": [
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "b",
+      "Viktor"
+    ],
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "a",
+      "Stummi"
+    ],
+    [
+      "b",
+      "Viktor"
+    ],
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "b",
+      "Viktor"
+    ],
+    [
+      "a",
+      "Michi"
+    ],
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "b",
+      "Viktor"
+    ],
+    [
+      "b",
+      "Andreas"
+    ],
+    [
+      "a",
+      "Stummi"
+    ],
+    [
+      "b",
+      "Viktor"
+    ]
+  ]
+},
+{
+  "datum": "14.10.2026 12:30",
+  "a": "Alpha & Omega",
+  "b": "Ministerium für geheime Tätigkeiten",
+  "estimated": true,
+  "goals": [
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ]
+  ]
+},
+{
+  "datum": "15.10.2026 12:30",
+  "a": "Alpha & Omega",
+  "b": "Aus Versehen",
+  "estimated": true,
+  "goals": [
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "b",
+      "Doro"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "a",
+      "Alex"
+    ],
+    [
+      "a",
+      "Otto"
+    ],
+    [
+      "b",
+      "Inka"
+    ],
+    [
+      "a",
+      "Alex"
+    ]
+  ]
+},
+{
+  "datum": "22.10.2026 12:30",
+  "a": "Fußballhörnchen",
+  "b": "Tomvoll Attack",
+  "estimated": true,
+  "goals": [
+    [
+      "a",
+      "Tobi"
+    ],
+    [
+      "a",
+      "Micha"
+    ],
+    [
+      "b",
+      "Stummi"
+    ],
+    [
+      "a",
+      "Tobi"
+    ],
+    [
+      "a",
+      "Micha"
+    ],
+    [
+      "b",
+      "Michi"
+    ],
+    [
+      "a",
+      "Tobi"
+    ],
+    [
+      "a",
+      "Micha"
+    ],
+    [
+      "a",
+      "Tobi"
+    ],
+    [
+      "b",
+      "Stummi"
+    ],
+    [
+      "a",
+      "Micha"
+    ],
+    [
+      "a",
+      "Tobi"
+    ],
+    [
+      "b",
+      "Michi"
+    ],
+    [
+      "a",
+      "Micha"
+    ]
   ]
 }];
 // Spielplan-CSV enthielt Soft Hyphens in Teamnamen - daher beim Abgleich entfernen
@@ -959,6 +1402,7 @@ function openMatchStory(index){
     </div>
     <p class="story-meta">${esc(spiel.tag)} · ${esc(spiel.datum)} · ${esc(spiel.phase)}</p>
     <div class="story-legend"><span class="story-home">↑ ${esc(spiel.a)}</span><span class="story-away">${esc(spiel.b)} ↓</span></div>
+    ${story.estimated ? `<p class="story-hint">Nachträglich verteilt: Torschützen abwechselnd zugeordnet; Torfolge beispielhaft, ohne Zeitangaben.</p>` : ""}
     <p class="story-hint">Torfolge${durationLabel ? ` · Spieldauer ${durationLabel}` : ""} · Seitlich scrollen · Ball antippen für Details</p>
     <div class="story-scroll" role="region" aria-label="Horizontaler Torverlauf">
       <div class="story-track">${goals.map((goal,i) => `
@@ -1422,13 +1866,91 @@ function renderStatistiken(){
       name:s.pechvogel.name, meta:s.pechvogel.team, teams:[s.pechvogel.team]}));
   }
 
+  const played = SPIELE.filter(m => m.gespielt);
+  const covered = played.filter(m => matchStory(m));
+  const estimated = covered.filter(m => matchStory(m).estimated).length;
+  document.getElementById("stats-coverage").textContent =
+    covered.length + " von " + played.length + " gespielten Partien mit Torschützen · " +
+    played.reduce((sum, m) => sum + m.t1 + m.t2, 0) + " Tore inklusive Eigentore · " +
+    estimated + " Torfolgen nachträglich verteilt. Diese Tore zählen für Torschützen und MVP. " +
+    "Zeitbezogene Rekorde berücksichtigen nur Spiele mit Torzeiten und gemeldeter Spieldauer.";
   document.getElementById("stats-grid").innerHTML = karten.join("");
   document.getElementById("stats-lists").innerHTML =
-    rankCard("Top-Torschützen", "Tore in Spielen mit erfasster Torfolge",
+    rankCard("Top-Torschützen", "Alle gespielten Partien · inklusive nachträglich verteilter Tore",
       s.torschuetzen.map(e => ({name:e.name, team:e.team, wert:e.tore, anzeige:e.tore + " Tore"}))) +
     rankCard("MVP-Wertung", "Anteil an allen Toren des eigenen Teams (ab 5 Toren)",
       s.mvp.map(e => ({name:e.name, team:e.team, wert:e.anteil,
                        anzeige:Math.round(e.anteil * 100) + " %"})));
+}
+
+
+function statistikRanglisten(){
+  const games = SPIELE.filter(m=>m.gespielt);
+  const entry = (value,name,meta) => ({value,name,meta});
+  const matchText = m => m.a + " " + m.t1 + ":" + m.t2 + " " + m.b;
+  const players = new Map(), totals = new Map(), goals = [], gaps = [];
+  const streak = new Map(), best = new Map(), defense = new Map();
+  [...games].sort((a,b)=>datumWert(a.datum)-datumWert(b.datum)).forEach(m=>{
+    [[m.a,m.t1,m.t2],[m.b,m.t2,m.t1]].forEach(([team,scored,conceded])=>{
+      totals.set(team,(totals.get(team)||0)+scored);
+      const run=scored>conceded?(streak.get(team)||0)+1:0;
+      streak.set(team,run);best.set(team,Math.max(best.get(team)||0,run));
+      const d=defense.get(team)||{team,games:0,conceded:0};d.games++;d.conceded+=conceded;defense.set(team,d);
+    });
+    const story=matchStory(m);if(!story)return;
+    const list=storyGoals(story);
+    list.forEach((g,i)=>{
+      const team=torschuetzeTeam(g,m),key=team+"|"+g.scorer;
+      const p=players.get(key)||{name:g.scorer,team,goals:0,own:0};
+      if(g.ownGoal)p.own++;else p.goals++;players.set(key,p);
+      if(story.duration && list.every(x=>typeof x.seconds==="number")){
+        goals.push({g,m});
+        gaps.push({m,from:i?list[i-1]:null,to:g,gap:g.seconds-(i?list[i-1].seconds:0)});
+      }
+    });
+  });
+  const people=[...players.values()],{ratings}=ratingDaten();
+  const matchEntries=(list,kind)=>list.slice(0,10).map(m=>entry(
+    kind==="goals"?(m.t1+m.t2)+" Tore":Math.abs(m.t1-m.t2)+(Math.abs(m.t1-m.t2)===1?" Tor Unterschied":" Tore Unterschied"),matchText(m),m.datum));
+  const gapEntries=list=>list.slice(0,5).map(e=>entry(formatSeconds(e.gap)+" Min.",
+    (e.from?e.from.timeLabel:"Anpfiff")+" → "+e.to.timeLabel,matchText(e.m)));
+  return {
+    "Schnellstes Tor":goals.sort((a,b)=>a.g.seconds-b.g.seconds).slice(0,5).map(e=>entry(formatSeconds(e.g.seconds)+" Min.",e.g.scorer+(e.g.ownGoal?" (Eigentor)":""),matchText(e.m))),
+    "Kürzester Torabstand":gapEntries(gaps.filter(e=>e.from).sort((a,b)=>a.gap-b.gap)),
+    "Längste Zeit ohne Tor":gapEntries([...gaps].sort((a,b)=>b.gap-a.gap)),
+    "Torreichstes Spiel":matchEntries([...games].sort((a,b)=>(b.t1+b.t2)-(a.t1+a.t2)),"goals"),
+    "Knappstes Spiel":matchEntries([...games].sort((a,b)=>Math.abs(a.t1-a.t2)-Math.abs(b.t1-b.t2)||(b.t1+b.t2)-(a.t1+a.t2))),
+    "Deutlichstes Spiel":matchEntries([...games].sort((a,b)=>Math.abs(b.t1-b.t2)-Math.abs(a.t1-a.t2)||(b.t1+b.t2)-(a.t1+a.t2))),
+    "Topfavorit":TEAMS.map(t=>({t,r:Math.round(ratings.get(norm(t.name)))})).sort((a,b)=>b.r-a.r).map(e=>entry(e.r+" Elo",e.t.name,e.t.p1+" & "+e.t.p2)),
+    "Längste Siegesserie":TEAMS.map(t=>({t,n:best.get(t.name)||0})).sort((a,b)=>b.n-a.n).map(e=>entry(e.n+" Siege",e.t.name,e.t.p1+" & "+e.t.p2)),
+    "Beste Abwehr":[...defense.values()].filter(e=>e.games>=2).sort((a,b)=>a.conceded/a.games-b.conceded/b.games).map(e=>entry((e.conceded/e.games).toFixed(1).replace(".",",")+" Gegentore",e.team,"Schnitt aus "+e.games+" Spielen · ab 2 Spielen")),
+    "Pechvogel":people.filter(e=>e.own>0).sort((a,b)=>b.own-a.own).map(e=>entry(e.own+(e.own===1?" Eigentor":" Eigentore"),e.name,e.team)),
+    "Top-Torschützen":people.filter(e=>e.goals>0).sort((a,b)=>b.goals-a.goals||a.name.localeCompare(b.name,"de")).map(e=>entry(e.goals+" Tore",e.name,e.team)),
+    "MVP-Wertung":people.filter(e=>e.goals>=5).map(e=>({...e,share:e.goals/totals.get(e.team)})).sort((a,b)=>b.share-a.share||b.goals-a.goals).map(e=>entry(Math.round(e.share*100)+" %",e.name,e.team+" · ab 5 Toren"))
+  };
+}
+
+function initStatsDetails(){
+  const rankings=statistikRanglisten();
+  document.querySelectorAll("#stats-grid .stat-card, #stats-lists .rank-card").forEach(card=>{
+    const title=card.querySelector(".stat-label, .rank-head").textContent.replace(/^[^A-Za-zÄÖÜäöüß]+/u,"").trim();
+    if(!rankings[title]?.length)return;
+    const button=document.createElement("button");button.type="button";button.className="stats-more";button.textContent="Mehr anzeigen";
+    button.setAttribute("aria-label",title+": Mehr anzeigen");button.addEventListener("click",()=>openStatsRanking(title,rankings[title]));card.append(button);
+  });
+}
+
+function openStatsRanking(title,entries){
+  let dialog=document.getElementById("stats-ranking");
+  if(!dialog){
+    dialog=document.createElement("dialog");dialog.id="stats-ranking";dialog.className="stats-dialog";
+    dialog.setAttribute("aria-labelledby","stats-ranking-title");document.body.append(dialog);
+    dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close();});
+  }
+  dialog.innerHTML='<div class="detail-head"><h3 id="stats-ranking-title">'+esc(title)+'</h3><button type="button" class="detail-close" aria-label="Statistik schließen" autofocus>×</button></div>'+
+    '<div class="stats-dialog-list" tabindex="0" role="region" aria-label="Rangliste '+esc(title)+'">'+entries.map((e,i)=>
+    '<div class="stats-dialog-row"><span class="rank-pos">'+(i+1)+'</span><div><strong>'+esc(e.value)+'</strong> · '+esc(e.name)+'<small>'+esc(e.meta||"")+'</small></div></div>').join("")+'</div>';
+  dialog.querySelector("button").addEventListener("click",()=>dialog.close());dialog.showModal();
 }
 
 function renderMatchday(heute = new Date()){
@@ -1456,7 +1978,7 @@ function renderMatchday(heute = new Date()){
     <div class="matchday-meta">${esc(spiel.tag)} · ${esc(spiel.datum)} · ${esc(spiel.phase)}</div>
     <div class="matchday-game">
       ${team(spiel.a)}
-      <div class="matchday-score">${storyIndex >= 0 ? `<button class="match-details-button" type="button" data-match="${storyIndex}" aria-label="Spieldetails ${esc(spiel.a)} gegen ${esc(spiel.b)}"><strong>${score}</strong><small>${duration ? `${duration} · ` : ""}Match Story ansehen ↗</small></button>` : `<strong>${score}</strong>`}${prognose}</div>
+      <div class="matchday-score">${storyIndex >= 0 ? `<button class="match-details-button" type="button" data-match="${storyIndex}" aria-label="Spieldetails ${esc(spiel.a)} gegen ${esc(spiel.b)}"><strong>${score}</strong><small>${duration ? `${duration} · ` : ""}Spieldetails ansehen ↗</small></button>` : `<strong>${score}</strong>`}${prognose}</div>
       ${team(spiel.b)}
     </div>
   </div>`;
@@ -1542,7 +2064,7 @@ function renderSpielplan(){
   document.getElementById("spielplan").innerHTML = all.map(m => {
     const story = matchStory(m);
     const storyIndex = story ? SPIELE.indexOf(m) : -1;
-    const duration = story ? `${formatDuration(story.duration)} · ` : "";
+    const duration = story && story.duration ? `${formatDuration(story.duration)} · ` : "";
     const cls = (x,y) => m.gespielt ? (x > y ? "win" : x < y ? "lose" : "") : "";
     const prediction = !m.gespielt && byName.has(norm(m.a)) && byName.has(norm(m.b)) ? prognoseMarkup(m.a,m.b) : "";
     return `<tr class="${m.gespielt ? "" : "open"}" ${storyIndex >= 0 ? `data-match="${storyIndex}"` : ""}>
@@ -1553,7 +2075,7 @@ function renderSpielplan(){
             <span style="color:var(--muted)">vs.</span>
             <span class="${cls(m.t2,m.t1)}">${teamCell(m.b,false)}</span>
           </div></td>
-      <td class="sc">${storyIndex >= 0 ? `<button class="match-details-button" type="button" data-match="${storyIndex}" aria-label="Spieldetails ${esc(m.a)} gegen ${esc(m.b)}">${m.t1} : ${m.t2}<small>${duration}Match Story ↗</small></button>` : m.gespielt ? m.t1 + " : " + m.t2 : "– : –"}${prediction}</td>
+      <td class="sc">${storyIndex >= 0 ? `<button class="match-details-button" type="button" data-match="${storyIndex}" aria-label="Spieldetails ${esc(m.a)} gegen ${esc(m.b)}">${m.t1} : ${m.t2}<small>${duration}Spieldetails ansehen ↗</small></button>` : m.gespielt ? m.t1 + " : " + m.t2 : "– : –"}${prediction}</td>
     </tr>`;
   }).join("");
 }
@@ -1588,6 +2110,7 @@ document.getElementById("match-story").addEventListener("click", event => {
 document.getElementById("calculator-group").addEventListener("change", renderCalculator);
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") {
+    document.getElementById("stats-ranking")?.close();
     document.getElementById("match-story").close();
     document.getElementById("logo-preview").hidden = true;
     document.getElementById("team-detail").hidden = true;
@@ -1653,7 +2176,7 @@ function renderTipprunde(){
     + `Maßgeblich ist immer die Tabelle auf kicktipp.de.`;
 }
 
-initTheme(); renderHeroMetrics(); renderMatchday(); renderTabellen(); renderKo(); renderSpielplan(); renderStatistiken(); renderTipprunde();
+initTheme(); renderHeroMetrics(); renderMatchday(); renderTabellen(); renderKo(); renderSpielplan(); renderStatistiken(); initStatsDetails(); renderTipprunde();
 </script>
 </body>
 </html>
