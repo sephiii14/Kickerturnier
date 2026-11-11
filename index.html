@@ -1885,9 +1885,9 @@ function renderStatistiken(){
     "Zeitbezogene Rekorde berücksichtigen nur Spiele mit Torzeiten und gemeldeter Spieldauer.";
   document.getElementById("stats-grid").innerHTML = karten.join("");
   document.getElementById("stats-lists").innerHTML =
-    rankCard("Top-Torschützen", "Alle gespielten Partien · inklusive nachträglich verteilter Tore",
+    rankCard("Top-Torschützen", "Alle gespielten Partien",
       s.torschuetzen.map(e => ({name:e.name, team:e.team, wert:e.tore, anzeige:e.tore + " Tore"}))) +
-    rankCard("Offensivstärkste Verteidiger", "Erzielte Tore der Abwehrspieler · ohne Eigentore · inklusive nachträglich verteilter Tore",
+    rankCard("Offensivstärkste Verteidiger", "Erzielte Tore der Abwehrspieler · ohne Eigentore",
       s.verteidiger.map(e => ({name:e.name, team:e.team, wert:e.tore, anzeige:e.tore + " Tore"}))) +
     rankCard("MVP-Wertung", "Anteil an allen Toren des eigenen Teams (ab 5 Toren)",
       s.mvp.map(e => ({name:e.name, team:e.team, wert:e.anteil,
