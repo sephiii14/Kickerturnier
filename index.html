@@ -1673,6 +1673,15 @@ function torschuetzeTeam(goal, spiel){
   return goal.ownGoal ? gegner : treffer;
 }
 
+const ABWEHRSPIELER = new Set([
+  "Andreas", "Tim", "Tobi", "Kevin", "Stummi", "Alex", "Michi", "Steffen", "Doro", "Phillip"
+]);
+
+function offensivVerteidiger(spieler){
+  return spieler.filter(s => ABWEHRSPIELER.has(s.name) && s.tore > 0)
+    .sort((a,b) => b.tore - a.tore || a.name.localeCompare(b.name,"de") || a.team.localeCompare(b.team,"de"));
+}
+
 function statistikDaten(){
   const gespielt = SPIELE.filter(m => m.gespielt);
   const events = [];
@@ -1763,7 +1772,7 @@ function statistikDaten(){
     .sort((x,y) => x.schnitt - y.schnitt)[0] || null;
 
   return {schnellstesTor, kuerzesteLuecke, laengsteLuecke, torreichstes, knappstes, deutlichstes,
-          torschuetzen, pechvogel, mvp, favorit, serienTeam, besteAbwehr,
+          torschuetzen, verteidiger:offensivVerteidiger(alleSpieler).slice(0,3), pechvogel, mvp, favorit, serienTeam, besteAbwehr,
           hatZeiten:timedMatches.length > 0};
 }
 
@@ -1878,6 +1887,8 @@ function renderStatistiken(){
   document.getElementById("stats-lists").innerHTML =
     rankCard("Top-Torschützen", "Alle gespielten Partien · inklusive nachträglich verteilter Tore",
       s.torschuetzen.map(e => ({name:e.name, team:e.team, wert:e.tore, anzeige:e.tore + " Tore"}))) +
+    rankCard("Offensivstärkste Verteidiger", "Erzielte Tore der Abwehrspieler · ohne Eigentore · inklusive nachträglich verteilter Tore",
+      s.verteidiger.map(e => ({name:e.name, team:e.team, wert:e.tore, anzeige:e.tore + " Tore"}))) +
     rankCard("MVP-Wertung", "Anteil an allen Toren des eigenen Teams (ab 5 Toren)",
       s.mvp.map(e => ({name:e.name, team:e.team, wert:e.anteil,
                        anzeige:Math.round(e.anteil * 100) + " %"})));
@@ -1926,6 +1937,7 @@ function statistikRanglisten(){
     "Beste Abwehr":[...defense.values()].filter(e=>e.games>=2).sort((a,b)=>a.conceded/a.games-b.conceded/b.games).map(e=>entry((e.conceded/e.games).toFixed(1).replace(".",",")+" Gegentore",e.team,"Schnitt aus "+e.games+" Spielen · ab 2 Spielen")),
     "Pechvogel":people.filter(e=>e.own>0).sort((a,b)=>b.own-a.own).map(e=>entry(e.own+(e.own===1?" Eigentor":" Eigentore"),e.name,e.team)),
     "Top-Torschützen":people.filter(e=>e.goals>0).sort((a,b)=>b.goals-a.goals||a.name.localeCompare(b.name,"de")).map(e=>entry(e.goals+" Tore",e.name,e.team)),
+    "Offensivstärkste Verteidiger":offensivVerteidiger(people.map(e=>({...e,tore:e.goals}))).map(e=>entry(e.tore+" Tore",e.name,e.team)),
     "MVP-Wertung":people.filter(e=>e.goals>=5).map(e=>({...e,share:e.goals/totals.get(e.team)})).sort((a,b)=>b.share-a.share||b.goals-a.goals).map(e=>entry(Math.round(e.share*100)+" %",e.name,e.team+" · ab 5 Toren"))
   };
 }
