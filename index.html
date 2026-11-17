@@ -636,10 +636,10 @@ const SPIELE = [
   { tag:"Mittwoch",   datum:"28.10.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Ministerium für geheime Tätigkeiten", t1:10, t2:3, gespielt:true  },
   { tag:"Donnerstag", datum:"29.10.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Kickstarter",     t1:1, t2:10, gespielt:true  },
   { tag:"Dienstag",   datum:"10.11.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Kickstarter",                         t1:10, t2:4, gespielt:true },
-  { tag:"Dienstag",   datum:"17.11.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei",   t1:0, t2:0, gespielt:false },
+  { tag:"Dienstag",   datum:"17.11.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei",   t1:3, t2:10, gespielt:true },
   { tag:"Mittwoch",   datum:"18.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"Tomvoll Attack",                      t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"18.11.2026 12:40", phase:"Gruppe B", a:"Aus Versehen",    b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
-  { tag:"Donnerstag", datum:"19.11.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"RosaSee",                             t1:0, t2:0,  gespielt:false },
+  { tag:"Dienstag",   datum:"17.11.2026 12:30", phase:"Gruppe A", a:"Fußballhörnchen", b:"RosaSee",                             t1:10, t2:1, gespielt:true },
   { tag:"Mittwoch",   datum:"25.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"RosaSee",                             t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"25.11.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Sgladschdglei",                       t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"02.12.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"Hopfentornado",                       t1:0, t2:0,  gespielt:false },
@@ -664,14 +664,15 @@ const KO = {
    ========================================================================= */
 const KICKTIPP = {
   "url": "https://www.kicktipp.de/roxtra-kickerturnier-2026/tippuebersicht",
-  "stand": "10.11.2026",
+  "stand": "17.11.2026",
   "spieltage": [
     "KW 41",
     "KW 42",
     "KW 43",
     "KW 44",
     "KW 45",
-    "KW 46"
+    "KW 46",
+    "KW 47"
   ],
   "tipper": [
     {
@@ -683,10 +684,11 @@ const KICKTIPP = {
         8,
         8,
         0,
-        2
+        2,
+        4
       ],
-      "siege": 1.17,
-      "gesamt": 26
+      "siege": 1.42,
+      "gesamt": 30
     },
     {
       "pos": 2,
@@ -697,10 +699,11 @@ const KICKTIPP = {
         4,
         8,
         0,
-        2
+        2,
+        4
       ],
-      "siege": 0.87,
-      "gesamt": 26
+      "siege": 1.12,
+      "gesamt": 30
     },
     {
       "pos": 3,
@@ -711,10 +714,11 @@ const KICKTIPP = {
         4,
         6,
         0,
-        2
+        2,
+        4
       ],
-      "siege": 0.87,
-      "gesamt": 24
+      "siege": 1.12,
+      "gesamt": 28
     },
     {
       "pos": 4,
@@ -725,27 +729,14 @@ const KICKTIPP = {
         2,
         10,
         0,
+        2,
         2
       ],
       "siege": 1.17,
-      "gesamt": 22
+      "gesamt": 24
     },
     {
       "pos": 5,
-      "name": "Inka",
-      "punkte": [
-        2,
-        6,
-        0,
-        8,
-        0,
-        2
-      ],
-      "siege": 0.37,
-      "gesamt": 18
-    },
-    {
-      "pos": 6,
       "name": "TJ",
       "punkte": [
         0,
@@ -753,10 +744,26 @@ const KICKTIPP = {
         2,
         4,
         0,
-        2
+        2,
+        4
+      ],
+      "siege": 0.62,
+      "gesamt": 18
+    },
+    {
+      "pos": 6,
+      "name": "Inka",
+      "punkte": [
+        2,
+        6,
+        0,
+        8,
+        0,
+        2,
+        0
       ],
       "siege": 0.37,
-      "gesamt": 14
+      "gesamt": 18
     },
     {
       "pos": 7,
@@ -764,6 +771,7 @@ const KICKTIPP = {
       "punkte": [
         2,
         6,
+        0,
         0,
         0,
         0,
@@ -781,6 +789,7 @@ const KICKTIPP = {
         0,
         0,
         0,
+        0,
         0
       ],
       "siege": 0,
@@ -790,6 +799,7 @@ const KICKTIPP = {
       "pos": 9,
       "name": "bc",
       "punkte": [
+        0,
         0,
         0,
         0,
@@ -809,6 +819,7 @@ const KICKTIPP = {
         0,
         0,
         0,
+        0,
         0
       ],
       "siege": 0,
@@ -818,6 +829,7 @@ const KICKTIPP = {
       "pos": 9,
       "name": "PW",
       "punkte": [
+        0,
         0,
         0,
         0,
@@ -836,6 +848,22 @@ const KICKTIPP = {
 const DEFAULT_LOGO = "default.png";
 // Chronologische Tore: Seite a = Heimteam (a), Seite b = Gastteam (b) des jeweiligen Spiels.
 const MATCH_STORIES = [{
+  datum:"17.11.2026 12:30", a:"Fußballhörnchen", b:"RosaSee", duration:5 + 20 / 60,
+  goals:[
+    ["a","Tobi","0:45"],["a","Micha","1:07"],["a","Micha","1:21"],
+    ["a","Micha","2:00"],["a","Micha","2:11"],["a","Julia","2:30"],
+    ["b","Kevin","2:50"],["a","Kevin","3:20",true],["a","Micha","3:50"],
+    ["a","Micha","4:25"],["a","Julia","5:20",true]
+  ]
+},{
+  datum:"17.11.2026 12:30", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei",
+  goals:[
+    ["b","Luca",1],["b","Luca",2],["a","Benjamin",2],["b","Steffen",2],
+    ["b","Luca",3],["b","Luca",4],["b","Luca",4],["b","Luca",5],
+    ["b","Steffen",5],["a","Benjamin",6],["b","Luca",6],
+    ["a","Benjamin",7],["b","Luca",7]
+  ]
+},{
   datum:"20.10.2026 12:30", a:"Fußballhörnchen", b:"Hopfentornado",
   goals:[
     ["a","Tobi"],["b","Viktor"],["a","Micha"],["b","Andreas"],["b","Viktor"],
@@ -1879,6 +1907,7 @@ function renderStatistiken(){
   const covered = played.filter(m => matchStory(m));
   const estimated = covered.filter(m => matchStory(m).estimated).length;
   document.getElementById("stats-coverage").textContent =
+    "Stand: " + [...played].sort((a,b) => datumWert(b.datum) - datumWert(a.datum))[0]?.datum.split(" ")[0] + " · " +
     covered.length + " von " + played.length + " gespielten Partien mit Torschützen · " +
     played.reduce((sum, m) => sum + m.t1 + m.t2, 0) + " Tore inklusive Eigentore · " +
     estimated + " Torfolgen nachträglich verteilt. Diese Tore zählen für Torschützen und MVP. " +
