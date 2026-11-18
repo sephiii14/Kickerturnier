@@ -999,7 +999,7 @@ const MATCH_STORIES = [
   datum:"17.11.2026 12:45", a:"Fußballhörnchen", b:"RosaSee", duration:5 + 20 / 60,
   goals:[
     ["a","Tobi","0:45"],["a","Micha","1:07"],["a","Micha","1:21"],
-    ["a","Micha","2:00"],["a","Micha","2:11"],["a","Julia","2:30"],
+    ["a","Micha","2:00"],["a","Micha","2:11"],["a","Julia","2:30",true],
     ["b","Kevin","2:50"],["a","Kevin","3:20",true],["a","Micha","3:50"],
     ["a","Micha","4:25"],["a","Julia","5:20",true]
   ]
@@ -1858,6 +1858,20 @@ function offensivVerteidiger(spieler){
     .sort((a,b) => b.tore - a.tore || a.name.localeCompare(b.name,"de") || a.team.localeCompare(b.team,"de"));
 }
 
+// Ohne gemeldete Spieldauer zählt die vorhandene Zeit des letzten Tores.
+function spieleNachDauer(){
+  return SPIELE.filter(spiel => spiel.gespielt)
+    .map(spiel => {
+      const story = matchStory(spiel);
+      const gemeldet = Number.isFinite(story?.duration) && story.duration > 0;
+      const letztesTor = story ? storyGoals(story).at(-1) : null;
+      return {spiel, duration:gemeldet ? story.duration : letztesTor?.seconds / 60,
+        geschaetzt:!gemeldet && typeof letztesTor?.minute === "number"};
+    })
+    .filter(e => Number.isFinite(e.duration) && e.duration > 0)
+    .sort((a,b) => a.duration - b.duration || datumWert(a.spiel.datum) - datumWert(b.spiel.datum));
+}
+
 function statistikDaten(){
   const gespielt = SPIELE.filter(m => m.gespielt);
   const events = [];
@@ -1947,7 +1961,7 @@ function statistikDaten(){
     .map(e => ({...e, schnitt:e.gegentore / e.spiele}))
     .sort((x,y) => x.schnitt - y.schnitt)[0] || null;
 
-  return {schnellstesTor, kuerzesteLuecke, laengsteLuecke, torreichstes, knappstes, deutlichstes,
+  return {schnellstesSpiel:spieleNachDauer()[0] || null, schnellstesTor, kuerzesteLuecke, laengsteLuecke, torreichstes, knappstes, deutlichstes,
           torschuetzen, verteidiger:offensivVerteidiger(alleSpieler).slice(0,3), pechvogel, mvp, favorit, serienTeam, besteAbwehr,
           hatZeiten:timedMatches.length > 0};
 }
@@ -1993,6 +2007,12 @@ function renderStatistiken(){
   const spielTeams = m => [m.a, m.b];
   const karten = [];
 
+  if (s.schnellstesSpiel) {
+    const {spiel, duration, geschaetzt} = s.schnellstesSpiel;
+    karten.push(statCard({icon:"⏱", label:"Schnellstes Spiel",
+      wert:(geschaetzt ? "ca. " : "") + formatDuration(duration), name:spielName(spiel),
+      meta:spiel.datum + " · Spieldauer oder Zeit des letzten Tores", teams:spielTeams(spiel)}));
+  }
   if (s.schnellstesTor) {
     const schuetze = s.schnellstesTor.goal.scorer +
       (s.schnellstesTor.goal.ownGoal ? " (Eigentor)" : "") + " · " + s.schnellstesTor.team;
@@ -2103,6 +2123,7 @@ function statistikRanglisten(){
   const gapEntries=list=>list.slice(0,5).map(e=>entry(formatSeconds(e.gap)+" Min.",
     (e.from?e.from.timeLabel:"Anpfiff")+" → "+e.to.timeLabel,matchText(e.m)));
   return {
+    "Schnellstes Spiel":spieleNachDauer().map(e=>entry((e.geschaetzt ? "ca. " : "") + formatDuration(e.duration),matchText(e.spiel),e.spiel.datum + (e.geschaetzt ? " · Aus Tor-Minuten berechnet" : ""))),
     "Schnellstes Tor":goals.sort((a,b)=>a.g.seconds-b.g.seconds).slice(0,5).map(e=>entry(formatSeconds(e.g.seconds)+" Min.",e.g.scorer+(e.g.ownGoal?" (Eigentor)":""),matchText(e.m))),
     "Kürzester Torabstand":gapEntries(gaps.filter(e=>e.from).sort((a,b)=>a.gap-b.gap)),
     "Längste Zeit ohne Tor":gapEntries([...gaps].sort((a,b)=>b.gap-a.gap)),
