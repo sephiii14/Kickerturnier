@@ -638,8 +638,8 @@ const SPIELE = [
   { tag:"Dienstag",   datum:"10.11.2026 12:30", phase:"Gruppe B", a:"Alpha & Omega",   b:"Kickstarter",                         t1:10, t2:4, gespielt:true },
   { tag:"Dienstag",   datum:"17.11.2026 12:30", phase:"Gruppe B", a:"Ministerium für geheime Tätigkeiten", b:"Sgladschdglei",   t1:3, t2:10, gespielt:true },
   { tag:"Dienstag",   datum:"17.11.2026 12:45", phase:"Gruppe A", a:"Fußballhörnchen", b:"RosaSee",                             t1:10, t2:1, gespielt:true },
-  { tag:"Mittwoch",   datum:"18.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"Tomvoll Attack",                      t1:0, t2:0,  gespielt:false },
-  { tag:"Mittwoch",   datum:"18.11.2026 12:40", phase:"Gruppe B", a:"Aus Versehen",    b:"Kickstarter",                         t1:0, t2:0,  gespielt:false },
+  { tag:"Mittwoch",   datum:"18.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"Tomvoll Attack",                      t1:10, t2:1, gespielt:true },
+  { tag:"Mittwoch",   datum:"18.11.2026 12:40", phase:"Gruppe B", a:"Aus Versehen",    b:"Kickstarter",                         t1:5, t2:10, gespielt:true },
   { tag:"Mittwoch",   datum:"25.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"RosaSee",                             t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"25.11.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Sgladschdglei",                       t1:0, t2:0,  gespielt:false },
   { tag:"Mittwoch",   datum:"02.12.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"Hopfentornado",                       t1:0, t2:0,  gespielt:false },
@@ -664,7 +664,7 @@ const KO = {
    ========================================================================= */
 const KICKTIPP = {
   "url": "https://www.kicktipp.de/roxtra-kickerturnier-2026/tippuebersicht",
-  "stand": "17.11.2026",
+  "stand": "18.11.2026",
   "spieltage": [
     "KW 41",
     "KW 42",
@@ -685,10 +685,10 @@ const KICKTIPP = {
         8,
         0,
         2,
-        4
+        10
       ],
-      "siege": 1.42,
-      "gesamt": 30
+      "siege": 2.17,
+      "gesamt": 36
     },
     {
       "pos": 2,
@@ -700,13 +700,13 @@ const KICKTIPP = {
         8,
         0,
         2,
-        4
+        6
       ],
-      "siege": 1.12,
-      "gesamt": 30
+      "siege": 0.87,
+      "gesamt": 32
     },
     {
-      "pos": 3,
+      "pos": 2,
       "name": "MB14",
       "punkte": [
         6,
@@ -715,10 +715,10 @@ const KICKTIPP = {
         6,
         0,
         2,
-        4
+        8
       ],
-      "siege": 1.12,
-      "gesamt": 28
+      "siege": 0.87,
+      "gesamt": 32
     },
     {
       "pos": 4,
@@ -730,10 +730,10 @@ const KICKTIPP = {
         10,
         0,
         2,
-        2
+        4
       ],
       "siege": 1.17,
-      "gesamt": 24
+      "gesamt": 26
     },
     {
       "pos": 5,
@@ -745,10 +745,10 @@ const KICKTIPP = {
         4,
         0,
         2,
-        4
+        8
       ],
-      "siege": 0.62,
-      "gesamt": 18
+      "siege": 0.37,
+      "gesamt": 22
     },
     {
       "pos": 6,
@@ -847,7 +847,155 @@ const KICKTIPP = {
 
 const DEFAULT_LOGO = "default.png";
 // Chronologische Tore: Seite a = Heimteam (a), Seite b = Gastteam (b) des jeweiligen Spiels.
-const MATCH_STORIES = [{
+const MATCH_STORIES = [
+  {
+    "datum": "18.11.2026 12:30",
+    "a": "Merge Conflict",
+    "b": "Tomvoll Attack",
+    "duration": 5.4,
+    "goals": [
+      [
+        "a",
+        "Tim",
+        "0:25"
+      ],
+      [
+        "a",
+        "Matze",
+        "1:04"
+      ],
+      [
+        "a",
+        "Tim",
+        "1:32"
+      ],
+      [
+        "a",
+        "Tim",
+        "2:15"
+      ],
+      [
+        "a",
+        "Matze",
+        "2:54"
+      ],
+      [
+        "a",
+        "Matze",
+        "3:35"
+      ],
+      [
+        "a",
+        "Matze",
+        "4:04"
+      ],
+      [
+        "a",
+        "Matze",
+        "4:21"
+      ],
+      [
+        "a",
+        "Matze",
+        "4:40"
+      ],
+      [
+        "b",
+        "Tom G.",
+        "5:05"
+      ],
+      [
+        "a",
+        "Matze",
+        "5:24"
+      ]
+    ]
+  },
+  {
+    "datum": "18.11.2026 12:40",
+    "a": "Aus Versehen",
+    "b": "Kickstarter",
+    "duration": 5.95,
+    "goals": [
+      [
+        "b",
+        "Philemon",
+        "0:07"
+      ],
+      [
+        "b",
+        "Philemon",
+        "0:20"
+      ],
+      [
+        "b",
+        "Michi",
+        "0:43"
+      ],
+      [
+        "b",
+        "Philemon",
+        "1:22"
+      ],
+      [
+        "b",
+        "Michi",
+        "1:32"
+      ],
+      [
+        "a",
+        "Inka",
+        "2:31"
+      ],
+      [
+        "b",
+        "Philemon",
+        "3:02"
+      ],
+      [
+        "a",
+        "Inka",
+        "3:33"
+      ],
+      [
+        "b",
+        "Philemon",
+        "4:04"
+      ],
+      [
+        "a",
+        "Inka",
+        "4:11"
+      ],
+      [
+        "b",
+        "Philemon",
+        "4:27"
+      ],
+      [
+        "b",
+        "Michi",
+        "4:56"
+      ],
+      [
+        "a",
+        "Inka",
+        "5:08"
+      ],
+      [
+        "a",
+        "Philemon",
+        "5:21",
+        true
+      ],
+      [
+        "b",
+        "Philemon",
+        "5:57"
+      ]
+    ]
+  }
+,{
   datum:"17.11.2026 12:45", a:"Fußballhörnchen", b:"RosaSee", duration:5 + 20 / 60,
   goals:[
     ["a","Tobi","0:45"],["a","Micha","1:07"],["a","Micha","1:21"],
