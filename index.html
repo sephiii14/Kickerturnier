@@ -640,8 +640,8 @@ const SPIELE = [
   { tag:"Dienstag",   datum:"17.11.2026 12:45", phase:"Gruppe A", a:"Fußballhörnchen", b:"RosaSee",                             t1:10, t2:1, gespielt:true },
   { tag:"Mittwoch",   datum:"18.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"Tomvoll Attack",                      t1:10, t2:1, gespielt:true },
   { tag:"Mittwoch",   datum:"18.11.2026 12:40", phase:"Gruppe B", a:"Aus Versehen",    b:"Kickstarter",                         t1:5, t2:10, gespielt:true },
-  { tag:"Mittwoch",   datum:"25.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"RosaSee",                             t1:0, t2:0,  gespielt:false },
-  { tag:"Mittwoch",   datum:"25.11.2026 12:45", phase:"Gruppe A", a:"Merge Conflict",  b:"Hopfentornado",                       t1:0, t2:0,  gespielt:false },
+  { tag:"Mittwoch",   datum:"25.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"RosaSee",                             t1:10, t2:8, gespielt:true },
+  { tag:"Mittwoch",   datum:"25.11.2026 12:45", phase:"Gruppe A", a:"Merge Conflict",  b:"Hopfentornado",                       t1:10, t2:1, gespielt:true },
   { tag:"Donnerstag", datum:"26.11.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Sgladschdglei",                       t1:0, t2:0,  gespielt:false },
 ];
 
@@ -848,6 +848,26 @@ const KICKTIPP = {
 const DEFAULT_LOGO = "default.png";
 // Chronologische Tore: Seite a = Heimteam (a), Seite b = Gastteam (b) des jeweiligen Spiels.
 const MATCH_STORIES = [
+  {
+    datum:"25.11.2026 12:45", a:"Merge Conflict", b:"Hopfentornado", duration:4.5,
+    goals:[
+      ["a","Matze","0:17"],["b","Viktor","0:54"],["a","Matze","1:11"],
+      ["a","Matze","1:31"],["a","Tim","1:44"],["a","Matze","2:12"],
+      ["a","Tim","3:40"],["a","Matze","3:50"],["a","Matze","4:10"],
+      ["a","Tim","4:21"],["a","Tim","4:30"]
+    ]
+  },
+  {
+    datum:"25.11.2026 12:30", a:"Merge Conflict", b:"RosaSee", duration:8 + 14 / 60,
+    goals:[
+      ["a","Matze","0:11"],["a","Matze","0:42"],["b","Kevin","0:57"],
+      ["a","Matze","1:50"],["b","Kevin","2:04"],["b","Kevin","2:41"],
+      ["a","Matze","3:15"],["a","Matze","4:01"],["a","Matze","4:20"],
+      ["b","Julia","4:54"],["a","Matze","5:18"],["a","Matze","5:41"],
+      ["b","Kevin","5:54"],["b","Kevin","6:23"],["b","Julia","6:46"],
+      ["a","Matze","7:19"],["b","Kevin","7:59"],["a","Matze","8:14"]
+    ]
+  },
   {
     "datum": "18.11.2026 12:30",
     "a": "Merge Conflict",
