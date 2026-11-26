@@ -753,6 +753,114 @@
     .detail-body .tempo-team h4{font-size:16px}.tempo-team-head>div>span{font-size:11px}.tempo-team-head>strong{font-size:22px}
     .tempo-match{font-size:12px;align-items:start}.tempo-match small{font-size:10px}.duel-form-row{gap:10px}.duel-form-row>div{padding:9px}
   }
+  /* Spielerprofile und eigenständige Klickflächen für Spielernamen */
+  .player-link{display:inline;padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:inherit;text-align:inherit;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;border-radius:3px;cursor:pointer}
+  .player-link:hover,.player-link:focus-visible{color:var(--blue-ink);text-decoration-color:currentColor}
+  .playoff-players .player-link:hover,.playoff-players .player-link:focus-visible{color:#8fd5ff}
+  .teamcell-player-links{display:grid;grid-template-columns:36px minmax(0,1fr);column-gap:12px;row-gap:1px}
+  .teamcell-main{grid-column:1/-1;display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;align-items:center}
+  .teamcell-player-links>.players{grid-column:2;line-height:1.5}
+  .teamcell-player-links>.players .player-link{color:var(--muted)}
+  .teamcell-player-links>.players .player-link:hover{color:var(--blue)}
+  .playoff-team-main{display:flex;flex-direction:column;align-items:center;width:100%;min-width:0;padding:0;border:0;background:none;color:inherit;font:inherit;border-radius:12px}
+  .duel-team-main{display:flex;flex-direction:column;align-items:center;padding:0;border:0;background:none;color:inherit;font:inherit;border-radius:10px}
+  .matchday-team-stack{width:100%;min-width:0}
+  .matchday-team-main{display:flex;align-items:center;gap:15px;width:100%;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;border-radius:10px}
+  .matchday-team:last-child .matchday-team-main{flex-direction:row-reverse;text-align:right}
+  .matchday-team-stack>.players{margin-left:99px;margin-top:4px}
+  .matchday-team:last-child .matchday-team-stack>.players{margin-left:0;margin-right:99px;text-align:right}
+  .playoff-team:focus-within .playoff-logo{transform:translateY(-4px)}
+  .playoff-team:focus-within .playoff-logo::before{opacity:1;transform:scale(1.3)}
+  .stat-card.is-interactive:focus-within,.rank-card.is-interactive:focus-within{outline:2px solid var(--blue);outline-offset:3px}
+  .player-detail-dialog{width:min(1000px,calc(100% - 24px));max-height:93vh;padding:0;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink);overflow:auto;box-shadow:0 30px 110px var(--shadow-lg)}
+  .player-detail-dialog::backdrop{background:var(--overlay);backdrop-filter:blur(8px)}
+  .player-detail-dialog>.detail-head{position:sticky;top:0;z-index:3;background:var(--surface);justify-content:space-between}
+  .player-detail-dialog .detail-head h3{font-size:29px;letter-spacing:-.04em;margin:0}
+  .individual-hero{display:flex;align-items:center;gap:22px;padding:22px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(120deg,var(--surface-2),var(--surface));margin-bottom:18px}
+  .individual-hero>img{width:96px;height:96px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 3px 12px var(--shadow-card))}
+  .detail-body .individual-hero h4{font-size:26px;color:var(--ink);text-transform:none;letter-spacing:-.04em;line-height:1.15;margin:4px 0 9px}
+  .individual-hero p{font-size:14px;color:var(--muted);margin:0}
+  .individual-badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .individual-badges>span{font-size:11px;border:1px solid var(--line);border-radius:99px;padding:4px 9px;background:var(--surface);color:var(--blue-ink)}
+  .individual-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px}
+  .individual-stat{padding:15px 10px;border:1px solid var(--line);background:var(--paper);border-radius:12px;text-align:center}
+  .individual-stat strong{display:block;font-size:29px;font-weight:650;letter-spacing:-.04em;color:var(--blue)}
+  .individual-stat span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+  .individual-analysis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:18px;align-items:start}
+  .individual-panel{border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0;background:var(--surface)}
+  .detail-body .individual-panel h4{font-size:17px;letter-spacing:-.03em;text-transform:none;margin:0 0 12px;color:var(--ink)}
+  .individual-panel>p{font-size:12px;color:var(--muted);line-height:1.6;margin:0 0 15px}
+  .individual-panel-head{display:flex;justify-content:space-between;gap:12px;align-items:start}
+  .individual-trend{border-radius:99px;padding:4px 9px;font-size:12px;background:var(--paper);white-space:nowrap;color:var(--muted)}
+  .individual-trend.is-up{color:var(--green);background:color-mix(in srgb,var(--green) 10%,var(--surface))}
+  .individual-trend.is-down{color:var(--red);background:color-mix(in srgb,var(--red) 8%,var(--surface))}
+  .individual-panel .form-chart{max-height:180px}
+  .individual-inline-metrics{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:12px;margin-top:8px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  .individual-inline-metrics strong{color:var(--blue);font-size:16px;margin-right:3px}
+  .player-progress-chart{display:block;width:100%;height:auto;color:var(--blue);margin-top:14px}
+  .player-share-visual{display:flex;gap:16px;align-items:center}
+  .player-share-visual>svg{width:132px;height:132px;flex:0 0 132px}
+  .share-track{fill:none;stroke:var(--surface-3);stroke-width:11}
+  .share-value{fill:none;stroke:var(--blue);stroke-width:11;stroke-linecap:round}
+  .share-number{fill:var(--blue);font:700 16px var(--font);letter-spacing:-.5px}
+  .share-caption{fill:var(--muted);font:10px var(--font)}
+  .player-share-visual>div>strong{display:block;font-size:15px;color:var(--blue)}
+  .player-share-visual>div>span{font-size:12px;color:var(--muted)}
+  .player-share-visual p{font-size:12px;color:var(--muted);line-height:1.6;margin:12px 0 0}
+  .minute-histogram{display:grid;gap:9px}
+  .minute-histogram>div{display:grid;grid-template-columns:70px minmax(0,1fr) 20px;gap:10px;align-items:center;font-size:12px}
+  .minute-histogram>div>span{color:var(--muted);font-variant-numeric:tabular-nums}
+  .minute-histogram i{display:block;height:9px;border-radius:99px;background:var(--paper);overflow:hidden}
+  .minute-histogram b{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--teal))}
+  .minute-histogram strong{text-align:right;color:var(--blue);font-weight:600}
+  .individual-empty{font-size:13px;line-height:1.7;color:var(--muted);background:var(--paper);border-radius:10px;padding:20px}
+  .individual-records{margin-bottom:20px}
+  .individual-highlight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .individual-highlight-grid>div>span{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}
+  .individual-highlight-grid>div>strong{font-size:24px;color:var(--blue);letter-spacing:-.03em}
+  .individual-highlight-grid p{font-size:12px;color:var(--muted);line-height:1.7;margin:7px 0}
+  .streak-run{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+  .streak-run>span{display:grid;place-items:center;width:25px;height:25px;border-radius:6px;font-size:11px;background:var(--surface-2);border:1px solid var(--line);color:var(--blue)}
+  .individual-match-list{display:grid;gap:9px}
+  .individual-match{display:grid;grid-template-columns:42px minmax(0,1fr) 64px auto;gap:13px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+  .individual-match>img{width:42px;height:42px;object-fit:contain;background:var(--logo-bg);border-radius:7px}
+  .individual-match>div>strong{font-size:14px}
+  .individual-match small{display:block;font-size:11px;color:var(--muted);line-height:1.7;margin-top:3px}
+  .individual-match>div>span{display:block;font-size:12px;color:var(--muted);margin-top:5px}
+  .individual-match-goals{text-align:center}
+  .individual-match .individual-match-goals>strong{font-size:25px;color:var(--blue)}
+  .individual-match-button{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--blue-ink);font:inherit;font-size:12px}
+  .individual-match-button:hover{border-color:var(--blue)}
+  @media(max-width:700px){.player-share-visual{gap:10px}.player-share-visual>svg{width:110px;height:110px;flex-basis:110px}.individual-highlight-grid{grid-template-columns:1fr;gap:16px}.individual-highlight-grid>div+div{padding-top:15px;border-top:1px solid var(--line)}}
+  @media(max-width:620px){
+    .matchday-team-main,.matchday-team:last-child .matchday-team-main{flex-direction:column;text-align:center;gap:8px}
+    .matchday-team-stack>.players,.matchday-team:last-child .matchday-team-stack>.players{margin:4px 0 0;text-align:center}
+    .player-detail-dialog>.detail-head{padding:16px}.player-detail-dialog>.detail-body{padding:16px 13px}.player-detail-dialog .detail-head h3{font-size:25px}
+    .individual-hero{gap:14px;padding:17px 14px}.individual-hero>img{width:70px;height:70px}.detail-body .individual-hero h4{font-size:21px}
+    .individual-hero p{font-size:12px}.individual-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.individual-stat{padding:12px 8px}.individual-stat strong{font-size:26px}.individual-stat span{font-size:11px}
+    .individual-analysis{grid-template-columns:1fr;gap:13px}.individual-panel{padding:17px}.individual-match{grid-template-columns:33px minmax(0,1fr) 46px;gap:10px}.individual-match>img{width:33px;height:33px}
+    .individual-match>div>strong{font-size:13px}.individual-match-button{grid-column:2/-1;justify-self:end;padding:6px 10px}.individual-badges>span{font-size:10px}
+  }
+  @media(prefers-reduced-motion:reduce){.playoff-team:focus-within .playoff-logo,.playoff-team:focus-within .playoff-logo::before{transform:none}}
+  .drought-summary{display:grid;grid-template-columns:minmax(170px,.8fr) minmax(0,1.3fr);gap:22px;align-items:center;padding:8px 0}
+  .drought-value>strong{display:block;font-size:36px;line-height:1.1;font-weight:650;letter-spacing:-.05em;color:var(--blue)}
+  .drought-value>span{display:block;font-size:13px;color:var(--ink);margin-top:8px}
+  .drought-value>small{display:block;font-size:11px;color:var(--muted);margin-top:5px}
+  .drought-range{display:grid;gap:13px;border-left:2px solid var(--line);padding-left:16px}
+  .drought-range>div>small{display:block;color:var(--blue-ink);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+  .drought-range>div>strong{display:block;font-size:13px;font-weight:600}
+  .drought-range>div>span{display:block;font-size:11px;line-height:1.7;color:var(--muted);margin-top:3px}
+  .stats-dialog-row{grid-template-columns:28px 76px minmax(0,1fr);align-items:start}
+  .ranking-logos{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .ranking-logo-link{border:0;background:none;padding:0;border-radius:7px;cursor:pointer}
+  .ranking-logo-link img{display:block;width:35px;height:35px;object-fit:contain;border-radius:7px;background:var(--logo-bg)}
+  .ranking-logo-link:hover{outline:1px solid var(--blue);outline-offset:2px}
+  .ranking-extra{font-size:12px;color:var(--muted);line-height:1.7;margin:8px 0 0}
+  .ranking-detail{font-size:12px;line-height:1.8;color:var(--muted);border-left:2px solid var(--line);padding-left:10px;margin:9px 0 0}
+  @media(max-width:620px){
+    .drought-summary{grid-template-columns:1fr;gap:18px}.drought-value>strong{font-size:32px}.drought-range{padding-left:12px}
+    .stats-dialog-list{padding-inline:15px}.stats-dialog-row{grid-template-columns:22px 55px minmax(0,1fr);gap:9px;font-size:13px}.ranking-logo-link img{width:25px;height:25px}.ranking-logos{gap:4px}.ranking-extra,.ranking-detail{font-size:11px}
+  }
 </style>
 <script>
   (function(){
@@ -895,6 +1003,11 @@
 <dialog class="finalfour-dialog" id="finalfour-details" aria-labelledby="finalfour-details-title">
   <div class="detail-head"><div><div class="profile-eyebrow" id="finalfour-details-kicker"></div><h3 id="finalfour-details-title"></h3></div><button class="detail-close" type="button" data-close-finalfour aria-label="Statistiken schließen" autofocus>&times;</button></div>
   <div class="detail-body" id="finalfour-details-body"></div>
+</dialog>
+
+<dialog class="player-detail-dialog" id="player-detail" aria-labelledby="player-detail-title">
+  <div class="detail-head"><div><div class="profile-eyebrow">Spielerprofil · Vorrunde</div><h3 id="player-detail-title"></h3></div><button class="detail-close" type="button" data-close-player aria-label="Spielerprofil schließen" autofocus>&times;</button></div>
+  <div class="detail-body" id="player-detail-body"></div>
 </dialog>
 
 <div class="detail-backdrop" id="calculator" hidden>
@@ -2874,14 +2987,14 @@ function openMatchStory(index){
     <div class="story-selection" id="story-selection" aria-live="polite"></div>
     <h4>Torschützen</h4>
     <div class="story-scorers">${[...scorers.values()].sort((x,y) => y.goals-x.goals).map(entry =>
-      `<div class="${entry.side === "a" ? "story-home" : "story-away"}">${esc(entry.scorer)}${entry.ownGoal ? " (Eigentor)" : ""}<b>${entry.goals}</b></div>`).join("")}</div>`;
+      `<div class="${entry.side === "a" ? "story-home" : "story-away"}">${playerLink(entry.scorer,torschuetzeTeam(entry,spiel))}${entry.ownGoal ? " (Eigentor)" : ""}<b>${entry.goals}</b></div>`).join("")}</div>`;
   const selectGoal = index => {
     const goal = goals[index];
     document.querySelectorAll("[data-goal]").forEach(button => {
       button.setAttribute("aria-pressed", Number(button.dataset.goal) === index ? "true" : "false");
     });
     document.getElementById("story-selection").innerHTML = `<strong>${goal.a} : ${goal.b}</strong>
-      ${esc(goal.scorer)}${goal.ownGoal ? " (Eigentor)" : ""} <span>· ${esc(goal.side === "a" ? spiel.a : spiel.b)} · ${goal.number}. Tor${goal.timeLabel ? ` · ${goal.timeLabel}` : ""}${isWinningGoal(goal) ? " · Siegtor!" : ""}</span>`;
+      ${playerLink(goal.scorer,torschuetzeTeam(goal,spiel))}${goal.ownGoal ? " (Eigentor)" : ""} <span>· ${esc(goal.side === "a" ? spiel.a : spiel.b)} · ${goal.number}. Tor${goal.timeLabel ? ` · ${goal.timeLabel}` : ""}${isWinningGoal(goal) ? " · Siegtor!" : ""}</span>`;
   };
   document.querySelectorAll("[data-goal]").forEach(button => {
     button.addEventListener("click", () => selectGoal(Number(button.dataset.goal)));
@@ -2896,8 +3009,12 @@ function logoImg(name){
 function teamCell(name, withPlayers){
   const t = byName.get(norm(name));
   const label = t ? t.name : name;
-  const pl = (t && withPlayers) ? `<div class="players">${esc(t.p1)} &amp; ${esc(t.p2)}</div>` : "";
-  return `<button class="team-link" type="button" data-team="${esc(label)}"><div class="teamcell">${logoImg(label)}<div><div class="tname">${esc(label)}</div>${pl}</div></div></button>`;
+  const pl = (t && withPlayers) ? `<div class="players">${playerLink(t.p1,t.name)} &amp; ${playerLink(t.p2,t.name)}</div>` : "";
+  return `<div class="teamcell teamcell-player-links"><button class="team-link teamcell-main" type="button" data-team="${esc(label)}">${logoImg(label)}<span class="tname">${esc(label)}</span></button>${pl}</div>`;
+}
+
+function playerLink(name,team,label = name){
+  return `<button class="player-link" type="button" data-player="${esc(name)}" data-player-team="${esc(team)}" aria-label="Spielerprofil ${esc(name)} · ${esc(team)} öffnen">${esc(label)}</button>`;
 }
 
 function tabelle(gruppe, spiele = SPIELE){
@@ -3155,6 +3272,14 @@ function spieleNachDauer(){
     .sort((a,b) => a.duration - b.duration || datumWert(a.spiel.datum) - datumWert(b.spiel.datum));
 }
 
+function mvpVergleich(a,b){
+  const anteilA = a.anteil ?? a.share, anteilB = b.anteil ?? b.share;
+  // Gewünschte Platzierung: Bei gleichem angezeigtem Prozentwert Kevin vorziehen.
+  const kevin = entry => entry.name === "Kevin" && norm(entry.team) === norm("RosaSee") ? 1 : 0;
+  return Math.round(anteilB*100)-Math.round(anteilA*100) || kevin(b)-kevin(a) ||
+    anteilB-anteilA || (b.tore ?? b.goals)-(a.tore ?? a.goals);
+}
+
 function statistikDaten(){
   const gespielt = SPIELE.filter(m => m.gespielt);
   const events = [];
@@ -3211,7 +3336,7 @@ function statistikDaten(){
   });
   const mvp = alleSpieler.filter(s => s.tore >= 5)
     .map(s => ({...s, anteil:s.tore / (teamTore.get(norm(s.team)) || s.tore)}))
-    .sort((x,y) => y.anteil - x.anteil || y.tore - x.tore).slice(0,3);
+    .sort(mvpVergleich).slice(0,3);
 
   const {ratings} = ratingDaten();
   const favorit = TEAMS.map(t => ({team:t, rating:Math.round(ratings.get(norm(t.name)))}))
@@ -3273,7 +3398,7 @@ function rankCard(titel, untertitel, eintraege, extraClass = ""){
     <div class="rank-row${i === 0 ? " top1" : ""}">
       <span class="rank-pos">${String(i+1).padStart(2,"0")}</span>
       ${statLogo(e.team)}
-      <div><div class="rank-name">${esc(e.name)}</div><div class="rank-team">${esc(e.meta ?? e.team)}</div></div>
+      <div><div class="rank-name">${byName.has(norm(e.team)) && !byName.has(norm(e.name)) ? playerLink(e.name,e.team) : esc(e.name)}</div><div class="rank-team">${esc(e.meta ?? e.team)}</div></div>
       <span class="rank-value">${esc(e.anzeige)}</span>
       <span class="rank-bar"><i style="width:${(e.wert / maximum * 100).toFixed(1)}%"></i></span>
     </div>`).join("");
@@ -3286,6 +3411,8 @@ function rankCard(titel, untertitel, eintraege, extraClass = ""){
 
 function renderStatistiken(){
   const s = statistikDaten();
+  const droughts = droughtRankings();
+  const fireRates = fireRateRankings();
   const spielName = m => `${m.a} ${m.t1}:${m.t2} ${m.b}`;
   const spielTeams = m => [m.a, m.b];
   const karten = [];
@@ -3354,6 +3481,28 @@ function renderStatistiken(){
       name:s.pechvogel.name, meta:s.pechvogel.team, teams:[s.pechvogel.team]}));
   }
 
+  if (droughts.teams[0]) {
+    const record = droughts.teams[0];
+    karten.push(statCard({icon:"🏜️",label:"Durststrecke · Teams",wert:formatSeconds(record.drought.seconds)+" Min.",
+      name:record.name,meta:"Spielübergreifende Spielzeit · inklusive Schätzzeiten",teams:[record.team]}));
+  }
+  if (droughts.players[0]) {
+    const record = droughts.players[0];
+    karten.push(statCard({icon:"⌛",label:"Durststrecke · Spieler",wert:formatSeconds(record.drought.seconds)+" Min.",
+      name:record.name,meta:record.team+" · Spielübergreifende Teamspielzeit",teams:[record.team]}));
+  }
+
+  if (fireRates.teams[0]) {
+    const record = fireRates.teams[0];
+    karten.push(statCard({icon:"🔥",label:"Feuerrate · Teams",wert:numberDE(record.rate.seconds)+" s",
+      name:record.name,meta:"Kürzester Abstand eigener Tore · auch spielübergreifend",teams:[record.team]}));
+  }
+  if (fireRates.players[0]) {
+    const record = fireRates.players[0];
+    karten.push(statCard({icon:"🚀",label:"Feuerrate · Spieler",wert:numberDE(record.rate.seconds)+" s",
+      name:record.name,meta:record.team+" · Kürzester Abstand eigener Tore",teams:[record.team]}));
+  }
+
   const played = SPIELE.filter(m => m.gespielt);
   const covered = played.filter(m => matchStory(m));
   const estimated = covered.filter(m => matchStory(m).estimated || matchStory(m).sequenceEstimated).length;
@@ -3362,7 +3511,7 @@ function renderStatistiken(){
     covered.length + " von " + played.length + " gespielten Partien mit Torschützen · " +
     played.reduce((sum, m) => sum + m.t1 + m.t2, 0) + " Tore inklusive Eigentore · " +
     estimated + " Torfolgen nachträglich verteilt. Diese Tore zählen für Torschützen und MVP. " +
-    "Fehlende Torzeiten wurden mit 27 Sekunden pro Tor ergänzt und in den Spieldetails als geschätzt markiert. Rekorde für Torzeiten und Torabstände berücksichtigen nur Spiele mit vorhandenen Torzeiten und gemeldeter Spieldauer.";
+    "Fehlende Torzeiten wurden mit 27 Sekunden pro Tor ergänzt und in den Spieldetails als geschätzt markiert. Schnellstes Tor und allgemeine Torabstände verwenden vorhandene Torzeiten mit gemeldeter Spieldauer. Ballerbude, Durststrecke und Feuerrate berücksichtigen auch ergänzte Schätzzeiten.";
   document.getElementById("stats-grid").innerHTML = karten.join("");
   const tempoTeams = ballerbudenDaten(TEAMS.map(team => team.name));
   const fastestTempo = tempoTeams.find(team => Number.isFinite(team.average) && team.average > 0)?.average || 1;
@@ -3383,7 +3532,7 @@ function renderStatistiken(){
 
 function statistikRanglisten(){
   const games = SPIELE.filter(m=>m.gespielt);
-  const entry = (value,name,meta) => ({value,name,meta});
+  const entry = (value,name,meta,player = null,detail = "") => ({value,name,meta,player,detail});
   const matchText = m => m.a + " " + m.t1 + ":" + m.t2 + " " + m.b;
   const players = new Map(), totals = new Map(), goals = [], gaps = [];
   const streak = new Map(), best = new Map(), defense = new Map();
@@ -3411,9 +3560,11 @@ function statistikRanglisten(){
     kind==="goals"?(m.t1+m.t2)+" Tore":Math.abs(m.t1-m.t2)+(Math.abs(m.t1-m.t2)===1?" Tor Unterschied":" Tore Unterschied"),matchText(m),m.datum));
   const gapEntries=list=>list.slice(0,5).map(e=>entry(formatSeconds(e.gap)+" Min.",
     (e.from?e.from.timeLabel:"Anpfiff")+" → "+e.to.timeLabel,matchText(e.m)));
+  const droughts = droughtRankings();
+  const fireRates = fireRateRankings();
   return {
     "Schnellstes Spiel":spieleNachDauer().map(e=>entry((e.geschaetzt ? "ca. " : "") + formatDuration(e.duration),matchText(e.spiel),e.spiel.datum + (e.geschaetzt ? matchStory(e.spiel)?.timesEstimated ? " · 27 Sekunden pro Tor (geschätzt)" : " · Aus Tor-Minuten berechnet" : ""))),
-    "Schnellstes Tor":goals.sort((a,b)=>a.g.seconds-b.g.seconds).slice(0,5).map(e=>entry(formatSeconds(e.g.seconds)+" Min.",e.g.scorer+(e.g.ownGoal?" (Eigentor)":""),matchText(e.m))),
+    "Schnellstes Tor":goals.sort((a,b)=>a.g.seconds-b.g.seconds).slice(0,5).map(e=>entry(formatSeconds(e.g.seconds)+" Min.",e.g.scorer+(e.g.ownGoal?" (Eigentor)":""),matchText(e.m),{name:e.g.scorer,team:torschuetzeTeam(e.g,e.m)})),
     "Kürzester Torabstand":gapEntries(gaps.filter(e=>e.from).sort((a,b)=>a.gap-b.gap)),
     "Längste Zeit ohne Tor":gapEntries([...gaps].sort((a,b)=>b.gap-a.gap)),
     "Torreichstes Spiel":matchEntries([...games].sort((a,b)=>(b.t1+b.t2)-(a.t1+a.t2)),"goals"),
@@ -3422,10 +3573,14 @@ function statistikRanglisten(){
     "Topfavorit":TEAMS.map(t=>({t,r:Math.round(ratings.get(norm(t.name)))})).sort((a,b)=>b.r-a.r).map(e=>entry(e.r+" Elo",e.t.name,e.t.p1+" & "+e.t.p2)),
     "Längste Siegesserie":TEAMS.map(t=>({t,n:best.get(t.name)||0})).sort((a,b)=>b.n-a.n).map(e=>entry(e.n+" Siege",e.t.name,e.t.p1+" & "+e.t.p2)),
     "Beste Abwehr":[...defense.values()].filter(e=>e.games>=2).sort((a,b)=>a.conceded/a.games-b.conceded/b.games).map(e=>entry((e.conceded/e.games).toFixed(1).replace(".",",")+" Gegentore",e.team,"Schnitt aus "+e.games+" Spielen · ab 2 Spielen")),
-    "Pechvogel":people.filter(e=>e.own>0).sort((a,b)=>b.own-a.own).map(e=>entry(e.own+(e.own===1?" Eigentor":" Eigentore"),e.name,e.team)),
-    "Top-Torschützen":people.filter(e=>e.goals>0).sort((a,b)=>b.goals-a.goals||a.name.localeCompare(b.name,"de")).map(e=>entry(e.goals+" Tore",e.name,e.team)),
-    "Offensivstärkste Verteidiger":offensivVerteidiger(people.map(e=>({...e,tore:e.goals}))).map(e=>entry(e.tore+" Tore",e.name,e.team)),
-    "MVP-Wertung":people.filter(e=>e.goals>=5).map(e=>({...e,share:e.goals/totals.get(e.team)})).sort((a,b)=>b.share-a.share||b.goals-a.goals).map(e=>entry(Math.round(e.share*100)+" %",e.name,e.team+" · ab 5 Toren"))
+    "Pechvogel":people.filter(e=>e.own>0).sort((a,b)=>b.own-a.own).map(e=>entry(e.own+(e.own===1?" Eigentor":" Eigentore"),e.name,e.team,{name:e.name,team:e.team})),
+    "Top-Torschützen":people.filter(e=>e.goals>0).sort((a,b)=>b.goals-a.goals||a.name.localeCompare(b.name,"de")).map(e=>entry(e.goals+" Tore",e.name,e.team,{name:e.name,team:e.team})),
+    "Offensivstärkste Verteidiger":offensivVerteidiger(people.map(e=>({...e,tore:e.goals}))).map(e=>entry(e.tore+" Tore",e.name,e.team,{name:e.name,team:e.team})),
+    "MVP-Wertung":people.filter(e=>e.goals>=5).map(e=>({...e,share:e.goals/totals.get(e.team)})).sort(mvpVergleich).map(e=>entry(Math.round(e.share*100)+" %",e.name,e.team+" · ab 5 Toren",{name:e.name,team:e.team})),
+    "Durststrecke · Teams":droughts.teams.map(record=>entry(formatSeconds(record.drought.seconds)+" Min.",record.name,"Spielübergreifend · reine Spielzeit",null,droughtDescription(record.drought))),
+    "Durststrecke · Spieler":droughts.players.map(record=>entry(formatSeconds(record.drought.seconds)+" Min.",record.name,record.team+" · Teamspielzeit",{name:record.name,team:record.team},droughtDescription(record.drought))),
+    "Feuerrate · Teams":fireRates.teams.map(record=>entry(numberDE(record.rate.seconds)+" s",record.name,"Kürzester eigener Torabstand · auch spielübergreifend",null,fireRateDescription(record.rate))),
+    "Feuerrate · Spieler":fireRates.players.map(record=>entry(numberDE(record.rate.seconds)+" s",record.name,record.team+" · Kürzester eigener Torabstand",{name:record.name,team:record.team},fireRateDescription(record.rate)))
   };
 }
 
@@ -3436,16 +3591,12 @@ function initStatsDetails(){
     if(card.dataset.statsReady || (title !== "Ballerbude" && !rankings[title]?.length))return;
     card.dataset.statsReady="true";
     card.classList.add("is-interactive");
-    card.setAttribute("role","button");
-    card.tabIndex=0;
-    card.setAttribute("aria-label",title === "Ballerbude" ? "Ballerbude: Berechnung und Rangliste aller zehn Teams öffnen" : title+": Rangliste öffnen");
-    card.setAttribute("aria-haspopup","dialog");
-    const open = () => title === "Ballerbude" ? openFinalfourDetails("tempo-all") : openStatsRanking(title,rankings[title]);
-    card.addEventListener("click",open);
-    card.addEventListener("keydown",event=>{
-      if(event.key === "Enter" || event.key === " "){event.preventDefault();open();}
-    });
-    const label=document.createElement("span");label.className="stats-more";label.textContent="Mehr anzeigen";label.setAttribute("aria-hidden","true");card.append(label);
+    card.setAttribute("role","group");
+    const accessibleLabel = title === "Ballerbude" ? "Ballerbude: Berechnung und Rangliste aller zehn Teams öffnen" : title === "Top-Torschützen" ? "Top-Torschützen: alle Spieler mit Toranteil, Formkurve und Torserien öffnen" : title+": Rangliste öffnen";
+    card.setAttribute("aria-label",title);
+    const open = () => title === "Ballerbude" ? openFinalfourDetails("tempo-all") : title === "Top-Torschützen" ? openFinalfourDetails("players-all") : openStatsRanking(title,rankings[title]);
+    card.addEventListener("click",event=>{if(!event.target.closest("[data-player]"))open();});
+    const label=document.createElement("button");label.type="button";label.className="stats-more";label.textContent="Mehr anzeigen";label.setAttribute("aria-label",accessibleLabel);label.setAttribute("aria-haspopup","dialog");card.append(label);
   });
 }
 
@@ -3456,9 +3607,28 @@ function openStatsRanking(title,entries){
     dialog.setAttribute("aria-labelledby","stats-ranking-title");document.body.append(dialog);
     dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close();});
   }
+  const players = finalfourPlayerData(TEAMS.map(team => team.name));
+  const games = alleSpiele().filter(game => game.gespielt);
+  const rows = entries.map((entry,index) => {
+    const namedTeam = byName.get(norm(entry.name));
+    const match = games.find(game => entry.name === `${game.a} ${game.t1}:${game.t2} ${game.b}` || entry.meta === `${game.a} ${game.t1}:${game.t2} ${game.b}`);
+    const teams = entry.player ? [entry.player.team] : namedTeam ? [namedTeam.name] : match ? [match.a,match.b] : [];
+    let extra = "";
+    if (entry.player) {
+      const player = players.find(p => norm(p.name) === norm(entry.player.name) && norm(p.team) === norm(entry.player.team));
+      if (player) extra = `${player.goals} Tore · ${numberDE(player.share*100)} % Teamanteil · ${player.lastTwo} Tore in den letzten 2 Teamspielen`;
+    } else if (namedTeam) {
+      const profile = teamSnapshot(namedTeam.name);
+      extra = `${profile.group.s} Siege aus ${profile.group.sp} Gruppenspielen · ${profile.group.tore}:${profile.group.gegen} Tore · Gruppe ${namedTeam.gruppe}`;
+    }
+    if (match) {
+      const story = matchStory(match), duration = story && formatStoryDuration(story);
+      extra += (extra ? " · " : "") + (duration ? "Spieldauer "+duration : match.datum) + (story?.timesEstimated ? " · Torzeiten geschätzt" : "");
+    }
+    return `<div class="stats-dialog-row"><span class="rank-pos">${index+1}</span><div class="ranking-logos">${teams.map(team => `<button class="ranking-logo-link" type="button" data-team="${esc(team)}" aria-label="Teamprofil ${esc(team)} öffnen">${logoImg(team)}</button>`).join("")}</div><div><strong>${esc(entry.value)}</strong> · ${entry.player ? playerLink(entry.player.name,entry.player.team,entry.name) : esc(entry.name)}<small>${esc(entry.meta || "")}</small>${extra ? `<p class="ranking-extra">${esc(extra)}</p>` : ""}${entry.detail ? `<p class="ranking-detail">${esc(entry.detail)}</p>` : ""}</div></div>`;
+  }).join("");
   dialog.innerHTML='<div class="detail-head"><h3 id="stats-ranking-title">'+esc(title)+'</h3><button type="button" class="detail-close" aria-label="Statistik schließen" autofocus>×</button></div>'+
-    '<div class="stats-dialog-list" tabindex="0" role="region" aria-label="Rangliste '+esc(title)+'">'+entries.map((e,i)=>
-    '<div class="stats-dialog-row"><span class="rank-pos">'+(i+1)+'</span><div><strong>'+esc(e.value)+'</strong> · '+esc(e.name)+'<small>'+esc(e.meta||"")+'</small></div></div>').join("")+'</div>';
+    '<div class="stats-dialog-list" tabindex="0" role="region" aria-label="Rangliste '+esc(title)+'">'+rows+'</div>';
   dialog.querySelector("button").addEventListener("click",()=>dialog.close());dialog.showModal();
 }
 
@@ -3474,8 +3644,8 @@ function renderMatchday(heute = new Date()){
   }
   const team = (name) => {
     const details = byName.get(norm(name));
-    const players = details ? `<div class="players">${esc(details.p1)} &amp; ${esc(details.p2)}</div>` : "";
-    return `<button class="matchday-team" type="button" data-team="${esc(name)}">${logoImg(name)}<div><span class="team-name">${esc(name)}</span>${players}</div></button>`;
+    const players = details ? `<div class="players">${playerLink(details.p1,details.name)} &amp; ${playerLink(details.p2,details.name)}</div>` : "";
+    return `<div class="matchday-team"><div class="matchday-team-stack"><button class="matchday-team-main" type="button" data-team="${esc(name)}">${logoImg(name)}<span class="team-name">${esc(name)}</span></button>${players}</div></div>`;
   };
   document.getElementById("matchday").innerHTML = spiele.map(spiel => {
   const p = spiel.gespielt ? gewinnchanceVorSpiel(spiel) : gewinnchance(spiel.a, spiel.b);
@@ -3615,6 +3785,114 @@ function teamGoalIntervals(game,story,name){
     method:story.timesEstimated ? "27 Sekunden pro Tor" : allGoals.some(goal => typeof goal.minute === "number") ? "Aus Tor-Minuten angenähert" : story.sequenceEstimated ? "Torzuordnung beispielhaft" : "Gemeldete Torzeiten"};
 }
 
+function goalDroughtData(teamName,playerName = null){
+  const team = byName.get(norm(teamName));
+  if (playerName && team && ![team.p1,team.p2].some(name => norm(name) === norm(playerName))) {
+    return {team:teamName,player:playerName,excluded:true,seconds:null,covered:0,totalGames:0};
+  }
+  const games = SPIELE.filter(game => game.gespielt && [norm(game.a),norm(game.b)].includes(norm(teamName)))
+    .sort((a,b) => datumWert(a.datum)-datumWert(b.datum));
+  let elapsed = 0, lastOwn = 0, start = null, best = null, covered = 0;
+  const estimates = [];
+  const consider = (end,time) => {
+    if (!start) return;
+    const seconds = Math.max(0,time-lastOwn);
+    if (!best || seconds > best.seconds+0.000001) best = {seconds,start:{...start},end:{...end},
+      gamesSpanned:end.index-start.index+1,estimated:estimates.slice(start.index,end.index+1).some(Boolean)};
+  };
+  games.forEach((game,index) => {
+    const story = matchStory(game), timing = teamGoalIntervals(game,story,teamName);
+    estimates[index] = timing?.estimated || false;
+    if (!timing) {start = null;lastOwn = elapsed;return;}
+    covered++;
+    if (!start) {start = {game,index,seconds:0,label:"Anpfiff"};lastOwn = elapsed;}
+    const side = norm(game.a) === norm(teamName) ? "a" : "b";
+    const own = storyGoals(story).filter(goal => !goal.ownGoal && goal.side === side &&
+      (!playerName || norm(goal.scorer) === norm(playerName)));
+    own.forEach(goal => {
+      const end = {game,index,seconds:goal.seconds,label:`Tor ${goal.number}`};
+      consider(end,elapsed+goal.seconds);
+      lastOwn = elapsed+goal.seconds;
+      start = end;
+    });
+    elapsed += timing.durationSeconds;
+    consider({game,index,seconds:timing.durationSeconds,label:"Abpfiff"},elapsed);
+  });
+  return {team:teamName,player:playerName,covered,totalGames:games.length,...(best || {seconds:null,start:null,end:null,gamesSpanned:0,estimated:false}),
+    current:covered && start ? Math.max(0,elapsed-lastOwn) : null};
+}
+
+function droughtRankings(){
+  const compare = (a,b) => (b.drought.seconds ?? -1)-(a.drought.seconds ?? -1) || a.name.localeCompare(b.name,"de") || a.team.localeCompare(b.team,"de");
+  return {
+    teams:TEAMS.map(team => ({name:team.name,team:team.name,drought:goalDroughtData(team.name)})).filter(entry => entry.drought.seconds !== null).sort(compare),
+    players:finalfourPlayerData(TEAMS.map(team => team.name)).map(player => ({name:player.name,team:player.team,drought:goalDroughtData(player.team,player.name)})).filter(entry => entry.drought.seconds !== null).sort(compare)
+  };
+}
+
+function droughtDescription(drought){
+  if (!drought?.start || !drought.end) return "Noch keine zeitlich erfassten Spiele.";
+  const point = value => `${value.game.datum} · ${formatSeconds(value.seconds)} (${value.label})`;
+  return `${point(drought.start)} bis ${point(drought.end)} · ${drought.gamesSpanned} ${drought.gamesSpanned === 1 ? "Teamspiel" : "Teamspiele"}${drought.estimated ? " · inklusive Schätzzeiten" : ""}`;
+}
+
+function droughtSummaryMarkup(drought){
+  if (drought?.excluded) return `<p class="profile-footnote">Gastspieler werden nicht in der Durststrecken-Wertung berücksichtigt.</p>`;
+  if (!drought || drought.seconds === null) return `<p class="profile-footnote">Noch nicht genügend Torzeiten vorhanden.</p>`;
+  const point = value => `<strong>${esc(value.game.a)} ${value.game.t1}:${value.game.t2} ${esc(value.game.b)}</strong><span>${esc(value.game.datum)} · ${formatSeconds(value.seconds)} · ${value.label}</span>`;
+  return `<div class="drought-summary"><div class="drought-value"><strong>${formatSeconds(drought.seconds)}</strong><span>Minuten ohne eigenen Treffer</span><small>${drought.gamesSpanned} ${drought.gamesSpanned === 1 ? "Teamspiel" : "Teamspiele"} berührt${drought.estimated ? " · inkl. Schätzzeiten" : ""}</small></div><div class="drought-range"><div><small>Beginn</small>${point(drought.start)}</div><div><small>Ende</small>${point(drought.end)}</div></div></div><p class="profile-footnote">Spielübergreifende Spielzeit vom Anpfiff oder letzten eigenen Treffer bis zum nächsten eigenen Treffer oder zum letzten erfassten Abpfiff. Pausen zwischen den Partien zählen nicht.${drought.player ? " Bei Spielern wird die Teamspielzeit zugrunde gelegt, da keine Einsatzzeiten erfasst sind." : ""} Eigentore unterbrechen die Durststrecke nicht. Fehlende Torzeiten sind mit 27 Sekunden pro Tor ergänzt.</p>`;
+}
+
+function fireRateData(teamName,playerName = null){
+  const games = SPIELE.filter(game => game.gespielt && [norm(game.a),norm(game.b)].includes(norm(teamName)))
+    .sort((a,b) => datumWert(a.datum)-datumWert(b.datum));
+  const estimates = [];
+  let elapsed = 0, previous = null, best = null, covered = 0;
+  games.forEach((game,index) => {
+    const story = matchStory(game), timing = teamGoalIntervals(game,story,teamName);
+    estimates[index] = timing?.estimated || false;
+    if (!timing) {previous = null;return;}
+    covered++;
+    const side = norm(game.a) === norm(teamName) ? "a" : "b";
+    const own = storyGoals(story).filter(goal => !goal.ownGoal && goal.side === side &&
+      (!playerName || norm(goal.scorer) === norm(playerName)));
+    own.forEach(goal => {
+      const current = {game,index,seconds:goal.seconds,number:goal.number,scorer:goal.scorer,elapsed:elapsed+goal.seconds};
+      if (previous) {
+        const seconds = Math.max(0,current.elapsed-previous.elapsed);
+        const estimated = estimates.slice(previous.index,index+1).some(Boolean);
+        if (!best || seconds < best.seconds-0.000001 || (Math.abs(seconds-best.seconds)<0.000001 && best.estimated && !estimated)) {
+          best = {seconds,from:{...previous},to:{...current},gamesSpanned:index-previous.index+1,estimated};
+        }
+      }
+      previous = current;
+    });
+    elapsed += timing.durationSeconds;
+  });
+  return {team:teamName,player:playerName,covered,totalGames:games.length,
+    ...(best || {seconds:null,from:null,to:null,gamesSpanned:0,estimated:false})};
+}
+
+function fireRateRankings(){
+  const compare = (a,b) => a.rate.seconds-b.rate.seconds || Number(a.rate.estimated)-Number(b.rate.estimated) || a.name.localeCompare(b.name,"de") || a.team.localeCompare(b.team,"de");
+  return {
+    teams:TEAMS.map(team => ({name:team.name,team:team.name,rate:fireRateData(team.name)})).filter(entry => entry.rate.seconds !== null).sort(compare),
+    players:finalfourPlayerData(TEAMS.map(team => team.name)).map(player => ({name:player.name,team:player.team,rate:fireRateData(player.team,player.name)})).filter(entry => entry.rate.seconds !== null).sort(compare)
+  };
+}
+
+function fireRateDescription(rate){
+  if (!rate?.from || !rate.to) return "Noch keine zwei zeitlich erfassten eigenen Tore.";
+  const point = goal => `${goal.game.datum} · ${formatSeconds(goal.seconds)} (Tor ${goal.number}, ${goal.scorer})`;
+  return `${point(rate.from)} bis ${point(rate.to)} · ${rate.gamesSpanned > 1 ? "spielübergreifend" : "im selben Spiel"}${rate.estimated ? " · inklusive Schätzzeiten" : " · gemeldete Torzeiten"}`;
+}
+
+function fireRateSummaryMarkup(rate){
+  if (!rate || rate.seconds === null) return `<p class="profile-footnote">Für die Feuerrate werden mindestens zwei eigene Tore mit Zeitangaben benötigt.</p>`;
+  const point = goal => `<strong>${esc(goal.game.a)} ${goal.game.t1}:${goal.game.t2} ${esc(goal.game.b)}</strong><span>${esc(goal.game.datum)} · ${formatSeconds(goal.seconds)} · Tor ${goal.number} · ${esc(goal.scorer)}</span>`;
+  return `<div class="drought-summary"><div class="drought-value"><strong>${numberDE(rate.seconds)} s</strong><span>Kürzester Abstand zwischen eigenen Toren</span><small>${rate.gamesSpanned > 1 ? "Spielübergreifend · "+rate.gamesSpanned+" Teamspiele" : "Im selben Spiel"}${rate.estimated ? " · inkl. Schätzzeiten" : " · gemeldete Torzeiten"}</small></div><div class="drought-range"><div><small>Erster eigener Treffer</small>${point(rate.from)}</div><div><small>Nächster eigener Treffer</small>${point(rate.to)}</div></div></div><p class="profile-footnote">Kürzeste gespielte Zeit zwischen zwei selbst erzielten Toren, auch über Spielgrenzen hinweg. Andere Treffer dazwischen sind erlaubt. Pausen zwischen Partien und Eigentore zählen nicht. Fehlende Torzeiten sind mit 27 Sekunden pro Tor ergänzt und als geschätzt gekennzeichnet.</p>`;
+}
+
 function ballerbudenDaten(names = finalfourNames()){
   return names.map(name => {
     const matches = [];
@@ -3645,13 +3923,20 @@ function tempoMethodMarkup(){
 }
 
 // Persönliche Serien enden bei JEDEM Treffer einer anderen Person, bei Eigentoren und am Spielende.
-function finalfourPlayerData(){
+function finalfourPlayerData(names = finalfourNames()){
   const players = new Map();
-  finalfourNames().forEach(name => {
-    const profile = teamSnapshot(name);
-    [profile.team.p1,profile.team.p2].forEach(player => players.set(norm(name)+"|"+norm(player),{
-      name:player,team:name,goals:0,ownGoals:0,teamGoals:profile.group.tore,history:[],reliableGames:0,bestStreak:0,streakMatch:null
-    }));
+  const profiles = new Map(names.map(name => [norm(name),teamSnapshot(name)]).filter(([,profile]) => profile));
+  const addPlayer = (team,name) => {
+    const profile = profiles.get(norm(team)), key = norm(team)+"|"+norm(name);
+    if (!profile || players.has(key)) return;
+    players.set(key,{name,team:profile.team.name,goals:0,ownGoals:0,teamGoals:profile.group.tore,
+      history:[],reliableGames:0,bestStreak:0,streakMatch:null});
+  };
+  profiles.forEach(profile => [profile.team.p1,profile.team.p2].forEach(name => addPlayer(profile.team.name,name)));
+  // Auch zusätzlich gemeldete Torschützen aus den Spielprotokollen berücksichtigen.
+  SPIELE.filter(game => game.gespielt).forEach(game => {
+    const story = matchStory(game);
+    if (story) storyGoals(story).forEach(goal => addPlayer(torschuetzeTeam(goal,game),goal.scorer));
   });
   [...SPIELE].filter(game => game.gespielt).sort((a,b) => datumWert(a.datum)-datumWert(b.datum)).forEach(game => {
     const story = matchStory(game), goals = story ? storyGoals(story) : [];
@@ -3685,18 +3970,111 @@ function finalfourPlayerData(){
     .sort((a,b) => b.goals-a.goals || a.name.localeCompare(b.name,"de"));
 }
 
+function playerProfileData(name,team){
+  const players = finalfourPlayerData(TEAMS.map(t => t.name));
+  const player = players.find(p => norm(p.name) === norm(name) && norm(p.team) === norm(team));
+  if (!player) return null;
+  const profile = teamSnapshot(player.team);
+  const timeline = [], timedGoals = [], winningGoals = [];
+  const history = player.history.map(item => {
+    const story = matchStory(item.game), allGoals = story ? storyGoals(story) : [];
+    const side = norm(item.game.a) === norm(player.team) ? "a" : "b";
+    const own = allGoals.filter(goal => norm(goal.scorer) === norm(player.name) && norm(torschuetzeTeam(goal,item.game)) === norm(player.team));
+    const scored = side === "a" ? item.game.t1 : item.game.t2;
+    const conceded = side === "a" ? item.game.t2 : item.game.t1;
+    const reliable = Boolean(story && !story.estimated && !story.sequenceEstimated);
+    own.forEach(goal => {
+      const event = {goal,game:item.game,estimated:Boolean(story?.estimated),timeEstimated:Boolean(story?.timesEstimated || typeof goal.minute === "number")};
+      timeline.push(event);
+      if (!goal.ownGoal && !story.timesEstimated && typeof goal.minute === "string" && Number.isFinite(goal.seconds)) timedGoals.push(event);
+    });
+    const last = allGoals.at(-1);
+    if (reliable && scored > conceded && last && last.side === side && !last.ownGoal && norm(last.scorer) === norm(player.name)) winningGoals.push({game:item.game,goal:last});
+    return {...item,scored,conceded,ownGoals:own.filter(goal => goal.ownGoal).length,
+      matchIndex:SPIELE.indexOf(item.game),reliable};
+  });
+  const best = [...history].filter(item => item.goals !== null).sort((a,b) => b.goals-a.goals)[0] || null;
+  let scoringRun = 0, longestScoringRun = 0;
+  history.forEach(item => {scoringRun = item.goals > 0 ? scoringRun+1 : 0; longestScoringRun = Math.max(longestScoringRun,scoringRun);});
+  const teammate = [profile.team.p1,profile.team.p2].filter(p => norm(p) !== norm(player.name));
+  const position = player.goals > 0 ? players.findIndex(p => p.goals === player.goals)+1 : null;
+  const mvp = statistikRanglisten()["MVP-Wertung"].findIndex(entry => entry.player && norm(entry.player.name) === norm(player.name) && norm(entry.player.team) === norm(player.team));
+  const fastest = [...timedGoals].sort((a,b) => a.goal.seconds-b.goal.seconds)[0] || null;
+  const bucketCount = Math.max(1,...timedGoals.map(event => Math.floor(event.goal.seconds/60)+1));
+  const minuteBuckets = Array.from({length:bucketCount},(_,minute) => ({minute,count:timedGoals.filter(event => Math.floor(event.goal.seconds/60) === minute).length}));
+  const current = history.slice(-2).reduce((sum,item) => sum+(item.goals || 0),0);
+  const previous = history.slice(-4,-2).reduce((sum,item) => sum+(item.goals || 0),0);
+  return {...player,history,profile,timeline,timedGoals,winningGoals,best,longestScoringRun,drought:goalDroughtData(player.team,player.name),fireRate:fireRateData(player.team,player.name),
+    teammate,position,mvp:mvp >= 0 ? mvp+1 : null,fastest,minuteBuckets,
+    scoringMatches:history.filter(item => item.goals > 0).length,
+    average:history.length ? player.goals/history.length : 0,trend:current-previous};
+}
+
+function playerProgressChart(player){
+  let total = 0;
+  const points = [{value:0,label:"Start",description:"Vor der Vorrunde"},...player.history.map(item => {
+    total += item.goals || 0;
+    return {value:total,label:item.game.datum.slice(0,5),description:`${item.game.datum} gegen ${item.opponent}: insgesamt ${total} Tore`};
+  })];
+  const maximum = Math.max(10,Math.ceil(player.goals/10)*10), x = index => 38+index*308/Math.max(1,points.length-1), y = value => 116-value/maximum*92;
+  const path = points.map((point,index) => `${index ? "L" : "M"}${x(index)},${y(point.value)}`).join(" ");
+  const gradientId = `player-progress-${++formChartSequence}`;
+  return `<svg class="player-progress-chart" viewBox="0 0 370 144" role="img" aria-label="Tore insgesamt im Turnierverlauf: ${player.history.map(item => (item.goals || 0)+" gegen "+item.opponent).join(", ")}. Insgesamt ${player.goals} Tore.">
+    <defs><linearGradient id="${gradientId}" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity=".24"/><stop offset="100%" stop-color="currentColor" stop-opacity=".02"/></linearGradient></defs>
+    ${[0,maximum/2,maximum].map(value => `<line x1="32" x2="352" y1="${y(value)}" y2="${y(value)}" class="chart-baseline"/><text x="24" y="${y(value)+4}" text-anchor="end" class="chart-axis-label">${value}</text>`).join("")}
+    <path d="${path} L${x(points.length-1)},116 L38,116 Z" fill="url(#${gradientId})"/>
+    <path d="${path}" class="chart-line"/>
+    ${points.map((point,index) => `<g><title>${esc(point.description)}</title><circle class="chart-point" cx="${x(index)}" cy="${y(point.value)}" r="4"/><text x="${x(index)}" y="${y(point.value)-9}" text-anchor="middle" class="chart-value">${point.value}</text><text x="${x(index)}" y="139" text-anchor="middle" class="chart-label">${esc(point.label)}</text></g>`).join("")}</svg>`;
+}
+
+function playerShareChart(player){
+  const circumference = 2*Math.PI*42;
+  return `<div class="player-share-visual"><svg viewBox="0 0 120 120" role="img" aria-label="${esc(player.name)} erzielt ${numberDE(player.share*100)} Prozent der Teamtore: ${player.goals} von ${player.teamGoals}."><circle class="share-track" cx="60" cy="60" r="42"/><circle class="share-value" cx="60" cy="60" r="42" stroke-dasharray="${player.share*circumference} ${circumference}" transform="rotate(-90 60 60)"/><text x="60" y="62" text-anchor="middle" class="share-number">${numberDE(player.share*100)} %</text><text x="60" y="77" text-anchor="middle" class="share-caption">Teamanteil</text></svg><div><strong>${player.goals} eigene Tore</strong><span>${Math.max(0,player.teamGoals-player.goals)} weitere Teamtore</span><p>Von insgesamt ${player.teamGoals} Toren für ${esc(player.team)}. Gegnerische Eigentore zählen zum Teamgesamtwert.</p></div></div>`;
+}
+
+function openPlayerProfile(name,team){
+  const player = playerProfileData(name,team);
+  if (!player) return;
+  const dialog = document.getElementById("player-detail");
+  document.getElementById("player-detail-title").textContent = player.name;
+  const trend = player.trend > 0 ? "+"+player.trend : String(player.trend);
+  const maxBucket = Math.max(1,...player.minuteBuckets.map(bucket => bucket.count));
+  const best = player.best;
+  const record = player.streakMatch;
+  const metric = (value,label) => `<div class="individual-stat"><strong>${value}</strong><span>${label}</span></div>`;
+  document.getElementById("player-detail-body").innerHTML = `
+    <div class="individual-hero">${logoImg(player.team)}<div><div class="profile-eyebrow">Gruppe ${player.profile.team.gruppe} · ${finalfourNames().includes(player.team) ? "FinalFour" : "Vorrunde"}</div><h4>${esc(player.team)}</h4><p>${player.teammate.length === 1 ? "An der Seite von " : "Teamkollegen: "}${player.teammate.map(name => playerLink(name,player.team)).join(" &amp; ")}</p><div class="individual-badges">${player.position ? `<span>Platz ${player.position} der Torschützen</span>` : ""}${player.mvp ? `<span>MVP-Platz ${player.mvp}</span>` : ""}<span>${player.history.length} Teamspiele erfasst</span></div></div></div>
+    <div class="individual-stats">${metric(player.goals,"Tore")}${metric(numberDE(player.average),"Tore pro Teamspiel")}${metric(player.scoringMatches+"/"+player.history.length,"Teamspiele mit Tor")}${metric(player.reliableGames ? player.bestStreak : "–","Tore am Stück · Rekord")}${metric(player.fastest ? formatSeconds(player.fastest.goal.seconds) : "–","Schnellstes Tor · gemessen")}${metric(player.ownGoals,"Eigentore")}</div>
+    <div class="individual-analysis">
+      <section class="individual-panel"><div class="individual-panel-head"><h4>Die Formkurve</h4><span class="individual-trend ${player.trend > 0 ? "is-up" : player.trend < 0 ? "is-down" : ""}">${trend} Tore</span></div><p>Letzte zwei Teamspiele im Vergleich zu den beiden davor.</p>${formChart(player.history.map(item => ({value:item.goals,label:item.game.datum.slice(0,5),description:`${item.game.datum} gegen ${item.opponent}`})),"player")}<div class="individual-inline-metrics"><span><strong>${player.lastTwo}</strong> Tore in den letzten 2 Spielen</span><span><strong>${player.longestScoringRun}</strong> Teamspiele in Folge getroffen</span></div></section>
+      <section class="individual-panel"><h4>Wie wichtig fürs Team?</h4>${playerShareChart(player)}</section>
+      <section class="individual-panel"><h4>Das Torekonto wächst</h4><p>Alle persönlichen Tore im Verlauf der Vorrunde.</p>${playerProgressChart(player)}</section>
+      <section class="individual-panel"><h4>Wann fallen die Tore?</h4><p>${player.timedGoals.length} von ${player.goals} Toren mit gestoppten Zeiten · Schätzzeiten ausgeschlossen.</p>${player.timedGoals.length ? `<div class="minute-histogram">${player.minuteBuckets.map(bucket => `<div><span>${bucket.minute}:00–${bucket.minute}:59</span><i><b style="width:${bucket.count/maxBucket*100}%"></b></i><strong>${bucket.count}</strong></div>`).join("")}</div>` : `<div class="individual-empty">Noch keine gestoppten Torzeiten für diesen Spieler.</div>`}</section>
+    </div>
+    <section class="individual-panel individual-records"><h4>Feuerrate · Eigene Tore im schnellsten Takt</h4>${fireRateSummaryMarkup(player.fireRate)}</section>
+    <section class="individual-panel individual-records"><h4>Die längste Durststrecke</h4>${droughtSummaryMarkup(player.drought)}</section>
+    <section class="individual-panel individual-records"><h4>Die persönlichen Highlights</h4><div class="individual-highlight-grid"><div><span>Bestes Spiel nach Toren</span><strong>${best ? best.goals+" "+(best.goals === 1 ? "Tor" : "Tore") : "–"}</strong>${best ? `<p>Gegen ${esc(best.opponent)} · ${esc(best.game.datum)}</p>` : ""}</div><div><span>Dokumentierte Siegtore</span><strong>${player.reliableGames ? player.winningGoals.length : "–"}</strong><p>Letztes Tor eines gewonnenen Spiels. Nur gesicherte Torfolgen.</p></div><div><span>Persönliche Torserie</span><strong>${player.reliableGames ? player.bestStreak+" am Stück" : "–"}</strong>${record ? `<p>${esc(record.game.a)} ${record.game.t1}:${record.game.t2} ${esc(record.game.b)} · Tore ${record.from}–${record.to}</p><div class="streak-run" aria-label="${player.bestStreak} direkt aufeinanderfolgende Tore">${Array.from({length:player.bestStreak},(_,index) => `<span>${record.from+index}</span>`).join("")}</div>` : `<p>Keine gesicherte Torfolge vorhanden.</p>`}</div></div></section>
+    <div class="profile-road-head"><h4>Spiel für Spiel</h4><span>Eigene Tore und Ergebnis aus Teamsicht</span></div>
+    <div class="individual-match-list">${player.history.map(item => `<article class="individual-match">${logoImg(item.opponent)}<div><strong>${esc(item.opponent)}</strong><small>${esc(item.game.datum)} · Team ${item.scored}:${item.conceded}${item.estimated ? " · Torschützen verteilt" : ""}</small><span>${item.goals ?? "–"} von ${item.scored} Teamtoren${item.ownGoals ? " · "+item.ownGoals+" Eigentor"+(item.ownGoals > 1 ? "e" : "") : ""}</span></div><div class="individual-match-goals"><strong>${item.goals ?? "–"}</strong><small>eigene Tore</small></div>${item.matchIndex >= 0 && matchStory(item.game) ? `<button class="individual-match-button" type="button" data-match="${item.matchIndex}" aria-label="Torverlauf gegen ${esc(item.opponent)} ansehen">Torverlauf</button>` : ""}</article>`).join("")}</div>
+    <p class="profile-footnote">Grundlage sind die Torprotokolle, nicht die Einsatzzeiten. „Pro Teamspiel“ umfasst alle erfassten Spiele des Teams. Nachträglich verteilte Torschützen zählen zu Toren und Form; persönliche Torserien und Siegtore stammen ausschließlich aus gesicherten Torfolgen. Jede andere Person und jedes Eigentor beendet eine persönliche Serie. Zeitrekorde und Minutenverteilung verwenden nur gestoppte Zeiten, ohne ergänzte oder grobe Torzeiten.</p>`;
+  delete dialog.dataset.storyOpened;
+  if (!dialog.open) dialog.showModal();
+  dialog.querySelector("[data-close-player]").focus();
+}
+
 function openFinalfourDetails(view){
   const dialog = document.getElementById("finalfour-details");
-  const isPlayers = view === "players";
+  const allPlayers = view === "players-all";
+  const isPlayers = view === "players" || allPlayers;
   const allTeams = view === "tempo-all";
-  document.getElementById("finalfour-details-kicker").textContent = isPlayers ? "Die acht Spieler im FinalFour · Vorrunde" : allTeams ? "Teamtempo aller zehn Teams · Vorrunde" : "Teamtempo im FinalFour · Vorrunde";
+  document.getElementById("finalfour-details-kicker").textContent = allPlayers ? "Alle zehn Teams · Vorrunde" : isPlayers ? "Die acht Spieler im FinalFour · Vorrunde" : allTeams ? "Teamtempo aller zehn Teams · Vorrunde" : "Teamtempo im FinalFour · Vorrunde";
   document.getElementById("finalfour-details-title").textContent = isPlayers ? "Die Torjäger" : "Ballerbude";
   if (isPlayers) {
-    const players = finalfourPlayerData();
-    document.getElementById("finalfour-details-body").innerHTML = `<p class="finals-dialog-intro">Acht Spieler. Vier Teams. Wer trifft, wer ist in Form und wer hat die längste persönliche Torserie?</p>
+    const players = finalfourPlayerData(allPlayers ? TEAMS.map(team => team.name) : undefined);
+    document.getElementById("finalfour-details-body").innerHTML = `<p class="finals-dialog-intro">${allPlayers ? "Alle zehn Teams. Alle Spieler." : "Acht Spieler. Vier Teams."} Wer trifft, wer ist in Form und wer hat die längste persönliche Torserie?</p>
       <div class="player-grid">${players.map((player,index) => {
         const record = player.streakMatch;
-        return `<article class="player-card"><div class="player-card-head">${logoImg(player.team)}<div><span class="player-position">${String(index+1).padStart(2,"0")}</span><h4>${esc(player.name)}</h4><span class="player-team">${esc(player.team)}</span></div><strong class="player-total">${player.goals}<small>Tore</small></strong></div>
+        return `<article class="player-card"><div class="player-card-head">${logoImg(player.team)}<div><span class="player-position">${String(index+1).padStart(2,"0")}</span><h4>${playerLink(player.name,player.team)}</h4><span class="player-team">${esc(player.team)}</span></div><strong class="player-total">${player.goals}<small>Tore</small></strong></div>
         <div class="player-metrics"><div><strong>${numberDE(player.share*100)} %</strong><span>der Teamtore</span></div><div><strong>${player.lastTwo}</strong><span>letzte 2 Spiele</span></div><div><strong>${player.reliableGames ? player.bestStreak : "–"}</strong><span>Tore in Folge · Rekord</span></div></div>
         <div class="player-chart-caption"><span>Tore pro Spiel</span><span>ältestes bis neuestes</span></div>
         ${formChart(player.history.map(item => ({value:item.goals,label:item.game.datum.slice(0,5),description:`${item.game.datum} gegen ${item.opponent}${item.estimated ? " · Torschützen nachträglich verteilt" : ""}`})),"player")}
@@ -3741,7 +4119,7 @@ function renderTeamDetail(name){
   detailLogo.src = logoSrc(team.name);
   detailLogo.alt = `Logo ${team.name} vergrößern`;
   document.getElementById("detail-title").textContent = team.name;
-  document.getElementById("detail-players").textContent = `${team.p1} & ${team.p2} · Gruppe ${team.gruppe}`;
+  document.getElementById("detail-players").innerHTML = `${playerLink(team.p1,team.name)} &amp; ${playerLink(team.p2,team.name)} · Gruppe ${team.gruppe}`;
   const gameRow = game => {
     const home = norm(game.a) === norm(team.name), opponent = home ? game.b : game.a;
     const scored = home ? game.t1 : game.t2, conceded = home ? game.t2 : game.t1;
@@ -3766,8 +4144,10 @@ function renderTeamDetail(name){
     ${next ? `<div class="profile-next"><div><div class="profile-eyebrow">${esc(next.phase)} · Nächster Gegner</div><strong>${esc(nextOpponent)}</strong><small>${esc(knockoutDate(next))}</small></div>${chance ? `<div><b>${prozent(chance.a)}</b><small>Siegchance</small></div>` : ""}</div>` : ""}
     <div class="profile-columns">
       <div class="profile-panel"><h4>Die aktuelle Form</h4><div class="form-strip">${form.map(item => `<span class="form-chip ${item.result === "S" ? "is-win" : item.result === "N" ? "is-loss" : ""}" title="${esc(item.opponent)} · ${item.scored}:${item.conceded}" aria-label="${item.result === "S" ? "Sieg" : item.result === "N" ? "Niederlage" : "Unentschieden"} gegen ${esc(item.opponent)}, ${item.scored} zu ${item.conceded}">${item.result}</span>`).join("") || "Noch kein Spiel"}</div>${teamFormChart(profile)}<p class="form-note">Tordifferenz der letzten ${form.length} Spiele, von links nach rechts.<br>S = Sieg · N = Niederlage · U = Unentschieden</p></div>
-      <div class="profile-panel"><h4>Wer macht die Tore?</h4>${scorers.map(s => `<div class="profile-scorer"><span>${esc(s.name)}</span><strong>${s.goals} ${s.goals === 1 ? "Tor" : "Tore"}</strong><span class="scorer-bar"><i style="--share:${s.goals / maxScorer * 100}%"></i></span></div>`).join("")}<p class="form-note">Vorrunde · ohne Eigentore · ${covered}/${group.sp} Spiele mit Torprotokoll</p></div>
+      <div class="profile-panel"><h4>Wer macht die Tore?</h4>${scorers.map(s => `<div class="profile-scorer"><span>${playerLink(s.name,team.name)}</span><strong>${s.goals} ${s.goals === 1 ? "Tor" : "Tore"}</strong><span class="scorer-bar"><i style="--share:${s.goals / maxScorer * 100}%"></i></span></div>`).join("")}<p class="form-note">Vorrunde · ohne Eigentore · ${covered}/${group.sp} Spiele mit Torprotokoll</p></div>
     </div>
+    <div class="profile-panel profile-tempo"><h4>Feuerrate · Eigene Tore im schnellsten Takt</h4>${fireRateSummaryMarkup(fireRateData(team.name))}</div>
+    <div class="profile-panel profile-tempo"><h4>Die längste Durststrecke</h4>${droughtSummaryMarkup(goalDroughtData(team.name))}</div>
     <div class="profile-panel profile-tempo"><div class="profile-tempo-head"><div><h4>Ballerbude · Das Teamtempo</h4><p>${tempo.matches.length} Spiele · ${tempo.intervals} Zeitabschnitte${tempo.estimatedMatches ? ` · ${tempo.estimatedMatches} mit Schätzwerten` : ""}</p></div><strong>${tempo.average === null ? "–" : numberDE(tempo.average)+" s"}<small>Ø Wartezeit</small></strong></div>${tempoBreakdownMarkup(tempo)}${tempoMethodMarkup()}</div>
     <div class="profile-road-head"><h4>Der Weg durchs Turnier</h4><span>${group.pkt} Punkte aus der Vorrunde</span></div>
     <div class="profile-road">${games.map(gameRow).join("")}</div>
@@ -3783,9 +4163,9 @@ function playoffTeam(name,key,side){
   const {team,place} = profile;
   const score = side === "a" ? match.t1 : match.t2;
   const winner = match.gespielt && (side === "a" ? match.t1 > match.t2 : match.t2 > match.t1);
-  return `<button class="playoff-team${winner ? " is-winner" : ""}" type="button" data-team="${esc(name)}" aria-label="${esc(name)}: Teamprofil und Statistiken öffnen">
-    <span class="playoff-logo">${logoImg(name)}</span><span class="playoff-team-name">${esc(name)}</span><span class="playoff-players">${esc(team.p1)} &amp; ${esc(team.p2)}</span>
-    <span class="playoff-seed">${place === 1 ? "Gruppensieger" : "Gruppenzweiter"} ${team.gruppe}</span>${match.gespielt ? `<span class="playoff-score">${score}</span>` : ""}</button>`;
+  return `<div class="playoff-team${winner ? " is-winner" : ""}"><button class="playoff-team-main" type="button" data-team="${esc(name)}" aria-label="${esc(name)}: Teamprofil und Statistiken öffnen">
+    <span class="playoff-logo">${logoImg(name)}</span><span class="playoff-team-name">${esc(name)}</span></button><span class="playoff-players">${playerLink(team.p1,team.name)} &amp; ${playerLink(team.p2,team.name)}</span>
+    <span class="playoff-seed">${place === 1 ? "Gruppensieger" : "Gruppenzweiter"} ${team.gruppe}</span>${match.gespielt ? `<span class="playoff-score">${score}</span>` : ""}</div>`;
 }
 
 function semiCard(key){
@@ -3859,7 +4239,7 @@ function openKoComparison(key){
   const tempo = ballerbudenDaten();
   const tempoA = tempo.find(team => norm(team.name) === norm(A.team.name));
   const tempoB = tempo.find(team => norm(team.name) === norm(B.team.name));
-  const team = p => `<button class="duel-team" type="button" data-team="${esc(p.team.name)}" aria-label="Teamprofil ${esc(p.team.name)} öffnen">${logoImg(p.team.name)}<strong>${esc(p.team.name)}</strong><small>${esc(p.team.p1)} &amp; ${esc(p.team.p2)}</small></button>`;
+  const team = p => `<div class="duel-team"><button class="duel-team-main" type="button" data-team="${esc(p.team.name)}" aria-label="Teamprofil ${esc(p.team.name)} öffnen">${logoImg(p.team.name)}<strong>${esc(p.team.name)}</strong></button><small>${playerLink(p.team.p1,p.team.name)} &amp; ${playerLink(p.team.p2,p.team.name)}</small></div>`;
   const row = (label,a,b,lower = false,display = value => value) => `<div class="duel-row"><strong class="${a !== b && (lower ? a < b : a > b) ? "duel-better" : ""}">${esc(display(a))}</strong><span>${label}</span><strong class="${a !== b && (lower ? b < a : b > a) ? "duel-better" : ""}">${esc(display(b))}</strong></div>`;
   document.getElementById("duel-title").textContent = `${key === "hf1" ? "Halbfinale 1" : "Halbfinale 2"} · Das Duell`;
   document.getElementById("duel-body").innerHTML = `<div class="duel-teams">${team(A)}${team(B)}</div>
@@ -3893,6 +4273,9 @@ function renderSpielplan(){
 }
 
 document.addEventListener("click", event => {
+  const playerButton = event.target.closest("[data-player]");
+  if (playerButton) {openPlayerProfile(playerButton.dataset.player,playerButton.dataset.playerTeam);return;}
+  if (event.target.closest("[data-close-player]")) {document.getElementById("player-detail").close();return;}
   const finalsView = event.target.closest("[data-finals-view]");
   if (finalsView) openFinalfourDetails(finalsView.dataset.finalsView);
   if (event.target.closest("[data-close-finalfour]")) document.getElementById("finalfour-details").close();
@@ -3910,10 +4293,18 @@ document.addEventListener("click", event => {
   if (teamButton) {
     if (teamButton.closest("#ko-comparison")) document.getElementById("ko-comparison").close();
     if (teamButton.closest("#finalfour-details")) document.getElementById("finalfour-details").close();
+    if (teamButton.closest("#stats-ranking")) document.getElementById("stats-ranking").close();
     renderTeamDetail(teamButton.dataset.team);
   }
   const matchButton = event.target.closest("[data-match]");
-  if (matchButton && !teamButton) openMatchStory(Number(matchButton.dataset.match));
+  if (matchButton && !teamButton) {
+    const player = document.getElementById("player-detail");
+    if (player.open && matchButton.closest("#player-detail")) {
+      document.getElementById("match-story").close();
+      player.dataset.storyOpened="true";
+    }
+    openMatchStory(Number(matchButton.dataset.match));
+  }
   if (event.target.id === "detail-logo") {
     document.getElementById("preview-logo").src = event.target.src;
     document.getElementById("logo-preview").hidden = false;
@@ -3935,6 +4326,11 @@ document.getElementById("finalfour-details").addEventListener("click", event => 
   const bounds = event.currentTarget.getBoundingClientRect();
   if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) event.currentTarget.close();
 });
+document.getElementById("player-detail").addEventListener("click", event => {
+  if (event.target !== event.currentTarget) return;
+  const bounds = event.currentTarget.getBoundingClientRect();
+  if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) event.currentTarget.close();
+});
 document.getElementById("story-close").addEventListener("click", () => document.getElementById("match-story").close());
 document.getElementById("match-story").addEventListener("click", event => {
   if (event.target !== event.currentTarget) return;
@@ -3943,6 +4339,14 @@ document.getElementById("match-story").addEventListener("click", event => {
 });
 document.getElementById("calculator-group").addEventListener("change", renderCalculator);
 document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && document.getElementById("player-detail").open) {
+    event.preventDefault();
+    const story = document.getElementById("match-story");
+    const player = document.getElementById("player-detail");
+    if (story.open && player.dataset.storyOpened === "true") {story.close();delete player.dataset.storyOpened;}
+    else player.close();
+    return;
+  }
   if ((event.key === "Enter" || event.key === " ") && event.target.matches("[data-card-duel]")) {
     event.preventDefault();
     openKoComparison(event.target.dataset.cardDuel);
@@ -3957,7 +4361,7 @@ document.addEventListener("keydown", event => {
     document.getElementById("calculator").hidden = true;
   }
   if (event.key === "Enter" && event.target.matches("[data-calculator-index]")) recalculateCalculator();
-  if (event.key === "Tab" && !document.getElementById("team-detail").hidden && !document.getElementById("match-story").open) {
+  if (event.key === "Tab" && !document.getElementById("team-detail").hidden && !document.getElementById("match-story").open && !document.getElementById("player-detail").open) {
     const controls = [...document.querySelectorAll('#team-detail button, #team-detail [tabindex="0"]')].filter(el => el.offsetParent !== null);
     const first = controls[0], last = controls.at(-1);
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
