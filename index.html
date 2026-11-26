@@ -642,7 +642,7 @@ const SPIELE = [
   { tag:"Mittwoch",   datum:"18.11.2026 12:40", phase:"Gruppe B", a:"Aus Versehen",    b:"Kickstarter",                         t1:5, t2:10, gespielt:true },
   { tag:"Mittwoch",   datum:"25.11.2026 12:30", phase:"Gruppe A", a:"Merge Conflict",  b:"RosaSee",                             t1:10, t2:8, gespielt:true },
   { tag:"Mittwoch",   datum:"25.11.2026 12:45", phase:"Gruppe A", a:"Merge Conflict",  b:"Hopfentornado",                       t1:10, t2:1, gespielt:true },
-  { tag:"Donnerstag", datum:"26.11.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Sgladschdglei",                       t1:0, t2:0,  gespielt:false },
+  { tag:"Donnerstag", datum:"26.11.2026 12:30", phase:"Gruppe B", a:"Aus Versehen",    b:"Sgladschdglei",                       t1:4, t2:10, gespielt:true },
 ];
 
 /* =========================================================================
@@ -664,7 +664,7 @@ const KO = {
    ========================================================================= */
 const KICKTIPP = {
   "url": "https://www.kicktipp.de/roxtra-kickerturnier-2026/tippuebersicht",
-  "stand": "18.11.2026",
+  "stand": "26.11.2026",
   "spieltage": [
     "KW 41",
     "KW 42",
@@ -672,7 +672,8 @@ const KICKTIPP = {
     "KW 44",
     "KW 45",
     "KW 46",
-    "KW 47"
+    "KW 47",
+    "KW 48"
   ],
   "tipper": [
     {
@@ -685,25 +686,11 @@ const KICKTIPP = {
         8,
         0,
         2,
-        10
+        10,
+        4
       ],
       "siege": 2.17,
-      "gesamt": 36
-    },
-    {
-      "pos": 2,
-      "name": "micha_schwammer",
-      "punkte": [
-        6,
-        6,
-        4,
-        8,
-        0,
-        2,
-        6
-      ],
-      "siege": 0.87,
-      "gesamt": 32
+      "gesamt": 40
     },
     {
       "pos": 2,
@@ -715,10 +702,27 @@ const KICKTIPP = {
         6,
         0,
         2,
+        8,
         8
       ],
+      "siege": 1.87,
+      "gesamt": 40
+    },
+    {
+      "pos": 3,
+      "name": "micha_schwammer",
+      "punkte": [
+        6,
+        6,
+        4,
+        8,
+        0,
+        2,
+        6,
+        6
+      ],
       "siege": 0.87,
-      "gesamt": 32
+      "gesamt": 38
     },
     {
       "pos": 4,
@@ -730,10 +734,11 @@ const KICKTIPP = {
         10,
         0,
         2,
-        4
+        4,
+        6
       ],
       "siege": 1.17,
-      "gesamt": 26
+      "gesamt": 32
     },
     {
       "pos": 5,
@@ -745,10 +750,11 @@ const KICKTIPP = {
         4,
         0,
         2,
-        8
+        8,
+        4
       ],
       "siege": 0.37,
-      "gesamt": 22
+      "gesamt": 26
     },
     {
       "pos": 6,
@@ -760,6 +766,7 @@ const KICKTIPP = {
         8,
         0,
         2,
+        0,
         0
       ],
       "siege": 0.37,
@@ -771,6 +778,7 @@ const KICKTIPP = {
       "punkte": [
         2,
         6,
+        0,
         0,
         0,
         0,
@@ -790,6 +798,7 @@ const KICKTIPP = {
         0,
         0,
         0,
+        0,
         0
       ],
       "siege": 0,
@@ -799,6 +808,7 @@ const KICKTIPP = {
       "pos": 9,
       "name": "bc",
       "punkte": [
+        0,
         0,
         0,
         0,
@@ -820,6 +830,7 @@ const KICKTIPP = {
         0,
         0,
         0,
+        0,
         0
       ],
       "siege": 0,
@@ -829,6 +840,7 @@ const KICKTIPP = {
       "pos": 9,
       "name": "PW",
       "punkte": [
+        0,
         0,
         0,
         0,
@@ -848,6 +860,16 @@ const KICKTIPP = {
 const DEFAULT_LOGO = "default.png";
 // Chronologische Tore: Seite a = Heimteam (a), Seite b = Gastteam (b) des jeweiligen Spiels.
 const MATCH_STORIES = [
+  {
+    datum:"26.11.2026 12:30", a:"Aus Versehen", b:"Sgladschdglei", duration:6 + 2 / 60,
+    goals:[
+      ["b","Steffen","0:20"],["b","Luca","0:58"],["b","Luca","1:11"],
+      ["b","Doro","1:27",true],["a","Inka","1:47"],["a","Inka","2:43"],
+      ["a","Inka","3:04"],["b","Luca","3:20"],["b","Inka","3:49",true],
+      ["b","Steffen","4:06"],["b","Luca","4:35"],["a","Inka","4:44"],
+      ["b","Steffen","5:55"],["b","Luca","6:02"]
+    ]
+  },
   {
     datum:"25.11.2026 12:45", a:"Merge Conflict", b:"Hopfentornado", duration:4.5,
     goals:[
