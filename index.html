@@ -861,6 +861,40 @@
     .drought-summary{grid-template-columns:1fr;gap:18px}.drought-value>strong{font-size:32px}.drought-range{padding-left:12px}
     .stats-dialog-list{padding-inline:15px}.stats-dialog-row{grid-template-columns:22px 55px minmax(0,1fr);gap:9px;font-size:13px}.ranking-logo-link img{width:25px;height:25px}.ranking-logos{gap:4px}.ranking-extra,.ranking-detail{font-size:11px}
   }
+  .team-analysis{margin-bottom:20px;--team-conceded:#bd7d89}
+  html[data-theme="dark"] .team-analysis{--team-conceded:#d69ba7}
+  .team-chart-legend{display:flex;flex-wrap:wrap;gap:15px;margin:0 0 12px;font-size:12px;color:var(--muted)}
+  .team-chart-legend>span{display:flex;gap:6px;align-items:center}
+  .team-chart-legend i{width:10px;height:10px;border-radius:3px;background:var(--blue)}
+  .team-chart-legend .conceded i{background:var(--team-conceded)}
+  .team-progress-chart .conceded-line{stroke:var(--team-conceded);stroke-dasharray:5 3}
+  .team-progress-chart .conceded-point,.team-progress-chart .conceded-label{fill:var(--team-conceded)}
+  .team-contribution-bar{display:flex;gap:3px;height:14px;overflow:hidden;border-radius:99px;margin:17px 0 20px;background:var(--paper)}
+  .team-contribution-bar>span{min-width:0;height:100%}
+  .team-contribution-list{display:grid;gap:13px}
+  .team-contribution-list>div{display:grid;grid-template-columns:8px minmax(0,1fr) auto;gap:9px;align-items:center;font-size:14px}
+  .team-contribution-list i{width:8px;height:8px;border-radius:50%}
+  .team-contribution-list strong{text-align:right;color:var(--blue);font-weight:600;white-space:nowrap}
+  .team-contribution-list small{display:block;font-size:11px;color:var(--muted);margin-top:3px;font-weight:400}
+  .team-minute-histogram{display:grid;gap:10px}
+  .team-minute-histogram>div{display:grid;grid-template-columns:70px minmax(0,1fr) 19px;gap:9px;align-items:center;font-size:12px}
+  .team-minute-histogram>div>span{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .team-minute-histogram>div>div{display:grid;gap:4px}
+  .team-minute-histogram i{display:block;height:7px;overflow:hidden;border-radius:99px;background:var(--paper)}
+  .team-minute-histogram b{display:block;height:100%;border-radius:99px;background:var(--blue)}
+  .team-minute-histogram .conceded b{background:var(--team-conceded)}
+  .team-minute-histogram strong{text-align:right;color:var(--blue);font-size:11px;line-height:1.1}
+  .team-minute-histogram strong>small{display:block;font-size:11px;color:var(--team-conceded);margin-top:3px}
+  .team-highlights{margin-bottom:24px}
+  .team-highlight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 18px}
+  .team-highlight-grid>div>span{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+  .team-highlight-grid>div>strong{font-size:24px;letter-spacing:-.035em;color:var(--blue)}
+  .team-highlight-grid p{font-size:12px;line-height:1.7;color:var(--muted);margin:7px 0 0}
+  .team-ranking-badges{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 20px}
+  .profile-rank-badge{font-size:11px;padding:5px 9px;border:1px solid var(--line);border-radius:99px;color:var(--blue-ink);background:var(--surface-2);line-height:1.5}
+  .profile-rank-badge.is-podium{border-color:var(--gold-line);color:var(--gold);background:color-mix(in srgb,var(--gold) 7%,var(--surface))}
+  .individual-badges>.profile-rank-badge.is-podium{border-color:var(--gold-line);color:var(--gold);background:color-mix(in srgb,var(--gold) 7%,var(--surface))}
+  @media(max-width:620px){.team-highlight-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px}.team-highlight-grid>div>strong{font-size:22px}.team-contribution-list>div{font-size:13px}.team-ranking-badges{gap:6px}.profile-rank-badge{font-size:10px;padding:4px 8px}}
 </style>
 <script>
   (function(){
@@ -3970,6 +4004,169 @@ function finalfourPlayerData(names = finalfourNames()){
     .sort((a,b) => b.goals-a.goals || a.name.localeCompare(b.name,"de"));
 }
 
+function teamAnalysisData(name){
+  const profile = teamSnapshot(name);
+  if (!profile) return null;
+  const history = SPIELE.filter(game => game.gespielt && game.phase === "Gruppe " + profile.team.gruppe &&
+    [norm(game.a),norm(game.b)].includes(norm(name)))
+    .sort((a,b) => datumWert(a.datum)-datumWert(b.datum)).map(game => {
+      const home = norm(game.a) === norm(name);
+      return {game,opponent:home ? game.b : game.a,scored:home ? game.t1 : game.t2,conceded:home ? game.t2 : game.t1};
+    });
+  const timedGoals = [], timedConceded = [];
+  let timedMatches = 0, reliableMatches = 0, bestRun = null, currentWins = 0, bestWins = 0;
+  history.forEach(item => {
+    currentWins = item.scored > item.conceded ? currentWins+1 : 0;
+    bestWins = Math.max(bestWins,currentWins);
+    const story = matchStory(item.game);
+    if (!story) return;
+    const goals = storyGoals(story), side = norm(item.game.a) === norm(name) ? "a" : "b";
+    if (!story.timesEstimated && !story.estimated && goals.every(goal => typeof goal.minute === "string" && Number.isFinite(goal.seconds))) {
+      timedMatches++;
+      goals.filter(goal => !goal.ownGoal).forEach(goal => (goal.side === side ? timedGoals : timedConceded).push({goal,game:item.game}));
+    }
+    if (story.estimated || story.sequenceEstimated) return;
+    reliableMatches++;
+    let run = 0, first = null;
+    goals.forEach(goal => {
+      if (goal.side === side && !goal.ownGoal) {
+        if (!run) first = goal;
+        run++;
+        if (!bestRun || run > bestRun.count) bestRun = {count:run,game:item.game,first,last:goal};
+      } else {run = 0;first = null;}
+    });
+  });
+  const timed = [...timedGoals,...timedConceded];
+  const bucketCount = Math.max(1,...timed.map(event => Math.floor(event.goal.seconds/60)+1));
+  const minuteBuckets = Array.from({length:bucketCount},(_,minute) => ({minute,
+    scored:timedGoals.filter(event => Math.floor(event.goal.seconds/60) === minute).length,
+    conceded:timedConceded.filter(event => Math.floor(event.goal.seconds/60) === minute).length}));
+  const wins = history.filter(item => item.scored > item.conceded);
+  const biggestWin = [...wins].sort((a,b) => (b.scored-b.conceded)-(a.scored-a.conceded) || b.scored-a.scored)[0] || null;
+  const bestAttack = [...history].sort((a,b) => b.scored-a.scored || a.conceded-b.conceded)[0] || null;
+  const fastestGoal = [...timedGoals].sort((a,b) => a.goal.seconds-b.goal.seconds)[0] || null;
+  return {profile,history,timedGoals,timedConceded,timedMatches,reliableMatches,bestRun,bestWins,
+    biggestWin,bestAttack,fastestGoal,minuteBuckets,cleanSheets:history.filter(item => item.conceded === 0).length};
+}
+
+function teamProgressChart(analysis){
+  let scored = 0, conceded = 0;
+  const points = [{scored:0,conceded:0,label:"Start",description:"Vor der Vorrunde"},...analysis.history.map(item => {
+    scored += item.scored;conceded += item.conceded;
+    return {scored,conceded,label:item.game.datum.slice(0,5),description:`${item.game.datum} gegen ${item.opponent}: insgesamt ${scored}:${conceded} Tore`};
+  })];
+  const maximum = Math.max(10,Math.ceil(Math.max(scored,conceded)/10)*10);
+  const x = index => 38+index*308/Math.max(1,points.length-1), y = value => 116-value/maximum*92;
+  const path = key => points.map((point,index) => `${index ? "L" : "M"}${x(index)},${y(point[key])}`).join(" ");
+  return `<svg class="player-progress-chart team-progress-chart" viewBox="0 0 370 144" role="img" aria-label="Tore und Gegentore im Vorrundenverlauf von ${esc(analysis.profile.team.name)}. Insgesamt ${scored}:${conceded} Tore.">
+    ${[0,maximum/2,maximum].map(value => `<line x1="32" x2="352" y1="${y(value)}" y2="${y(value)}" class="chart-baseline"/><text x="24" y="${y(value)+4}" text-anchor="end" class="chart-axis-label">${value}</text>`).join("")}
+    <path d="${path("scored")}" class="chart-line"/><path d="${path("conceded")}" class="chart-line conceded-line"/>
+    ${points.map((point,index) => `<g><title>${esc(point.description)}</title><circle class="chart-point" cx="${x(index)}" cy="${y(point.scored)}" r="3.5"/><circle class="chart-point conceded-point" cx="${x(index)}" cy="${y(point.conceded)}" r="3.5"/><text x="${x(index)}" y="139" text-anchor="middle" class="chart-label">${esc(point.label)}</text></g>`).join("")}
+    <text x="352" y="${y(scored)-9}" text-anchor="end" class="chart-value">${scored}</text><text x="352" y="${y(conceded)+15}" text-anchor="end" class="chart-value conceded-label">${conceded}</text></svg>`;
+}
+
+function teamGoalShareMarkup(profile){
+  const total = profile.group.tore;
+  if (!total) return `<p class="form-note">Noch keine Teamtore vorhanden.</p>`;
+  const colors = ["var(--blue)","var(--teal)","var(--gold)","var(--muted)"];
+  const shares = profile.scorers.filter(scorer => scorer.goals > 0).map((scorer,index) => ({...scorer,color:colors[index%colors.length]}));
+  const remainder = Math.max(0,total-shares.reduce((sum,scorer) => sum+scorer.goals,0));
+  if (remainder) shares.push({name:profile.covered === profile.group.sp ? "Gegnerische Eigentore" : "Weitere Teamtore ohne Zuordnung",goals:remainder,color:"var(--muted)",other:true});
+  return `<div class="team-contribution-bar" role="img" aria-label="${esc(shares.map(share => share.name+": "+share.goals+" Tore").join(", "))}">${shares.map(share => `<span style="width:${share.goals/total*100}%;background:${share.color}"></span>`).join("")}</div>
+    <div class="team-contribution-list">${shares.map(share => `<div><i style="background:${share.color}"></i><span>${share.other ? esc(share.name) : playerLink(share.name,profile.team.name)}</span><strong>${share.goals} Tore <small>${numberDE(share.goals/total*100)} %</small></strong></div>`).join("")}</div>
+    <p class="form-note">Anteil an ${total} Teamtoren · ${profile.covered}/${profile.group.sp} Gruppenspiele mit Torprotokoll. Namen anklicken für das Spielerprofil.</p>`;
+}
+
+function teamAnalysisMarkup(analysis){
+  const {profile,minuteBuckets,timedGoals,timedConceded,timedMatches,fastestGoal,biggestWin,bestAttack,bestRun,bestWins,cleanSheets} = analysis;
+  const maximum = Math.max(1,...minuteBuckets.flatMap(bucket => [bucket.scored,bucket.conceded]));
+  const recordGame = item => item ? `${item.scored}:${item.conceded} gegen ${esc(item.opponent)}<br>${esc(item.game.datum)}` : "Noch kein Sieg";
+  return `<div class="individual-analysis team-analysis">
+    <section class="individual-panel"><h4>Das Torekonto wächst</h4><p>Alle Tore und Gegentore im Verlauf der Vorrunde.</p><div class="team-chart-legend"><span><i></i>Teamtore</span><span class="conceded"><i></i>Gegentore</span></div>${teamProgressChart(analysis)}</section>
+    <section class="individual-panel"><h4>Wann fallen die Tore?</h4><p>${timedGoals.length} Teamtreffer und ${timedConceded.length} Gegentreffer aus ${timedMatches} Spielen mit gestoppten Zeiten · ohne Eigentore und Schätzzeiten.</p>${timedMatches ? `<div class="team-chart-legend"><span><i></i>Teamtreffer</span><span class="conceded"><i></i>Gegentreffer</span></div><div class="team-minute-histogram">${minuteBuckets.map(bucket => `<div><span>${bucket.minute}:00–${bucket.minute}:59</span><div><i><b style="width:${bucket.scored/maximum*100}%"></b></i><i class="conceded"><b style="width:${bucket.conceded/maximum*100}%"></b></i></div><strong>${bucket.scored}<small>${bucket.conceded}</small></strong></div>`).join("")}</div>` : `<div class="individual-empty">Für dieses Team sind noch keine gestoppten Torzeiten vorhanden. Schätzzeiten werden hier nicht als Messwerte dargestellt.</div>`}</section>
+    </div>
+    <section class="individual-panel team-highlights"><h4>Die Team-Highlights</h4><div class="team-highlight-grid">
+      <div><span>Größter Sieg</span><strong>${biggestWin ? "+"+(biggestWin.scored-biggestWin.conceded) : "–"}</strong><p>${recordGame(biggestWin)}</p></div>
+      <div><span>Bestes Angriffsspiel</span><strong>${bestAttack ? bestAttack.scored+" Tore" : "–"}</strong><p>${bestAttack ? recordGame(bestAttack) : "Noch keine Spiele"}</p></div>
+      <div><span>Längste Siegesserie</span><strong>${bestWins} ${bestWins === 1 ? "Sieg" : "Siege"}</strong><p>Aufeinanderfolgende gewonnene Gruppenspiele.</p></div>
+      <div><span>Zu null gespielt</span><strong>${cleanSheets} ${cleanSheets === 1 ? "Spiel" : "Spiele"}</strong><p>Gruppenspiele ohne Gegentor.</p></div>
+      <div><span>Schnellstes eigenes Tor</span><strong>${fastestGoal ? formatSeconds(fastestGoal.goal.seconds) : "–"}</strong><p>${fastestGoal ? `${playerLink(fastestGoal.goal.scorer,profile.team.name)} · ${esc(fastestGoal.game.datum)}<br>Nur gestoppte Torzeiten.` : "Noch keine gestoppte Torzeit vorhanden."}</p></div>
+      <div><span>Längste Team-Torserie</span><strong>${bestRun ? bestRun.count+" am Stück" : "–"}</strong><p>${bestRun ? `${esc(bestRun.game.a)} ${bestRun.game.t1}:${bestRun.game.t2} ${esc(bestRun.game.b)}<br>Tore ${bestRun.first.number}–${bestRun.last.number} · ${esc(bestRun.game.datum)}` : "Noch keine gesicherte Torfolge vorhanden."}</p></div>
+    </div><p class="profile-footnote">Team-Torserien zählen nur gesicherte Torfolgen innerhalb eines Spiels. Tore beider Mitspieler zählen gemeinsam; ein Gegentor oder Eigentor beendet die Serie. Verteilte Torschützen zählen weiterhin zu den Toranteilen.</p></section>`;
+}
+
+function profileRankingsData(){
+  const key = (name,team) => norm(team)+"|"+norm(name);
+  const fastest = new Map(), winners = new Map();
+  SPIELE.filter(game => game.gespielt).forEach(game => {
+    const story = matchStory(game);
+    if (!story) return;
+    const goals = storyGoals(story);
+    if (!story.timesEstimated && !story.estimated && !story.sequenceEstimated) {
+      goals.filter(goal => !goal.ownGoal && typeof goal.minute === "string" && Number.isFinite(goal.seconds)).forEach(goal => {
+        const id = key(goal.scorer,torschuetzeTeam(goal,game));
+        fastest.set(id,Math.min(fastest.get(id) ?? Infinity,goal.seconds));
+      });
+    }
+    if (!story.estimated && !story.sequenceEstimated) {
+      const last = goals.at(-1), winningSide = game.t1 > game.t2 ? "a" : game.t2 > game.t1 ? "b" : null;
+      if (last && !last.ownGoal && last.side === winningSide) {
+        const id = key(last.scorer,torschuetzeTeam(last,game));
+        winners.set(id,(winners.get(id) || 0)+1);
+      }
+    }
+  });
+  const players = finalfourPlayerData(TEAMS.map(team => team.name)).map(player => {
+    const id = key(player.name,player.team);
+    return {...player,id,rate:fireRateData(player.team,player.name),drought:goalDroughtData(player.team,player.name),
+      fastest:fastest.get(id) ?? null,winningGoals:winners.get(id) || 0};
+  });
+  const tempos = ballerbudenDaten(TEAMS.map(team => team.name));
+  const teams = TEAMS.map(team => {
+    const analysis = teamAnalysisData(team.name);
+    return {id:norm(team.name),profile:analysis.profile,analysis,rate:fireRateData(team.name),drought:goalDroughtData(team.name),
+      tempo:tempos.find(item => norm(item.name) === norm(team.name))};
+  });
+  return {players,teams,mvp:statistikRanglisten()["MVP-Wertung"]};
+}
+
+function profileRankBadges(name,team,kind = "player"){
+  const data = profileRankingsData(), id = kind === "team" ? norm(team) : norm(team)+"|"+norm(name), badges = [];
+  const add = (label,rows,valueOf,descending,format,includeZero = true) => {
+    const candidates = rows.filter(row => Number.isFinite(valueOf(row)) && (includeZero || valueOf(row) > 0));
+    const current = candidates.find(row => row.id === id);
+    if (!current) return;
+    const value = valueOf(current);
+    const rank = candidates.filter(row => descending ? valueOf(row) > value+0.000001 : valueOf(row) < value-0.000001).length+1;
+    if (rank <= 10) badges.push({label,rank,value:format(value)});
+  };
+  if (kind === "player") {
+    add("Torschützen",data.players,p => p.goals,true,v => v+" Tore",false);
+    const mvp = data.mvp.findIndex(entry => entry.player && norm(entry.player.name) === norm(name) && norm(entry.player.team) === norm(team));
+    if (mvp >= 0 && mvp < 10) badges.push({label:"MVP",rank:mvp+1,value:data.mvp[mvp].value});
+    add("Feuerrate",data.players,p => p.rate.seconds,false,v => numberDE(v)+" Sekunden");
+    add("Kurze Durststrecke",data.players,p => p.drought.seconds,false,v => formatSeconds(v)+" Minuten ohne eigenen Treffer");
+    add("Torserie",data.players,p => p.reliableGames ? p.bestStreak : null,true,v => v+" Tore am Stück",false);
+    add("Schnellstes Tor",data.players,p => p.fastest,false,v => formatSeconds(v)+" Minuten nach Anpfiff");
+    add("Dokumentierte Siegtore",data.players,p => p.reliableGames ? p.winningGoals : null,true,v => v+" Siegtore",false);
+  } else {
+    add("Offensive",data.teams,t => t.profile.group.sp ? t.profile.group.tore/t.profile.group.sp : null,true,v => numberDE(v)+" Tore pro Gruppenspiel");
+    add("Abwehr",data.teams,t => t.profile.group.sp ? t.profile.group.gegen/t.profile.group.sp : null,false,v => numberDE(v)+" Gegentore pro Gruppenspiel");
+    add("Siegquote",data.teams,t => t.profile.group.sp ? t.profile.group.s/t.profile.group.sp : null,true,v => Math.round(v*100)+" % Siege",false);
+    add("Ballerbude",data.teams,t => t.tempo.average,false,v => numberDE(v)+" Sekunden durchschnittliche Wartezeit");
+    add("Feuerrate",data.teams,t => t.rate.seconds,false,v => numberDE(v)+" Sekunden");
+    add("Kurze Durststrecke",data.teams,t => t.drought.seconds,false,v => formatSeconds(v)+" Minuten ohne eigenen Treffer");
+    add("Team-Torserie",data.teams,t => t.analysis.reliableMatches ? (t.analysis.bestRun?.count || 0) : null,true,v => v+" Tore am Stück",false);
+    add("Zu-null-Spiele",data.teams,t => t.analysis.cleanSheets,true,v => v+" Spiele ohne Gegentor",false);
+    add("Teamstärke",data.teams,t => t.profile.rating,true,v => v+" Elo");
+  }
+  return badges;
+}
+
+function profileRankBadgesMarkup(badges){
+  return badges.map(badge => `<span class="profile-rank-badge${badge.rank <= 3 ? " is-podium" : ""}" title="${esc(badge.label+": "+badge.value)}">${esc(badge.label)} · Platz ${badge.rank}</span>`).join("");
+}
+
 function playerProfileData(name,team){
   const players = finalfourPlayerData(TEAMS.map(t => t.name));
   const player = players.find(p => norm(p.name) === norm(name) && norm(p.team) === norm(team));
@@ -4041,9 +4238,10 @@ function openPlayerProfile(name,team){
   const maxBucket = Math.max(1,...player.minuteBuckets.map(bucket => bucket.count));
   const best = player.best;
   const record = player.streakMatch;
+  const rankingBadges = profileRankBadges(player.name,player.team);
   const metric = (value,label) => `<div class="individual-stat"><strong>${value}</strong><span>${label}</span></div>`;
   document.getElementById("player-detail-body").innerHTML = `
-    <div class="individual-hero">${logoImg(player.team)}<div><div class="profile-eyebrow">Gruppe ${player.profile.team.gruppe} · ${finalfourNames().includes(player.team) ? "FinalFour" : "Vorrunde"}</div><h4>${esc(player.team)}</h4><p>${player.teammate.length === 1 ? "An der Seite von " : "Teamkollegen: "}${player.teammate.map(name => playerLink(name,player.team)).join(" &amp; ")}</p><div class="individual-badges">${player.position ? `<span>Platz ${player.position} der Torschützen</span>` : ""}${player.mvp ? `<span>MVP-Platz ${player.mvp}</span>` : ""}<span>${player.history.length} Teamspiele erfasst</span></div></div></div>
+    <div class="individual-hero">${logoImg(player.team)}<div><div class="profile-eyebrow">Gruppe ${player.profile.team.gruppe} · ${finalfourNames().includes(player.team) ? "FinalFour" : "Vorrunde"}</div><h4>${esc(player.team)}</h4><p>${player.teammate.length === 1 ? "An der Seite von " : "Teamkollegen: "}${player.teammate.map(name => playerLink(name,player.team)).join(" &amp; ")}</p><div class="individual-badges">${profileRankBadgesMarkup(rankingBadges)}<span>${player.history.length} Teamspiele erfasst</span></div></div></div>
     <div class="individual-stats">${metric(player.goals,"Tore")}${metric(numberDE(player.average),"Tore pro Teamspiel")}${metric(player.scoringMatches+"/"+player.history.length,"Teamspiele mit Tor")}${metric(player.reliableGames ? player.bestStreak : "–","Tore am Stück · Rekord")}${metric(player.fastest ? formatSeconds(player.fastest.goal.seconds) : "–","Schnellstes Tor · gemessen")}${metric(player.ownGoals,"Eigentore")}</div>
     <div class="individual-analysis">
       <section class="individual-panel"><div class="individual-panel-head"><h4>Die Formkurve</h4><span class="individual-trend ${player.trend > 0 ? "is-up" : player.trend < 0 ? "is-down" : ""}">${trend} Tore</span></div><p>Letzte zwei Teamspiele im Vergleich zu den beiden davor.</p>${formChart(player.history.map(item => ({value:item.goals,label:item.game.datum.slice(0,5),description:`${item.game.datum} gegen ${item.opponent}`})),"player")}<div class="individual-inline-metrics"><span><strong>${player.lastTwo}</strong> Tore in den letzten 2 Spielen</span><span><strong>${player.longestScoringRun}</strong> Teamspiele in Folge getroffen</span></div></section>
@@ -4056,7 +4254,7 @@ function openPlayerProfile(name,team){
     <section class="individual-panel individual-records"><h4>Die persönlichen Highlights</h4><div class="individual-highlight-grid"><div><span>Bestes Spiel nach Toren</span><strong>${best ? best.goals+" "+(best.goals === 1 ? "Tor" : "Tore") : "–"}</strong>${best ? `<p>Gegen ${esc(best.opponent)} · ${esc(best.game.datum)}</p>` : ""}</div><div><span>Dokumentierte Siegtore</span><strong>${player.reliableGames ? player.winningGoals.length : "–"}</strong><p>Letztes Tor eines gewonnenen Spiels. Nur gesicherte Torfolgen.</p></div><div><span>Persönliche Torserie</span><strong>${player.reliableGames ? player.bestStreak+" am Stück" : "–"}</strong>${record ? `<p>${esc(record.game.a)} ${record.game.t1}:${record.game.t2} ${esc(record.game.b)} · Tore ${record.from}–${record.to}</p><div class="streak-run" aria-label="${player.bestStreak} direkt aufeinanderfolgende Tore">${Array.from({length:player.bestStreak},(_,index) => `<span>${record.from+index}</span>`).join("")}</div>` : `<p>Keine gesicherte Torfolge vorhanden.</p>`}</div></div></section>
     <div class="profile-road-head"><h4>Spiel für Spiel</h4><span>Eigene Tore und Ergebnis aus Teamsicht</span></div>
     <div class="individual-match-list">${player.history.map(item => `<article class="individual-match">${logoImg(item.opponent)}<div><strong>${esc(item.opponent)}</strong><small>${esc(item.game.datum)} · Team ${item.scored}:${item.conceded}${item.estimated ? " · Torschützen verteilt" : ""}</small><span>${item.goals ?? "–"} von ${item.scored} Teamtoren${item.ownGoals ? " · "+item.ownGoals+" Eigentor"+(item.ownGoals > 1 ? "e" : "") : ""}</span></div><div class="individual-match-goals"><strong>${item.goals ?? "–"}</strong><small>eigene Tore</small></div>${item.matchIndex >= 0 && matchStory(item.game) ? `<button class="individual-match-button" type="button" data-match="${item.matchIndex}" aria-label="Torverlauf gegen ${esc(item.opponent)} ansehen">Torverlauf</button>` : ""}</article>`).join("")}</div>
-    <p class="profile-footnote">Grundlage sind die Torprotokolle, nicht die Einsatzzeiten. „Pro Teamspiel“ umfasst alle erfassten Spiele des Teams. Nachträglich verteilte Torschützen zählen zu Toren und Form; persönliche Torserien und Siegtore stammen ausschließlich aus gesicherten Torfolgen. Jede andere Person und jedes Eigentor beendet eine persönliche Serie. Zeitrekorde und Minutenverteilung verwenden nur gestoppte Zeiten, ohne ergänzte oder grobe Torzeiten.</p>`;
+    <p class="profile-footnote">Grundlage sind die Torprotokolle, nicht die Einsatzzeiten. „Pro Teamspiel“ umfasst alle erfassten Spiele des Teams. Top-10-Tags heben gute Platzierungen hervor; „Kurze Durststrecke“ bewertet die kürzeren Rekorde besser. Nachträglich verteilte Torschützen zählen zu Toren und Form; persönliche Torserien und Siegtore stammen ausschließlich aus gesicherten Torfolgen. Jede andere Person und jedes Eigentor beendet eine persönliche Serie. Schnellstes Tor und Minutenverteilung verwenden nur gestoppte Zeiten; Feuerrate und Durststrecke berücksichtigen auch die gekennzeichneten Schätzzeiten.</p>`;
   delete dialog.dataset.storyOpened;
   if (!dialog.open) dialog.showModal();
   dialog.querySelector("[data-close-player]").focus();
@@ -4106,6 +4304,7 @@ function closeTeamDetail(){
 function renderTeamDetail(name){
   const profile = teamSnapshot(name);
   if (!profile) return;
+  const analysis = teamAnalysisData(name);
   const {team, group, place, games, form, scorers, rating, covered} = profile;
   const detail = document.getElementById("team-detail");
   if (detail.hidden) teamDetailTrigger = document.activeElement;
@@ -4132,9 +4331,9 @@ function renderTeamDetail(name){
         ${storyIndex >= 0 ? `<button class="road-score" type="button" data-match="${storyIndex}" aria-label="Torverlauf gegen ${esc(opponent)} öffnen">${score}<small>Torverlauf</small></button>` : `<div class="road-score">${score}<small>${game.gespielt ? label : "Noch offen"}</small></div>`}
       </div></div>`;
   };
-  const maxScorer = Math.max(1,...scorers.map(s => s.goals));
   document.getElementById("detail-body").innerHTML = `
     <div class="profile-kicker"><span class="profile-badge">${qualified ? "FinalFour" : "Vorrunde"} · Platz ${place} in Gruppe ${team.gruppe}</span><span>${rating} Elo</span></div>
+    <div class="team-ranking-badges" aria-label="Top-10-Platzierungen des Teams">${profileRankBadgesMarkup(profileRankBadges(null,team.name,"team"))}</div>
     <div class="profile-summary">
       <div class="profile-stat"><strong>${group.s}/${group.sp}</strong><span>Siege in der Vorrunde</span></div>
       <div class="profile-stat"><strong>${group.tore}:${group.gegen}</strong><span>Tore in der Vorrunde</span></div>
@@ -4144,14 +4343,15 @@ function renderTeamDetail(name){
     ${next ? `<div class="profile-next"><div><div class="profile-eyebrow">${esc(next.phase)} · Nächster Gegner</div><strong>${esc(nextOpponent)}</strong><small>${esc(knockoutDate(next))}</small></div>${chance ? `<div><b>${prozent(chance.a)}</b><small>Siegchance</small></div>` : ""}</div>` : ""}
     <div class="profile-columns">
       <div class="profile-panel"><h4>Die aktuelle Form</h4><div class="form-strip">${form.map(item => `<span class="form-chip ${item.result === "S" ? "is-win" : item.result === "N" ? "is-loss" : ""}" title="${esc(item.opponent)} · ${item.scored}:${item.conceded}" aria-label="${item.result === "S" ? "Sieg" : item.result === "N" ? "Niederlage" : "Unentschieden"} gegen ${esc(item.opponent)}, ${item.scored} zu ${item.conceded}">${item.result}</span>`).join("") || "Noch kein Spiel"}</div>${teamFormChart(profile)}<p class="form-note">Tordifferenz der letzten ${form.length} Spiele, von links nach rechts.<br>S = Sieg · N = Niederlage · U = Unentschieden</p></div>
-      <div class="profile-panel"><h4>Wer macht die Tore?</h4>${scorers.map(s => `<div class="profile-scorer"><span>${playerLink(s.name,team.name)}</span><strong>${s.goals} ${s.goals === 1 ? "Tor" : "Tore"}</strong><span class="scorer-bar"><i style="--share:${s.goals / maxScorer * 100}%"></i></span></div>`).join("")}<p class="form-note">Vorrunde · ohne Eigentore · ${covered}/${group.sp} Spiele mit Torprotokoll</p></div>
+      <div class="profile-panel"><h4>Wer macht die Tore?</h4>${teamGoalShareMarkup(profile)}</div>
     </div>
+    ${teamAnalysisMarkup(analysis)}
     <div class="profile-panel profile-tempo"><h4>Feuerrate · Eigene Tore im schnellsten Takt</h4>${fireRateSummaryMarkup(fireRateData(team.name))}</div>
     <div class="profile-panel profile-tempo"><h4>Die längste Durststrecke</h4>${droughtSummaryMarkup(goalDroughtData(team.name))}</div>
     <div class="profile-panel profile-tempo"><div class="profile-tempo-head"><div><h4>Ballerbude · Das Teamtempo</h4><p>${tempo.matches.length} Spiele · ${tempo.intervals} Zeitabschnitte${tempo.estimatedMatches ? ` · ${tempo.estimatedMatches} mit Schätzwerten` : ""}</p></div><strong>${tempo.average === null ? "–" : numberDE(tempo.average)+" s"}<small>Ø Wartezeit</small></strong></div>${tempoBreakdownMarkup(tempo)}${tempoMethodMarkup()}</div>
     <div class="profile-road-head"><h4>Der Weg durchs Turnier</h4><span>${group.pkt} Punkte aus der Vorrunde</span></div>
     <div class="profile-road">${games.map(gameRow).join("")}</div>
-    <p class="profile-footnote">Prognosen berücksichtigen Gegnerstärke und Torabstand. Nachträglich verteilte Torprotokolle zählen zur Torschützenwertung. Logo anklicken zum Vergrößern.</p>`;
+    <p class="profile-footnote">Prognosen berücksichtigen Gegnerstärke und Torabstand. Top-10-Tags heben gute Platzierungen hervor; bei Abwehr, Ballerbude, Feuerrate und „Kurze Durststrecke“ sind kleinere Werte besser. Nachträglich verteilte Torprotokolle zählen zur Torschützenwertung. Logo anklicken zum Vergrößern.</p>`;
   detail.hidden = false;
   document.body.classList.add("team-detail-open");
   document.getElementById("detail-close").focus();
